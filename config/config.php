@@ -7,11 +7,11 @@
  * @version 1.0
  */
 /** URL da home */
-$url = ($_SERVER['SERVER_NAME'] == 'localhost' ? 'http://localhost/VINICIUS-PROJETOS/loc-avf' : 'http://avfweb.com.br');
+$url = ($_SERVER['SERVER_NAME'] == 'localhost' ? 'http://localhost/VINICIUS-PROJETOS/avf_cms' : 'http://avfweb.com.br');
 
 define('HOME_URI', $url);
 /**PROJECT DIRETORIES */
-define('PROJECT','/VINICIUS-PROJETOS/loc-avf');
+define('PROJECT', ($_SERVER['SERVER_NAME'] == 'localhost' ? '/VINICIUS-PROJETOS/avf_cms' : '' ) );
 
 /** Caminho para a raiz */
 define('ABSPATH', $_SERVER['DOCUMENT_ROOT']."/".PROJECT);

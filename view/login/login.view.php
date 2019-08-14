@@ -27,11 +27,8 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
 
 </head>
 <body>
-
-<div class="container">
-
     <div class="container">
-        <div class="card card-container">
+        <div class="card card-container card-form ">
             <div class="profile-img-card">
                 <img class="logo" src="<?=$logoSistema?>" />
             </div>
@@ -54,7 +51,6 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
             <p class="text-right"><a href="<?=HOME_URI?>/cadastro/novasenha">Esqueceu a senha?</a></p>
         </div><!-- /card-container -->
     </div><!-- /container -->
-</div>
 </body>
 
 

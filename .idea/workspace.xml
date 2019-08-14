@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="197656a9-8dfe-44a2-ba3c-bb12fe45dc99" name="Default Changelist" comment="" />
+    <list default="true" id="197656a9-8dfe-44a2-ba3c-bb12fe45dc99" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/view/cadastro/novasenha.view.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/config.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/config.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controllers/Cadastro.controller.php" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/Cadastro.controller.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/view/_assets/css/custom.css" beforeDir="false" afterPath="$PROJECT_DIR$/view/_assets/css/custom.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/view/_assets/css/login.css" beforeDir="false" afterPath="$PROJECT_DIR$/view/_assets/css/login.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/view/login/login.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/view/login/login.view.php" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -11,46 +19,73 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/models/class/Comodos.model.php">
+        <entry file="file://$PROJECT_DIR$/view/comodos/editarComodo.view.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="476">
-              <caret line="32" column="53" selection-start-line="32" selection-start-column="53" selection-end-line="32" selection-end-column="53" />
+            <state relative-caret-position="228">
+              <caret line="49" column="33" selection-start-line="49" selection-start-column="33" selection-end-line="49" selection-end-column="33" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/models/dao/Comodos.DAO.php">
+        <entry file="file://$PROJECT_DIR$/config/config.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="527">
-              <caret line="35" column="41" selection-start-line="35" selection-start-column="41" selection-end-line="35" selection-end-column="41" />
+            <state relative-caret-position="-136">
+              <caret line="13" column="98" lean-forward="true" selection-start-line="13" selection-start-column="98" selection-end-line="13" selection-end-column="98" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/view/comodos/editarComodo.view.php">
+        <entry file="file://$PROJECT_DIR$/view/cadastro/novasenha.view.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="228">
-              <caret line="49" column="33" lean-forward="true" selection-start-line="49" selection-start-column="33" selection-end-line="49" selection-end-column="33" />
+            <state relative-caret-position="238">
+              <caret line="63" column="106" selection-start-line="63" selection-start-column="106" selection-end-line="63" selection-end-column="106" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/controllers/Comodos.controller.php">
+        <entry file="file://$PROJECT_DIR$/view/cadastro/cadastro.view.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1156">
-              <caret line="68" column="30" selection-start-line="68" selection-start-column="30" selection-end-line="68" selection-end-column="30" />
+            <state relative-caret-position="144">
+              <caret line="41" column="9" lean-forward="true" selection-start-line="39" selection-start-column="7" selection-end-line="41" selection-end-column="9" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/models/class/Usuario.model.php">
+        <entry file="file://$PROJECT_DIR$/view/login/login.view.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1275">
-              <caret line="79" column="42" selection-start-line="79" selection-start-column="42" selection-end-line="79" selection-end-column="42" />
+            <state relative-caret-position="204">
+              <caret line="30" column="50" selection-start-line="30" selection-start-column="50" selection-end-line="30" selection-end-column="50" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/view/_assets/css/login.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="170">
+              <caret line="31" column="3" selection-start-line="31" selection-start-column="3" selection-end-line="31" selection-end-column="3" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/view/_assets/css/custom.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="478">
+              <caret line="36" column="17" selection-start-line="36" selection-start-column="1" selection-end-line="36" selection-end-column="17" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/controllers/Cadastro.controller.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="495">
+              <caret line="96" column="44" selection-start-line="96" selection-start-column="44" selection-end-line="96" selection-end-column="44" />
             </state>
           </provider>
         </entry>
@@ -118,8 +153,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/core/Helpers/Filter.class.php" />
-        <option value="$PROJECT_DIR$/core/Helpers/Log.class.php" />
         <option value="$PROJECT_DIR$/core/Helpers/Check.class.php" />
         <option value="$PROJECT_DIR$/core/Helpers/Exec.class.php" />
         <option value="$PROJECT_DIR$/core/Helpers/Get.class.php" />
@@ -132,7 +165,6 @@
         <option value="$PROJECT_DIR$/core/Conn/Update.class.php" />
         <option value="$PROJECT_DIR$/view/default/cadastro.view.php" />
         <option value="$PROJECT_DIR$/core/Conn/Select.class.php" />
-        <option value="$PROJECT_DIR$/controllers/Cadastro.controller.php" />
         <option value="$PROJECT_DIR$/core/Conn/Create.class.php" />
         <option value="$PROJECT_DIR$/controllers/Index.controller.php" />
         <option value="$PROJECT_DIR$/models/class/Login.model.php" />
@@ -140,12 +172,10 @@
         <option value="$PROJECT_DIR$/view/_assets/css/material-style.css" />
         <option value="$PROJECT_DIR$/view/cadastro/cadastro.view.php" />
         <option value="$PROJECT_DIR$/view/_include/footer.php" />
-        <option value="$PROJECT_DIR$/view/_assets/css/login.css" />
         <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/view/_assets/css/style-base.css" />
         <option value="$PROJECT_DIR$/view/_include/head.php" />
         <option value="$PROJECT_DIR$/controllers/Default.controller.php" />
-        <option value="$PROJECT_DIR$/view/login/login.view.php" />
         <option value="$PROJECT_DIR$/controllers/Login.controller.php" />
         <option value="$PROJECT_DIR$/view/default/default.view.php" />
         <option value="$PROJECT_DIR$/controllers/Agenda.controller.php" />
@@ -157,7 +187,6 @@
         <option value="$PROJECT_DIR$/config.php" />
         <option value="$PROJECT_DIR$/models/class/Aluguel.model.php" />
         <option value="$PROJECT_DIR$/models/dao/Aluguel.DAO.php" />
-        <option value="$PROJECT_DIR$/view/_assets/css/custom.css" />
         <option value="$PROJECT_DIR$/controllers/Aluguel.controller.php" />
         <option value="$PROJECT_DIR$/core/Helpers/Util.class.php" />
         <option value="$PROJECT_DIR$/view/aluguel/listarComodos.view.php" />
@@ -169,6 +198,12 @@
         <option value="$PROJECT_DIR$/controllers/Comodos.controller.php" />
         <option value="$PROJECT_DIR$/models/dao/Usuario.DAO.php" />
         <option value="$PROJECT_DIR$/view/comodos/editarComodo.view.php" />
+        <option value="$PROJECT_DIR$/config/config.php" />
+        <option value="$PROJECT_DIR$/controllers/Cadastro.controller.php" />
+        <option value="$PROJECT_DIR$/view/_assets/css/login.css" />
+        <option value="$PROJECT_DIR$/view/login/login.view.php" />
+        <option value="$PROJECT_DIR$/view/_assets/css/custom.css" />
+        <option value="$PROJECT_DIR$/view/cadastro/novasenha.view.php" />
       </list>
     </option>
   </component>
@@ -199,8 +234,32 @@
         <subPane>
           <expand>
             <path>
-              <item name="loc-avf" type="b2602c69:ProjectViewProjectNode" />
-              <item name="loc-avf" type="462c0819:PsiDirectoryNode" />
+              <item name="avf_cms" type="b2602c69:ProjectViewProjectNode" />
+              <item name="avf_cms" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="avf_cms" type="b2602c69:ProjectViewProjectNode" />
+              <item name="avf_cms" type="462c0819:PsiDirectoryNode" />
+              <item name="view" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="avf_cms" type="b2602c69:ProjectViewProjectNode" />
+              <item name="avf_cms" type="462c0819:PsiDirectoryNode" />
+              <item name="view" type="462c0819:PsiDirectoryNode" />
+              <item name="_assets" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="avf_cms" type="b2602c69:ProjectViewProjectNode" />
+              <item name="avf_cms" type="462c0819:PsiDirectoryNode" />
+              <item name="view" type="462c0819:PsiDirectoryNode" />
+              <item name="_assets" type="462c0819:PsiDirectoryNode" />
+              <item name="css" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="avf_cms" type="b2602c69:ProjectViewProjectNode" />
+              <item name="avf_cms" type="462c0819:PsiDirectoryNode" />
+              <item name="view" type="462c0819:PsiDirectoryNode" />
+              <item name="cadastro" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -221,18 +280,18 @@
     <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\wamp\www\VINICIUS-PROJETOS\loc-avf\view\comodos" />
-      <recent name="C:\wamp\www\VINICIUS-PROJETOS\loc-avf\models\dao" />
-      <recent name="C:\wamp\www\VINICIUS-PROJETOS\loc-avf\controllers" />
-      <recent name="C:\wamp\www\VINICIUS-PROJETOS\loc-avf\view" />
-      <recent name="C:\wamp\www\VINICIUS-PROJETOS\loc-avf\models\class" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\wamp\www\VINICIUS-PROJETOS\sistema-em-modulos\modules\aluguel\controllers" />
       <recent name="C:\wamp\www\VINICIUS-PROJETOS\sistema-em-modulos\modules" />
       <recent name="C:\wamp\www\VINICIUS-PROJETOS\sistema-em-modulos\models\DAO" />
       <recent name="C:\wamp\www\VINICIUS-PROJETOS\sistema-em-modulos\models\class" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\wamp\www\VINICIUS-PROJETOS\avf_cms\view\cadastro" />
+      <recent name="C:\wamp\www\VINICIUS-PROJETOS\loc-avf\view\comodos" />
+      <recent name="C:\wamp\www\VINICIUS-PROJETOS\loc-avf\models\dao" />
+      <recent name="C:\wamp\www\VINICIUS-PROJETOS\loc-avf\controllers" />
+      <recent name="C:\wamp\www\VINICIUS-PROJETOS\loc-avf\view" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -306,6 +365,7 @@
       <workItem from="1560035857551" duration="4689000" />
       <workItem from="1560480080542" duration="62000" />
       <workItem from="1563657858143" duration="48000" />
+      <workItem from="1565741552561" duration="2060000" />
     </task>
     <task id="LOCAL-00001" summary="melhorias">
       <created>1554853274158</created>
@@ -444,13 +504,13 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="113753000" />
+    <option name="totallyTimeSpent" value="115813000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.18381241" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.18683812" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -471,7 +531,7 @@
       <window_info anchor="right" id="Database" order="3" />
     </layout>
     <layout-to-restore>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.17700455" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.18683812" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -516,14 +576,6 @@
     </watches-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/core/Conn/Delete.class.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="46" column="33" selection-start-line="46" selection-start-column="33" selection-end-line="46" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/thema-sb/login.html" />
     <entry file="file://$PROJECT_DIR$/thema-sb/index.html" />
     <entry file="jar://$APPLICATION_HOME_DIR$/plugins/php/lib/php.jar!/stubs/PDO/PDO.php">
       <provider selected="true" editor-type-id="text-editor">
@@ -590,20 +642,6 @@
     <entry file="file://$PROJECT_DIR$/view/_assets/plugins/pickadate/css/default.css">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/view/_assets/css/login.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="935">
-          <caret line="55" column="16" selection-start-line="55" selection-start-column="16" selection-end-line="55" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/view/cadastro/cadastro.view.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1972">
-          <caret line="116" column="49" selection-start-line="116" selection-start-column="49" selection-end-line="116" selection-end-column="49" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/view/_include/footer.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="306">
@@ -617,13 +655,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="188">
           <caret line="50" selection-start-line="50" selection-end-line="50" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/view/login/login.view.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="201">
-          <caret line="38" column="129" selection-start-line="38" selection-start-column="129" selection-end-line="38" selection-end-column="129" />
         </state>
       </provider>
     </entry>
@@ -684,13 +715,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="229">
           <caret line="23" column="5" selection-start-line="23" selection-start-column="5" selection-end-line="23" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/controllers/Cadastro.controller.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1079">
-          <caret line="64" column="56" lean-forward="true" selection-start-line="63" selection-start-column="8" selection-end-line="64" selection-end-column="56" />
         </state>
       </provider>
     </entry>
@@ -835,13 +859,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/view/_assets/css/custom.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="33" selection-start-line="4" selection-start-column="33" selection-end-line="4" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/view/comodos/listarComodos.view.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1139">
@@ -901,7 +918,56 @@
     <entry file="file://$PROJECT_DIR$/view/comodos/editarComodo.view.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="228">
-          <caret line="49" column="33" lean-forward="true" selection-start-line="49" selection-start-column="33" selection-end-line="49" selection-end-column="33" />
+          <caret line="49" column="33" selection-start-line="49" selection-start-column="33" selection-end-line="49" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config/config.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-136">
+          <caret line="13" column="98" lean-forward="true" selection-start-line="13" selection-start-column="98" selection-end-line="13" selection-end-column="98" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/controllers/Cadastro.controller.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="495">
+          <caret line="96" column="44" selection-start-line="96" selection-start-column="44" selection-end-line="96" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/view/_assets/css/login.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="31" column="3" selection-start-line="31" selection-start-column="3" selection-end-line="31" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/view/login/login.view.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="30" column="50" selection-start-line="30" selection-start-column="50" selection-end-line="30" selection-end-column="50" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/view/cadastro/cadastro.view.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="41" column="9" lean-forward="true" selection-start-line="39" selection-start-column="7" selection-end-line="41" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/view/_assets/css/custom.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="478">
+          <caret line="36" column="17" selection-start-line="36" selection-start-column="1" selection-end-line="36" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/view/cadastro/novasenha.view.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="63" column="106" selection-start-line="63" selection-start-column="106" selection-end-line="63" selection-end-column="106" />
         </state>
       </provider>
     </entry>
