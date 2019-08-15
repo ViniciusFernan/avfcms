@@ -28,11 +28,12 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
     <style>
 
         html {
-            background: linear-gradient(315deg, hsl(36, 100%, 51%) 15%, hsla(196.18, 77.39%, 54.9%, 0) 80%),
-            linear-gradient(135deg, hsla(196.21, 100%, 35.84%, 1) 0%, hsla(196.21, 100%, 35.84%, 0) 70%);
-
-            background: -webkit-linear-gradient(135deg, hsla(196.18, 77.39%, 54.9%, 1) 15%, hsla(196.18, 77.39%, 54.9%, 0) 80%),
-            -webkit-linear-gradient(315deg, hsla(196.21, 100%, 35.84%, 1) 0%, hsla(196.21, 100%, 35.84%, 0) 70%);
+            background:
+                    -webkit-linear-gradient(315deg, hsla(35, 95%, 55%, 1) 0%, hsla(35, 95%, 55%, 0) 70%),
+                    -webkit-linear-gradient(205deg, hsla(340, 100%, 55%, 1) 100%, hsla(340, 100%, 55%, 0) 70%);
+            background:
+                    linear-gradient(135deg, hsla(35, 95%, 55%, 1) 0%, hsla(35, 95%, 55%, 0) 70%),
+                    linear-gradient(245deg, hsla(340, 100%, 55%, 1) 100%, hsla(340, 100%, 55%, 0) 70%);
 
             height: auto;
             min-height: 100%;

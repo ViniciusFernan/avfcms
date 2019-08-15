@@ -3,7 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="197656a9-8dfe-44a2-ba3c-bb12fe45dc99" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view/_assets/css/custom.css" beforeDir="false" afterPath="$PROJECT_DIR$/view/_assets/css/custom.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/view/cadastro/novasenha.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/view/cadastro/novasenha.view.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -30,17 +30,26 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/view/default/default.view.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="64">
+            <state relative-caret-position="884">
               <caret line="52" column="71" selection-start-line="52" selection-start-column="39" selection-end-line="52" selection-end-column="71" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/view/_assets/css/custom.css">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="51">
-              <caret line="3" column="34" lean-forward="true" selection-start-line="3" selection-start-column="34" selection-end-line="3" selection-end-column="34" />
+              <caret line="3" column="34" selection-start-line="3" selection-start-column="34" selection-end-line="3" selection-end-column="34" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/view/cadastro/novasenha.view.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-191">
+              <caret line="35" column="103" selection-start-line="35" selection-start-column="103" selection-end-line="35" selection-end-column="103" />
             </state>
           </provider>
         </entry>
@@ -135,7 +144,6 @@
         <option value="$PROJECT_DIR$/models/dao/Login.DAO.php" />
         <option value="$USER_HOME$/Downloads/Util.class.php" />
         <option value="$PROJECT_DIR$/config/config.php" />
-        <option value="$PROJECT_DIR$/view/cadastro/novasenha.view.php" />
         <option value="$PROJECT_DIR$/controllers/Recuperarsenha.controller.php" />
         <option value="$PROJECT_DIR$/core/Helpers/Util.class.php" />
         <option value="$PROJECT_DIR$/core/Conn/Update.class.php" />
@@ -143,6 +151,7 @@
         <option value="$PROJECT_DIR$/models/class/Usuario.model.php" />
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/view/_assets/css/custom.css" />
+        <option value="$PROJECT_DIR$/view/cadastro/novasenha.view.php" />
       </list>
     </option>
   </component>
@@ -157,8 +166,8 @@
     </servers>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="433" />
-    <option name="y" value="324" />
+    <option name="x" value="209" />
+    <option name="y" value="76" />
     <option name="width" value="1346" />
     <option name="height" value="688" />
   </component>
@@ -170,6 +179,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -186,20 +196,12 @@
               <item name="avf_cms" type="b2602c69:ProjectViewProjectNode" />
               <item name="avf_cms" type="462c0819:PsiDirectoryNode" />
               <item name="view" type="462c0819:PsiDirectoryNode" />
-              <item name="_assets" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="avf_cms" type="b2602c69:ProjectViewProjectNode" />
-              <item name="avf_cms" type="462c0819:PsiDirectoryNode" />
-              <item name="view" type="462c0819:PsiDirectoryNode" />
-              <item name="_assets" type="462c0819:PsiDirectoryNode" />
-              <item name="css" type="462c0819:PsiDirectoryNode" />
+              <item name="cadastro" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -305,7 +307,8 @@
       <workItem from="1565810912321" duration="11000" />
       <workItem from="1565814449200" duration="476000" />
       <workItem from="1565895028528" duration="122000" />
-      <workItem from="1565900789884" duration="100000" />
+      <workItem from="1565900789884" duration="147000" />
+      <workItem from="1565901666353" duration="39000" />
     </task>
     <task id="LOCAL-00001" summary="melhorias">
       <created>1554853274158</created>
@@ -482,17 +485,24 @@
       <option name="project" value="LOCAL" />
       <updated>1565895130669</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="teste">
+      <created>1565900909490</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1565900909490</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="123476000" />
+    <option name="totallyTimeSpent" value="123562000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="433" y="324" width="1346" height="688" extended-state="0" />
+    <frame x="209" y="76" width="1346" height="688" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.10653188" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.20451011" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -504,7 +514,7 @@
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" order="8" />
-      <window_info anchor="bottom" id="Version Control" order="9" sideWeight="0.49924356" visible="true" weight="0.5675676" />
+      <window_info anchor="bottom" id="Version Control" order="9" sideWeight="0.49924356" visible="true" weight="0.10990991" />
       <window_info anchor="bottom" id="Terminal" order="10" />
       <window_info anchor="bottom" id="Event Log" order="11" sideWeight="0.50075644" side_tool="true" weight="0.3289689" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -700,13 +710,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="342">
           <caret line="24" column="54" lean-forward="true" selection-start-line="24" selection-start-column="54" selection-end-line="24" selection-end-column="54" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/view/cadastro/novasenha.view.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="421">
-          <caret line="67" column="113" selection-start-line="67" selection-start-column="109" selection-end-line="67" selection-end-column="113" />
         </state>
       </provider>
     </entry>
@@ -929,7 +932,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/view/default/default.view.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="64">
+        <state relative-caret-position="884">
           <caret line="52" column="71" selection-start-line="52" selection-start-column="39" selection-end-line="52" selection-end-column="71" />
         </state>
       </provider>
@@ -937,7 +940,14 @@
     <entry file="file://$PROJECT_DIR$/view/_assets/css/custom.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="51">
-          <caret line="3" column="34" lean-forward="true" selection-start-line="3" selection-start-column="34" selection-end-line="3" selection-end-column="34" />
+          <caret line="3" column="34" selection-start-line="3" selection-start-column="34" selection-end-line="3" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/view/cadastro/novasenha.view.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-191">
+          <caret line="35" column="103" selection-start-line="35" selection-start-column="103" selection-end-line="35" selection-end-column="103" />
         </state>
       </provider>
     </entry>
