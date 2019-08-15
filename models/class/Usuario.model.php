@@ -76,34 +76,32 @@ class UsuarioModel{
      *Recuperar senha
      * criar senha criptografada e envia link por email
      */
-    public function recuperarSenhaDoUsuario($post){
+    public function recuperarSenhaDoUsuario($email){
         try{
-            if(!is_array($post) || empty($post)) throw new Exception('Error em processar dados');
+            if(!Util::Email($email) || empty($email)) throw new Exception('Error em processar dados');
 
             $resp = $user = [];
 
             $usuarioDAO = new UsuarioDAO;
-            $user = $usuarioDAO->buscarUsuarioPorEmail($this->parametrosPost['email']);
+            $user = $usuarioDAO->buscarUsuarioPorEmail($email);
             if(is_array($user) && empty($user)) throw new Exception('Usuários não encontrado!');
             if(!is_array($user) && !empty($user)) throw new Exception($user);
 
+            $hash['chaveDeRecuperacao'] = Util::encriptaSenha(rand(1, 1000));
 
-            $hash['chaveDeRecuperacao'] = Util::criptografaSenha(rand(1, 1000));
-
-            $t = $this->parametrosPost['email'] . "__" . $hash['chaveDeRecuperacao'];
+            $t = $email . "__" . $hash['chaveDeRecuperacao'];
             $dataEncriptada = Util::encriptaData($t);
 
             $userUpdate['idUsuario'] = $user['idUsuario'];
             $userUpdate['chaveDeRecuperacao'] = $hash['chaveDeRecuperacao'];
 
-
             $updateusuario = $usuarioDAO->editarUsuario($userUpdate);
             if(is_string($updateusuario) && !empty($updateusuario)) throw new Exception($updateusuario);
 
             $template['action'] = 'Recuperação de senha';
-            $template['user'] = $user["nomeCompleto"];
+            $template['user'] = $user["nome"].' '.$user["sobreNome"];
             $template['url'] = HOME_URI . '/cadastro/viewPageNovaSenha/' . $dataEncriptada;
-            $template['texto'] = 'Olá, ' . $user["nomeCompleto"] . ', <br />
+            $template['texto'] = 'Olá, ' . $user["nome"].' '.$user["sobreNome"] . ', <br />
                                 Alguém solicitou recentemente uma alteração na senha da sua conta do Marombeiros. Se foi você, então defina sua nova senha aqui: <br />
                                 <a href="' . HOME_URI . '/cadastro/viewPageNovaSenha/' . $dataEncriptada . '" target="_blank">Redefinir senha</a> <br />
                                 Se não quiser alterar a senha ou não tiver feito essa solicitação, basta ignorar e excluir esta mensagem. <br />
@@ -115,7 +113,7 @@ class UsuarioModel{
             $mensagem = Util::templateEmail($template);
 
             $title = "[NOTIFICACAO] Recuperação de senha";
-            $emailSend = Util::enviarEmail($title, $user['email'], $user['sobreNome'], $mensagem);
+            $emailSend = Util::enviarEmail($title, $user['email'],  $user["nome"].' '.$user["sobreNome"], $mensagem);
 
             return true;
 

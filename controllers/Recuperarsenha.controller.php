@@ -23,9 +23,15 @@ class RecuperarSenhaController extends MainController {
         $post = (!empty($this->parametrosPost) ? $this->parametrosPost : false);
 
         $user = (new UsuarioModel)->recuperarSenhaDoUsuario($post['email']);
+        if(!empty($user) && is_string($user)){
+            $resp['msg'] = $user;
+            $resp['tipo'] = 'danger';
+        }else{
+            $resp['msg'] = 'Foi enviado para seu email os passos para recuperar sua senha';
+            $resp['tipo'] = 'success';
+        }
 
-        $resp['msg'] = 'Foi enviado para seu email os passos para recuperar sua senha';
-        $resp['tipo'] = 'success';
+
 
         $View = new View('cadastro/novasenha.view.php');
         $View->addParams('boxMsg', $resp);

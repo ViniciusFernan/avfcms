@@ -115,6 +115,16 @@ class Util{
         return md5(HASH . $senha);
     }
 
+    /** encripta dados com base em uma chave*/
+    public static function encriptaData($data) {
+        return base64_encode($data);
+    }
+
+    /** desencripta dados com base em uma chave*/
+    public static function decriptaData($data) {
+        return base64_decode($data);
+    }
+
     /**
      * Remove acentuacao da string
      * @param String $str

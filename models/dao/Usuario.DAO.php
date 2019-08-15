@@ -78,6 +78,7 @@ class UsuarioDAO extends Conn {
         $updateUsuario = $update->ExeUpdate('usuario', $Data, 'WHERE idUsuario=:idUsuario', "idUsuario={$user['idUsuario']}");
         if(is_string($updateUsuario) && !empty($updateUsuario)) throw new Exception($updateUsuario);
         if(empty($updateUsuario)) throw new Exception('Ops, erro ao atualizar usuario');
+
         return true;
     }
 

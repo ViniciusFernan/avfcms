@@ -32,7 +32,7 @@ class Update extends Conn {
 
         parse_str($ParseString, $this->Places);
         $this->getSyntax();
-        $this->Execute();
+        return $this->Execute();
     }
 
 
@@ -86,7 +86,7 @@ class Update extends Conn {
         try {
             $this->Connect();
             $this->Update->execute(array_merge($this->Dados, $this->Places));
-           return true;
+           return $this->getRowCount();
         } catch (PDOException $e) {
            return $e->getMessage();
         }
