@@ -68,11 +68,17 @@ class UsuarioDAO extends Conn {
 
     }
 
-    public function editarUsuario($arrayEdit){
-        if(!is_array($arrayEdit) || empty($arrayEdit)) throw new Exception('Tem um trem errado aqui!');
+    public function editarUsuario($Data){
+        if(!is_array($Data) || empty($Data)) throw new Exception('Tem um trem errado aqui!');
 
+        $user['idUsuario'] = $Data['idUsuario'];
+        unset($Data['idUsuario']);
 
-
+        $update = new Update();
+        $updateUsuario = $update->ExeUpdate('usuario', $Data, 'WHERE idUsuario=:idUsuario', "idUsuario={$user['idUsuario']}");
+        if(is_string($updateUsuario) && !empty($updateUsuario)) throw new Exception($updateUsuario);
+        if(empty($updateUsuario)) throw new Exception('Ops, erro ao atualizar usuario');
+        return true;
     }
 
     public function checarEmailJaEstaCadastrado($post){

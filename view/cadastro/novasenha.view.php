@@ -61,7 +61,7 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
 
 
         <!-- Form -->
-        <form class="" style="color: #757575;" method="post" action="<?=HOME_URI?>/cadastro/gerarNovaSenha" >
+        <form class="" style="color: #757575;" method="post" action="<?=HOME_URI?>/recuperarsenha/criarNovaSenha" >
 
             <div class="card-body">
 

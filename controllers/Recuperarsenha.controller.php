@@ -9,6 +9,8 @@
  * @author AVF
  * @version 1.0.0
  */
+require_once ABSPATH . "/models/class/Usuario.model.php";
+
 class RecuperarSenhaController extends MainController {
     public function indexAction(){
         $View = new View('cadastro/novasenha.view.php');
@@ -20,22 +22,15 @@ class RecuperarSenhaController extends MainController {
         $resp=[];
         $post = (!empty($this->parametrosPost) ? $this->parametrosPost : false);
 
-        if(empty($post['email'])){
-            $resp['tipo'] = 'danger';
-            $resp['msg'] = 'Favor preencer email';
-            echo json_encode($resp);
-            exit;
-        }
+        $user = (new UsuarioModel)->recuperarSenhaDoUsuario($post['email']);
 
-        require ABSPATH.'/models/usuarios/Usuarios.model.php';
-        $update = new UsuariosModel();
-        $user = $update->buscarUsuarioPorEmail($this->parametrosPost['email']);
+        $resp['msg'] = 'Foi enviado para seu email os passos para recuperar sua senha';
+        $resp['tipo'] = 'success';
 
+        $View = new View('cadastro/novasenha.view.php');
+        $View->addParams('boxMsg', $resp);
+        $View->showContents();
 
-
-
-        echo json_encode($resp);
-        exit;
     }
 
 }

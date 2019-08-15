@@ -26,7 +26,7 @@ class LoginModel{
             $_SESSION['usuario'] = [];
             unset($_SESSION['usuario']);
 
-            $loginDAO = new LoginModelDAO();
+            $loginDAO = new LoginDAO();
             $loginResult = $loginDAO->getUsuarioFromEmailSenha(strtolower($email), Util::encriptaSenha($senha));
 			
 			if(!empty($loginResult) && is_string($loginResult)) 

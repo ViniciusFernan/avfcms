@@ -34,6 +34,9 @@ define('UP_ABSPATH', ABSPATH . '/_uploads');
 /** Criptografia da senha */
 define('HASH', '502ff82f7f1f8218dd41201fe4353687');
 
+/** Nome do site ou sistema aparecerá nos emails enviados */
+define('PROJECT_NAME', 'AVF_CMS');
+
 
 
 /** DEFINE SE ADMIN DEVE SER CHAMADO */

@@ -608,4 +608,119 @@ class Util{
         return $response;
     }
 
+
+    public static function  templateEmail($template){
+        $page = '<table align="center" border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" style="border-collapse:collapse;height:100%;margin:0;padding:0;width:100%;background-color:#f7f7f7">
+            <tbody><tr>
+                    <td align="center" valign="top" style="height:100%;margin:0;padding:40px;width:100%;font-family:Helvetica,Arial,sans-serif;line-height:160%">
+                        <table border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse;width:600px;background-color:#ffffff;border:1px solid #d9d9d9">
+                            <tbody><tr>
+                                    <td align="center" valign="top" style="font-family:Helvetica,Arial,sans-serif;line-height:160%">
+                                        <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse">
+                                            <tbody><tr>
+                                                    <td align="center" style="background-color:#ffffff;font-family:Helvetica,Arial,sans-serif;line-height:160%;padding-top:20px;padding-bottom:20px;background:#fff" >
+                                                        <img src="'. HOME_URI . '/_assets/images/logoEmail.png" alt="Marombeiros" width="200px" style="border:0;height:auto;line-height:100%;outline:none;text-decoration:none;height: 40%;">
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="font-family:Helvetica,Arial,sans-serif;line-height:160%">
+                                        <table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse;background-color:#ffffff;border-top:1px solid #ffffff;border-bottom:1px solid #ffffff">
+                                            <tbody>
+                                                <tr>
+                                                    <td style="font-family:Helvetica,Arial,sans-serif;text-align:center;background:#009ab7;padding: 30px 0 12px 0;">
+                                                        <h1 style="color: white;font-family:Helvetica,Arial,sans-serif;font-weight:normal">' .(!empty($template["action"]) ? $template["action"]  : 'Contato pelo site marombeiro' ) .'</h1>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="font-family:Helvetica,Arial,sans-serif;line-height:160%;color:#404040;font-size:16px;padding-top:64px;padding-bottom:40px;padding-right:72px;padding-left:72px;background:#ffffff">
+                                        <table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse;background-color:#ffffff">
+                                            <tbody><tr>
+                                                    <td valign="top" style="font-family:Helvetica,Arial,sans-serif;line-height:160%;padding-bottom:32px;text-align:center">
+                                             
+                                               
+                                                        '.(!empty($template["user"]) ? '<p style="text-align: left;"><b>Nome:</b> '. $template["user"] .'</p>' : '' ) .'
+                                                        '.(!empty($template["email"]) ? '<p style="text-align: left;"><b>Email:</b> '. $template["email"] .'</p>' : '' ) .'
+                                                        '.(!empty($template["telefone"]) ? '<p style="text-align: left;"><b>Telefone:</b> '. $template["telefone"] .'</p>' : '' ) .'
+                                                        '.(!empty($template["telefoneOpcional"]) ? '<p style="text-align: left;"><b>Telefone Opcional:</b> '. $template["telefoneOpcional"] .'</p>' : '' ) .'
+                                                        
+                                                        
+                                                        '.(!empty($template["texto"]) ? '<p style="text-align: left;"> '. $template["texto"] .'</p>' : '' ) .'
+                                                        '.(!empty($template["url"]) ? '<p style="text-align: left;"> '. $template["url"] .'</p>' : '' ) .'
+                                                   
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="font-family:Helvetica,Arial,sans-serif;line-height:160%;padding-bottom:32px;text-align:center">
+                                                        <p style="margin:0">' . (!empty($template['texto']) ? $template['texto'] : '') . '</p>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="font-family:Helvetica,Arial,sans-serif;line-height:160%;background:#ffffff">
+                                        <table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse;background-color:#ffffff">
+                                            <tbody>
+                                                <tr>
+                                                    <td style="font-family:Helvetica,Arial,sans-serif;text-align:center;background:#e8e8e8;padding:24px;color:#525252;border-top:1px solid #d9d9d9;border-bottom:1px solid #d9d9d9;">
+                                                    Contatos '.HOME_URI.' => Usuarios
+                                                    </td>
+                                                </tr>
+                                                <tr><td style="font-family:Helvetica,Arial,sans-serif;line-height:160%;padding-bottom:24px;text-align:center"></td></tr>
+                                                <tr>
+                                                    <td style="font-family:Helvetica,Arial,sans-serif;line-height:160%;padding-bottom:16px;text-align:center;margin-top:32px;padding-left:12%;padding-right:12%">
+                                                        <p style="margin:0;color:#666;font-size:13px">
+                                                            Em caso de dúvida, fique à vontade para nos contatar.
+                                                        </p>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="font-family:Helvetica,Arial,sans-serif;line-height:160%;padding-bottom:16px;text-align:center">
+                                                        <p style="margin:0;padding-bottom:16px;color:#666;font-size:13px">Marombeiro - '. date("Y") .'</p>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>';
+
+        return $page;
+    }
+
+    /** base de envio de email **/
+    public static function enviarEmail($assunto, $email, $nome, $msg){
+
+        $mail = new Mailer;
+        $mail->setAssunto($assunto);
+        $mail->setDestinatario($email, $nome);
+        $mail->setNomeDe(PROJECT_NAME);
+        $mail->setMensagem($msg);
+        $resp = $mail->Enviar();
+        return $resp;
+    }
+
+
+    /** get endereço com cep == return object**/
+    public static function getEnderecoPorCep($cep){
+        $cepLimpo = str_replace(array('.', '-'), '', $cep);
+        $resp = json_decode( file_get_contents("http://viacep.com.br/ws/".$cepLimpo."/json/ ") );
+        return $resp;
+    }
+
+
 }

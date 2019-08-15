@@ -5,7 +5,7 @@
  * @version 1.0
  * */
 
-class LoginModelDAO extends Conn {
+class LoginDAO extends Conn {
 
     private $email;
     private $senha;
