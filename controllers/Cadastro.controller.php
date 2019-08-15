@@ -92,10 +92,4 @@ class CadastroController extends MainController {
         $View->showContents();
     }
 
-
-    public function novasenhaAction() {
-        $View = new View('cadastro/novasenha.view.php');
-        $View->showContents();
-    }
-
 }

@@ -68,10 +68,16 @@ class UsuarioDAO extends Conn {
 
     }
 
+    public function editarUsuario($arrayEdit){
+        if(!is_array($arrayEdit) || empty($arrayEdit)) throw new Exception('Tem um trem errado aqui!');
+
+
+
+    }
+
     public function checarEmailJaEstaCadastrado($post){
         try{
-            if(!is_array($post) || empty($post))
-                throw new Exception('Error grave nesse trem');
+            if(!is_array($post) || empty($post)) throw new Exception('Tem um trem errado aqui!');
 
             $select = new Select();
             $dadosUsuario = $select->ExeRead('usuario', "WHERE email=:email AND status=:status", "email={$post['email']}&status=1");
@@ -107,19 +113,37 @@ class UsuarioDAO extends Conn {
 
     }
 
-    public function getListaDeLocatarios(){
+    public function buscarUsuarioPorEmail($email) {
         try{
+            $sql = "SELECT
+                        usuario.idUsuario,
+                        usuario.nome,
+                        usuario.sobreNome,
+                        usuario.email,
+                        usuario.idPerfil,
+                        usuario.superAdmin,
+                        usuario.status,
+                        perfil.idPerfil,
+                        perfil.nomePerfil
+                    FROM usuario
+                    INNER JOIN perfil ON usuario.idPerfil = perfil.idPerfil
+                    WHERE  usuario.status = 1
+                    AND usuario.email = :email
+                    LIMIT 1 ";
 
-            $listaLocatarios = (new Select())->ExeRead('usuario', "WHERE idPerfil=:idPerfil AND status=:status", "idPerfil=6&status=1");
-            if(!is_array($listaLocatarios) && !empty($listaLocatarios)) throw new Exception($listaLocatarios);
-            if(!empty($listaLocatarios)):
-                return $listaLocatarios;
-            else:
-                return false;
-            endif;
+            $select = new Select();
+            $dadosUsuario = $select->FullSelect($sql, "email={$email}");
+
+            if(!is_array($dadosUsuario) && !empty($dadosUsuario)) throw new Exception($dadosUsuario);
+
+            if(empty($dadosUsuario)) throw new Exception('Não achou nada nesse trem!');
+
+            return $dadosUsuario[0];
         }catch(Exeption $e){
             return $e->getMessage;
         }
     }
+
+
 
 }

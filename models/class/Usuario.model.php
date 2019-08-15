@@ -71,15 +71,61 @@ class UsuarioModel{
         }
     }
 
-    /**
-     * retorna lista de locatarios ativos
-     */
-    public function getListaDeLocatarios() {
-        try{
 
-            $listaDeLocatarios = (new UsuarioDAO)->getListaDeLocatarios();
-            if(!empty($listaDeLocatarios) && is_string($listaDeLocatarios)) throw new Exception($listaDeLocatarios);
-            return $listaDeLocatarios;
+    /**
+     *Recuperar senha
+     * criar senha criptografada e envia link por email
+     */
+    public function recuperarSenhaDoUsuarioSenha($post){
+        try{
+            if(!is_array($post) || empty($post)) throw new Exception('Error em processar dados');
+
+            $resp = $user = [];
+
+            $usuarioDAO = new UsuarioDAO;
+            $user = $usuarioDAO->buscarUsuarioPorEmail($this->parametrosPost['email']);
+            if(is_array($user) && empty($user)) throw new Exception('Usuários não encontrado!');
+            if(!is_array($user) && !empty($user)) throw new Exception($user);
+
+            if($user) {
+                $hash['chaveDeRecuperacao'] = Util::criptografaSenha(rand(1, 1000));
+                $title = "[NOTIFICACAO] Recuperação de senha";
+                $t = $this->parametrosPost['email'] . "__" . $hash['chaveDeRecuperacao'];
+                $dataEncriptada = Util::encriptaData($t);
+
+                $userUpdate['idUsuario'] = $user['idUsuario'];
+                $userUpdate['chaveDeRecuperacao'] = $hash['chaveDeRecuperacao'];
+
+
+                $usuarioDAO->editarUsuario($userUpdate);
+                if ($update->getResult()) {
+                    $resp['msg'] = 'Foi enviado para seu email os passos para recuperar sua senha';
+                    $resp['tipo'] = 'success';
+
+                    $template['action'] = 'Recuperação de senha';
+                    $template['user'] = $user["nomeCompleto"];
+                    $template['url'] = HOME_URI . '/cadastro/viewPageNovaSenha/' . $dataEncriptada;
+                    $template['texto'] = 'Olá, ' . $user["nomeCompleto"] . ', <br />
+                                        Alguém solicitou recentemente uma alteração na senha da sua conta do Marombeiros. Se foi você, então defina sua nova senha aqui: <br />
+                                        <a href="' . HOME_URI . '/cadastro/viewPageNovaSenha/' . $dataEncriptada . '" target="_blank">Redefinir senha</a> <br />
+                                        Se não quiser alterar a senha ou não tiver feito essa solicitação, basta ignorar e excluir esta mensagem. <br />
+                                        Para manter sua conta segura, não encaminhe este e-mail para ninguém. <br />
+                                        Caso prefira esse é seu link de recuperação de senha <br />
+                                        <b>' . HOME_URI . '/cadastro/viewPageNovaSenha/' . $dataEncriptada . ' </b><br /> ele funcionará apenas 1 unica vez.';
+
+
+                    $mensagem = HTMLBlocks::templateEmail($template);
+
+                    $emailSend = Util::enviarEmail($title, $user['email'], $user['nomeCompleto'], $mensagem);
+                } else {
+                    $resp['msg'] = 'Erro ao buscar usuário';
+                    $resp['tipo'] = 'warning';
+                }
+
+
+            }
+
+
         }catch (Exception $e){
             return $e->getMessage();
         }

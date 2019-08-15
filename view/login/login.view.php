@@ -48,7 +48,7 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
                 <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">LOGAR</button>
             </form><!-- /form -->
             <!-- Forgot password -->
-            <p class="text-right"><a href="<?=HOME_URI?>/cadastro/novasenha">Esqueceu a senha?</a></p>
+            <p class="text-right"><a href="<?=HOME_URI?>/recuperarsenha">Esqueceu a senha?</a></p>
         </div><!-- /card-container -->
     </div><!-- /container -->
 </body>
