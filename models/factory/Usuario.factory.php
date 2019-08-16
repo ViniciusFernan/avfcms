@@ -7,6 +7,9 @@
 
 class UsuarioFactory{
 
+    public $nome;
+    public $sobreNome;
+    public $email;
 
 
 }
