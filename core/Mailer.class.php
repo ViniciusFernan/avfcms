@@ -105,70 +105,58 @@ class Mailer {
 
     public function Enviar() {
 
-        $mail = new PHPMailer;
+        try{
+            $mail = new PHPMailer;
 
-        $mail->SMTPDebug = 0;                           // Enable verbose debug output
+            $mail->SMTPDebug = 0;                           // Enable verbose debug output
 
-        $mail->isSMTP();                                // Set mailer to use SMTP
-        $mail->Host = $this->Host;                      // Specify main and backup SMTP servers
-        $mail->SMTPAuth = $this->SMTPAuth;                               // Enable SMTP authentication
-        $mail->Username = $this->Username;              // SMTP username
-        $mail->Password = $this->Password;              // SMTP password
-        $mail->SMTPSecure = $this->SMTPSecure;          // Enable TLS encryption, `ssl` also accepted
-        $mail->Port = $this->Port;                      // TCP port to connect to
-        $mail->CharSet = 'UTF-8';
+            $mail->isSMTP();                                // Set mailer to use SMTP
+            $mail->Host = $this->Host;                      // Specify main and backup SMTP servers
+            $mail->SMTPAuth = $this->SMTPAuth;                               // Enable SMTP authentication
+            $mail->Username = $this->Username;              // SMTP username
+            $mail->Password = $this->Password;              // SMTP password
+            $mail->SMTPSecure = $this->SMTPSecure;          // Enable TLS encryption, `ssl` also accepted
+            $mail->Port = $this->Port;                      // TCP port to connect to
+            $mail->CharSet = 'UTF-8';
 
-        $mail->setFrom($this->EmailDe, $this->NomeDe);
+            $mail->setFrom($this->EmailDe, $this->NomeDe);
 
-        if (empty($this->Destinatario)) :
-            $this->result = FALSE;
-            $this->error = "E-mail do destinatario nao informado";
-            return;
-        endif;
+            if (empty($this->Destinatario)) throw new Exception("E-mail do destinatario nao informado");
 
-        //DESTINATARIO
-        foreach ($this->Destinatario as $destinatario) :
-            if (empty($destinatario['email']) || !Util::Email($destinatario['email'])) :
-                $this->result = FALSE;
-                $this->error = "E-mail Invalido";
-                return;
-            else:
-                if (!empty($destinatario['nome']))
-                    $mail->addAddress($destinatario['email'], $destinatario['nome']);
-                else
-                    $mail->addAddress($destinatario['email']);
-            endif;
-        endforeach;
+            //DESTINATARIO
+            foreach ($this->Destinatario as $destinatario) :
+                if (empty($destinatario['email']) || !Util::Email($destinatario['email'])) throw new Exception("E-mail Invalido");
 
-        //DESTINATARIO CC
-        if (!empty($this->DestinatarioCC)):
-            foreach ($this->DestinatarioCC as $destinatarioCC) :
-                if (empty($destinatarioCC['email']) || !Util::Email($destinatarioCC['email'])) :
-                    $this->result = FALSE;
-                    $this->error = "E-mail CC Invalido";
-                    return;
-                else:
-                    if (!empty($destinatarioCC['nome']))
-                        $mail->addCC($destinatarioCC['email'], $destinatarioCC['nome']);
-                    else
-                        $mail->addCC($destinatarioCC['email']);
-                endif;
+                if (!empty($destinatario['nome'])) $mail->addAddress($destinatario['email'], $destinatario['nome']);
+                else $mail->addAddress($destinatario['email']);
             endforeach;
-        endif;
+
+            //DESTINATARIO CC
+            if (!empty($this->DestinatarioCC)):
+                foreach ($this->DestinatarioCC as $destinatarioCC) :
+                    if (empty($destinatarioCC['email']) || !Util::Email($destinatarioCC['email'])) throw new Exception("E-mail CC Invalido");
+
+                    if (!empty($destinatarioCC['nome'])) $mail->addCC($destinatarioCC['email'], $destinatarioCC['nome']);
+                    else $mail->addCC($destinatarioCC['email']);
+                endforeach;
+            endif;
 
 //        $mail->addAttachment('/var/tmp/file.tar.gz');         // Add attachments
 //        $mail->addAttachment('/tmp/image.jpg', 'new.jpg');    // Optional name
-        $mail->isHTML(true);                             // Set email format to HTML
+            $mail->isHTML(true);                             // Set email format to HTML
 
-        $mail->Subject = $this->Assunto;
-        $mail->Body = $this->Mensagem;
-        $mail->AltBody = strip_tags(nl2br($this->Mensagem));
+            $mail->Subject = $this->Assunto;
+            $mail->Body = $this->Mensagem;
+            $mail->AltBody = strip_tags(nl2br($this->Mensagem));
 
-        if (!$mail->send()) {
-            $this->error = 'Mailer Error: ' . $mail->ErrorInfo;
-            $this->result = FALSE;
-        } else {
-            $this->result = TRUE;
+            if (!$mail->send()) {
+                throw new Exception('Mailer Error: ' . $mail->ErrorInfo);
+            } else {
+                return TRUE;
+            }
+
+        }catch (Exception $e){
+            return $e->getMessage();
         }
     }
 

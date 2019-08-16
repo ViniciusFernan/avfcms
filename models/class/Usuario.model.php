@@ -114,9 +114,9 @@ class UsuarioModel{
 
             $title = "[NOTIFICACAO] Recuperação de senha";
             $emailSend = Util::enviarEmail($title, $user['email'],  $user["nome"].' '.$user["sobreNome"], $mensagem);
+            if(!is_int($emailSend) && !empty($emailSend)) throw new  Exception($emailSend);
 
-            return true;
-
+            return (int) 1;
         }catch (Exception $e){
             return $e->getMessage();
         }
