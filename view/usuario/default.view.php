@@ -81,7 +81,9 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
                                 <td class="align-center <?=(( $usuario['status']=='0' ) ? "btn-danger" : (($usuario['status']=='1') ? "btn-success" : "btn-primary" ) )?>">
                                     <?=(( $usuario['status']=='0' ) ? "DELETADO" : (($usuario['status']=='1') ? "ATIVO" : "INATIVO" ) )?>
                                 </td>
-                                <td>Ações</td>
+                                <td>
+                                    <button type="button" class="btn btn-primary btn-sm">Editar</button>
+                                </td>
                             </tr>
                         <?php endforeach;?>
                     <?php endif;?>
