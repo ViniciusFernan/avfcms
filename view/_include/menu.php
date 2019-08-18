@@ -15,11 +15,10 @@
                 </a>
             </li>
 
-            <?php if($_SESSION['usuario']['idPerfil']==1): ?>
             <li class="nav-item">
-                <a class="nav-link" href="<?=HOME_URI?>/comodos"> <i class="fas fa-hotel"></i> Comodos </a>
+                <a class="nav-link" href="<?=HOME_URI?>/usuario"> <i class="fas fa-user-friends"></i> Usuarios </a>
             </li>
-            <?php endif;?>
+
         </ul>
     </div>
 </nav>

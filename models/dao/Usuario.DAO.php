@@ -151,6 +151,33 @@ class UsuarioDAO extends Conn {
         }
     }
 
+    public function getListaDeUsuarios() {
+        try{
+            $sql = "SELECT
+                        usuario.idUsuario,
+                        usuario.nome,
+                        usuario.sobreNome,
+                        usuario.email,
+                        usuario.telefone,
+                        usuario.idPerfil,
+                        usuario.superAdmin,
+                        usuario.status,
+                        perfil.idPerfil,
+                        perfil.nomePerfil
+                    FROM usuario
+                    INNER JOIN perfil ON usuario.idPerfil = perfil.idPerfil ";
 
+            $select = new Select();
+            $listaUsuario = $select->FullSelect($sql);
+
+            if(!is_array($listaUsuario) && !empty($listaUsuario)) throw new Exception($listaUsuario);
+
+            if(empty($listaUsuario)) throw new Exception('Não achou nada nesse trem!');
+
+            return $listaUsuario;
+        }catch(Exeption $e){
+            return $e->getMessage;
+        }
+    }
 
 }

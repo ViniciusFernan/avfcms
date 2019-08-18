@@ -9,6 +9,8 @@ body{background: none; }
 
 .vh100{height:100%; min-height: 90vh; }
 
+.align-center{text-align: center; }
+
 .bg-roxo{background-color:#673ab7 }
 
 .bg-blue{background-color:#6c64ea }

@@ -5,8 +5,9 @@
 * @version 1.0
 * */
 
+require_once ABSPATH . "/models/factory/Usuario.factory.php";
 require_once ABSPATH . "/models/dao/Usuario.DAO.php";
-class UsuarioModel{
+class UsuarioModel extends UsuarioFactory {
 
     /**
      * cadastro de novo usuario
@@ -121,5 +122,19 @@ class UsuarioModel{
             return $e->getMessage();
         }
     }
+
+    /**
+     * Retorna lista de usuarios
+     */
+    public function getListaDeUsuarios() {
+        try{
+            $listaUsuarios = (new UsuarioDAO)->getListaDeUsuarios();
+            if(!empty($listaUsuarios) && is_string($listaUsuarios)) throw new Exception($listaUsuarios);
+            return $listaUsuarios;
+        }catch (Exception $e){
+            return $e->getMessage();
+        }
+    }
+
 
 }
