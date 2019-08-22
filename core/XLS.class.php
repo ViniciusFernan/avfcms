@@ -8,8 +8,8 @@
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
-require_once 'plugins/PhpSpreadsheet/src/PhpSpreadsheet/';
-require_once 'plugins/PhpSpreadsheet/src/PhpSpreadsheet/IOFactory.php';
+require_once ABSPATH.'plugins/PhpSpreadsheet/src/PhpSpreadsheet/';
+require_once ABSPATH.'plugins/PhpSpreadsheet/src/PhpSpreadsheet/IOFactory.php';
 class XLS {
 
     function __construct() {

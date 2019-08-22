@@ -4,8 +4,8 @@
 * @author AVF-WEB
 * @version 1.0
 * */
-require_once 'plugins/PHPMailer/class.phpmailer.php';
-require_once 'plugins/PHPMailer/class.smtp.php';
+require_once ABSPATH.'plugins/PHPMailer/class.phpmailer.php';
+require_once ABSPATH.'plugins/PHPMailer/class.smtp.php';
 
 class Mailer {
     /* Configuracao de Conexão */

@@ -597,25 +597,116 @@ class Util{
         return $html;
     }
 
-    public static function curl($url, $arrayDados, $method){
-        if(empty($url)) throw new Exception('Necessário envio da url');
-        if(empty($arrayDados) || !is_array($arrayDados)) throw new Exception('Dados post tipagem incorreta');
+    public static function consultaCNPJ($cnpj){
+        if(empty($cnpj)) throw new Exception('Necessário envio do CNPJ');
+        //tokem acesso a API Comercial
+        $authorization = "Authorization: Bearer ".KEY_WS;
 
-        $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-        if($method!='GET' || $method!='get' ){
-            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $arrayDados);
-        }else {
-            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
-            curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($arrayDados));
+        if(!empty($authorization)){
+            Curl::$httpHeader = array('Content-Type: application/json' , $authorization );
         }
 
-        $response = curl_exec($ch);
-        curl_close($ch);
+        Curl::$url = 'https://www.receitaws.com.br/v1/cnpj/'. $cnpj.'/days/10';
+        Curl::$sslVerifyHost = 0;
+        Curl::$sslVerifyPeer = 0;
 
-        return $response;
+        $resultado = Curl::init();
+
+        if(strpos($resultado['content'], "Gateway Time-out") !== false) throw new Exception('Serviço temporariamente indisponível!<br>Aguarde alguns minutos e tente novamente.');
+
+        $dados = json_decode($resultado['content'], true);
+
+        $dadosReceitaWS = array();
+
+        if($dados['status']==='ERROR') throw new Exception('CNPJ ' . $dados['cnpj'] . ' Rejeitado pela Receita Federal.');
+
+        if (empty($cnpjReceitaWS)) throw new Exception('CNPJ ' . $cnpj . ' não encontrado.');
+        $cnpjReceitaWS = str_replace('-', '', $cnpjReceitaWS);
+        $cnpjReceitaWS = str_replace('.', '', $cnpjReceitaWS);
+        $cnpjReceitaWS = str_replace('/', '', $cnpjReceitaWS);
+
+        $razaoSocialReceitaWS = (!empty($dados['nome']) ? $dados['nome'] : null);
+        if (empty($razaoSocialReceitaWS)) throw new Exception('Razão Social do CNPJ ' . $cnpj . ' não encontrado.');
+
+        $fantasiaReceitaWS = (!empty($dados['fantasia']) ? $dados['fantasia'] : null);
+        if (empty($razaoSocialReceitaWS)) throw new Exception('Nome Fantasia do CNPJ ' . $cnpj . ' não encontrado.');
+
+        $atividadeEconomicaReceitaWS = (!empty($dados['atividade_principal'][0]['code']) ? $dados['atividade_principal'][0]['code'] : null);
+        if (empty($atividadeEconomicaReceitaWS)) throw new Exception('Ramo de Atividade do CNPJ ' . $cnpj . ' não encontrado.');
+        $atividadeEconomicaReceitaWS = str_replace('-', '', $atividadeEconomicaReceitaWS);
+        $atividadeEconomicaReceitaWS = str_replace('.', '', $atividadeEconomicaReceitaWS);
+
+        $logradouroReceitaWS = (!empty($dados['logradouro']) ? $dados['logradouro'] : null);
+
+        $numeroReceitaWS = (!empty($dados['numero']) ? $dados['numero'] : null);
+
+        $complementoReceitaWS = (!empty($dados['complemento']) ? $dados['complemento'] : '');
+
+        $CEPLogradouroReceitaWS = (!empty($dados['cep']) ? $dados['cep'] : null);
+        if (empty($CEPLogradouroReceitaWS)) throw new Exception('CEP do CNPJ ' . $cnpj . ' não encontrado.');
+
+        $CEPLogradouroReceitaWS = str_replace('-', '', $CEPLogradouroReceitaWS);
+        $CEPLogradouroReceitaWS = str_replace('.', '', $CEPLogradouroReceitaWS);
+
+        $bairroReceitaWS = (!empty($dados['bairro']) ? $dados['bairro'] : null);
+
+        $municipioReceitaWS = (!empty($dados['municipio']) ? $dados['municipio'] : null);
+
+        $ufReceitaWS = (!empty($dados['uf']) ? $dados['uf'] : null);
+
+
+        $emailReceitaWS = (!empty($dados['email']) ? $dados['email'] : '');
+
+
+        $telefoneReceitaWS = (!empty($dados['telefone']) ? $dados['telefone'] : '');
+
+        $telefoneReceitaWS = str_replace(' ', '', $telefoneReceitaWS);
+        $telefoneReceitaWS = str_replace('-', '', $telefoneReceitaWS);
+
+        if(empty($logradouroReceitaWS) || empty($bairroReceitaWS) || empty($municipioReceitaWS) || empty($ufReceitaWS)) {
+
+            $recuperaCep = self::getEnderecoPorCep($CEPLogradouroReceitaWS);
+            if (empty($logradouroReceitaWS)) {
+                $logradouroReceitaWS = $recuperaCep['logradouro'];
+            }
+
+            if (!empty($bairroReceitaWS)) {
+                $bairroReceitaWS = $recuperaCep['bairro'];
+            }
+
+            if (!empty($municipioReceitaWS)) {
+                $municipioReceitaWS = $recuperaCep['cidade'];
+            }
+
+            if (!empty($ufReceitaWS)) {
+                $ufReceitaWS = $recuperaCep['estado'];
+            }
+        }
+
+        $situacaoCadastralReceitaWS = (!empty($dados['situacao']) ? $dados['situacao'] : null);
+        if (empty($situacaoCadastralReceitaWS)) throw new Exception('Situação cadastral do CNPJ ' . $cnpj . ' não encontrado.');
+
+        $dataSituacaoCadastralReceitaWS = (!empty($dados['data_situacao']) ? $dados['data_situacao'] : null);
+        if (empty($dataSituacaoCadastralReceitaWS)) throw new Exception('Data situação cadastral do CNPJ ' . $cnpj . ' não encontrado.');
+
+        $dadosReceitaWS['CNPJ']                     = $cnpjReceitaWS;
+        $dadosReceitaWS['RAZAOSOCIAL']              = $razaoSocialReceitaWS;
+        $dadosReceitaWS['NOMEFANTASIA']             = $fantasiaReceitaWS;
+        $dadosReceitaWS['RAMOATIVIDADE']            = $atividadeEconomicaReceitaWS;
+        $dadosReceitaWS['LOGRADOURO']               = $logradouroReceitaWS;
+        $dadosReceitaWS['NLOGRADOURO']              = $numeroReceitaWS;
+        $dadosReceitaWS['COMPLEMENTO']              = $complementoReceitaWS;
+        $dadosReceitaWS['CEP']                      = $CEPLogradouroReceitaWS;
+        $dadosReceitaWS['BAIRRO']                   = $bairroReceitaWS;
+        $dadosReceitaWS['MUNICIPIO']                = $municipioReceitaWS;
+        $dadosReceitaWS['UF']                       = $ufReceitaWS;
+        $dadosReceitaWS['EMAIL']                    = $emailReceitaWS;
+        $dadosReceitaWS['TELEFONE']                 = $telefoneReceitaWS;
+        $dadosReceitaWS['SITUACAOCADASTRAL']        = $situacaoCadastralReceitaWS;
+        $dadosReceitaWS['DATASITUACAOCADASTRAL']    = $dataSituacaoCadastralReceitaWS;
+
+        return (array) $dadosReceitaWS;
+
     }
 
 
@@ -730,6 +821,375 @@ class Util{
         $cepLimpo = str_replace(array('.', '-'), '', $cep);
         $resp = json_decode( file_get_contents("http://viacep.com.br/ws/".$cepLimpo."/json/ ") );
         return $resp;
+    }
+
+
+
+    private function realizarConsultaReceitaFederal($cnpjCliente)
+    {
+        try
+        {
+            if (Validacoes::isNullOrEmpty($cnpjCliente)) throw new Exception('Envie o CNPJ do cliente!');
+
+            require_once CAMINHO_FISICO . '/NeoRB/Utils/RecursoWeb.php';
+            require_once CAMINHO_FISICO . '/NeoRB/Libs/simple_html_dom.php';
+            require_once CAMINHO_FISICO . '/NeoRB/Libs/dbc_api_v4_4_php/deathbycaptcha.php';
+
+            $dadosReceita = null;
+
+            $cookiePagina = null;
+
+            RecursoWeb::$url = 'http://www.receita.fazenda.gov.br/pessoajuridica/cnpj/cnpjreva/Cnpjreva_solicitacao3.asp';
+            RecursoWeb::$header = true;
+            RecursoWeb::$body = true;
+
+            $resultado = RecursoWeb::recuperarWebPage();
+            $contentPage = $resultado['content'];
+
+            preg_match_all('%Set-Cookie: ([^;]+);%', $contentPage, $saida);
+
+            if (Utilidade::contarArray($saida) > 1 && isset($saida[0]) && isset($saida[0][0]))
+            {
+                preg_match('%Set-Cookie: ([^;]+);%', $saida[0][0], $_saida);
+                $cookiePagina = $_saida[1];
+            }
+            else throw new Exception('Problemas ao acessar sistema da Receita Federal.');
+
+            RecursoWeb::$url = 'http://www.receita.fazenda.gov.br/pessoajuridica/cnpj/cnpjreva/captcha/gerarCaptcha.asp';
+            RecursoWeb::$cookie = $cookiePagina;
+            RecursoWeb::$binaryTransfer = 1;
+            RecursoWeb::$httpHeader = array(
+                'Pragma: no-cache',
+                'Origin: http://www.receita.fazenda.gov.br',
+                'Host: www.receita.fazenda.gov.br',
+                'User-Agent: Mozilla/5.0 (Windows NT 6.1; rv:32.0) Gecko/20100101 Firefox/32.0',
+                'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+                'Accept-Language: pt-BR,pt;q=0.8,en-US;q=0.5,en;q=0.3',
+                'Accept-Encoding: gzip, deflate',
+                'Referer: http://www.receita.fazenda.gov.br/pessoajuridica/cnpj/cnpjreva/Cnpjreva_solicitacao3.asp',
+                'Cookie: flag=1; ' . $cookiePagina,
+                'Connection: keep-alive'
+            );
+            $resultado = RecursoWeb::recuperarWebPage();
+            $contentPage = $resultado['content'];
+
+            if (@imagecreatefromstring($contentPage) == false) throw new Exception('Não foi possível capturar o captcha');
+
+            $cookiePagina = 'flag=1; ' . $cookiePagina;
+            $arrayCaptcha = array(
+                'cookie' => $cookiePagina,
+                'captchaBase64' => 'data:image/png;base64,' . base64_encode($contentPage)
+            );
+
+            $client = new DeathByCaptcha_SocketClient('murilo.dantas', 'murilo');
+
+            $captcha = null;
+            $captcha = $client->decode($arrayCaptcha['captchaBase64']);
+
+            if (!isset($captcha['text'])) throw new Exception('Problema ao realizar consulta da IMAGEM');
+
+            $captcha = $captcha['text'];
+
+            $arrayPost = null;
+            $arrayPost['origem'] = 'comprovante';
+            $arrayPost['cnpj'] = $cnpjCliente;
+            $arrayPost['txtTexto_captcha_serpro_gov_br'] = $captcha;
+            $arrayPost['submit1'] = 'Consultar';
+            $arrayPost['search_type'] = 'cnpj';
+
+            RecursoWeb::$url = 'http://www.receita.fazenda.gov.br/pessoajuridica/cnpj/cnpjreva/valida.asp';
+            RecursoWeb::$cookie = $arrayCaptcha['cookie'];
+            RecursoWeb::$postField = http_build_query($arrayPost);
+            RecursoWeb::$httpHeader = array(
+                'Host: www.receita.fazenda.gov.br',
+                'User-Agent: Mozilla/5.0 (Windows NT 6.1; rv:32.0) Gecko/20100101 Firefox/32.0',
+                'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+                'Accept-Language: pt-BR,pt;q=0.8,en-US;q=0.5,en;q=0.3',
+                'Accept-Encoding: gzip, deflate',
+                'Referer: http://www.receita.fazenda.gov.br/pessoajuridica/cnpj/cnpjreva/valida.asp',
+                'Cookie: ' . $arrayCaptcha['cookie'],
+                'Connection: keep-alive'
+            );
+            $resultado = RecursoWeb::recuperarWebPage();
+            $contentPage = $resultado['content'];
+
+            RecursoWeb::$url = 'http://www.receita.fazenda.gov.br/pessoajuridica/cnpj/cnpjreva/Cnpjreva_Vstatus.asp?origem=comprovante&cnpj='. $cnpjCliente;
+            RecursoWeb::$cookie = $arrayCaptcha['cookie'];
+            $resultado = RecursoWeb::recuperarWebPage();
+            $contentPage = $resultado['content'];
+
+            $html = new simple_html_dom();
+            $html->load($contentPage);
+
+            /*******************LER VALORES RETORNADOS*******************/
+            $tableCNPJ = (null !== $html->find('table', 4) ? $html->find('table', 4) : '');
+            if (Validacoes::isNullOrEmpty($tableCNPJ))
+            {
+                RecursoWeb::$url = 'http://www.receita.fazenda.gov.br/pessoajuridica/cnpj/cnpjreva/Cnpjreva_Campos.asp';
+                RecursoWeb::$cookie = $arrayCaptcha['cookie'];
+                $resultado = RecursoWeb::recuperarWebPage();
+                $contentPage = $resultado['content'];
+
+                RecursoWeb::$url = 'http://www.receita.fazenda.gov.br/pessoajuridica/cnpj/cnpjreva/Cnpjreva_Comprovante.asp';
+                RecursoWeb::$cookie = $arrayCaptcha['cookie'];
+                $resultado = RecursoWeb::recuperarWebPage();
+                $contentPage = $resultado['content'];
+
+                $html = new simple_html_dom();
+                $html->load($contentPage);
+            }
+
+            /*******************LER VALORES RETORNADOS*******************/
+            $tableCNPJ = (null !== $html->find('table', 4) ? $html->find('table', 4) : '');
+            if (Validacoes::isNullOrEmpty($tableCNPJ))
+            {
+                $dadosReceitaWS = $this->consultaReceitaWS($cnpjCliente);
+                $dadosReceita = $dadosReceitaWS;
+            }
+            else
+            {
+                $trCNPJ = (null !== $tableCNPJ->find('tr', 0) ? $tableCNPJ->find('tr', 0) : '');
+                if (Validacoes::isNullOrEmpty($trCNPJ)) throw new Exception('Não encontrado trCNPJ');
+
+                $tdCNPJ = (null !== $trCNPJ->find('td', 0) ? $trCNPJ->find('td', 0) : '');
+                if (Validacoes::isNullOrEmpty($tdCNPJ)) throw new Exception('Não encontrado tdCNPJ');
+
+                $fontCNPJ = (null !== $tdCNPJ->find('font', 1) ? $tdCNPJ->find('font', 1) : '');
+                if (Validacoes::isNullOrEmpty($fontCNPJ)) throw new Exception('Não encontrado fontCNPJ');
+
+                $bCNPJ = (null !== $fontCNPJ->find('b', 0) ? $fontCNPJ->find('b', 0) : '');
+                if (Validacoes::isNullOrEmpty($bCNPJ)) throw new Exception('Não encontrado bCNPJ');
+
+                $cnpjReceita = $bCNPJ->text();
+
+                $tableRazaoSocial = (null !== $html->find('table', 5) ? $html->find('table', 5) : '');
+                if (Validacoes::isNullOrEmpty($tableRazaoSocial)) throw new Exception('Não encontrado tableRazaoSocial');
+
+                $trRazaoSocial = (null !== $tableRazaoSocial->find('tr', 0) ? $tableRazaoSocial->find('tr', 0) : '');
+                if (Validacoes::isNullOrEmpty($trRazaoSocial)) throw new Exception('Não encontrado trRazaoSocial');
+
+                $tdRazaoSocial = (null !== $trRazaoSocial->find('td', 0) ? $trRazaoSocial->find('td', 0) : '');
+                if (Validacoes::isNullOrEmpty($tdRazaoSocial)) throw new Exception('Não encontrado tdRazaoSocial');
+
+                $fontRazaoSocial = (null !== $tdRazaoSocial->find('font', 1) ? $tdRazaoSocial->find('font', 1) : '');
+                if (Validacoes::isNullOrEmpty($fontRazaoSocial)) throw new Exception('Não encontrado fontRazaoSocial');
+
+                $bRazaoSocial = (null !== $fontRazaoSocial->find('b', 0) ? $fontRazaoSocial->find('b', 0) : '');
+                if (Validacoes::isNullOrEmpty($bRazaoSocial)) throw new Exception('Não encontrado bRazaoSocial');
+
+                $razaoSocialReceita = $bRazaoSocial->text();
+
+                $tableNomeFantasia = (null !== $html->find('table', 6) ? $html->find('table', 6) : '');
+                if (Validacoes::isNullOrEmpty($tableNomeFantasia)) throw new Exception('Não encontrado tableNomeFantasia');
+
+                $trNomeFantasia = (null !== $tableNomeFantasia->find('tr', 0) ? $tableNomeFantasia->find('tr', 0) : '');
+                if (Validacoes::isNullOrEmpty($trNomeFantasia)) throw new Exception('Não encontrado trNomeFantasia');
+
+                $tdNomeFantasia = (null !== $trNomeFantasia->find('td', 0) ? $trNomeFantasia->find('td', 0) : '');
+                if (Validacoes::isNullOrEmpty($tdNomeFantasia)) throw new Exception('Não encontrado tdNomeFantasia');
+
+                $fontNomeFantasia = (null !== $tdNomeFantasia->find('font', 1) ? $tdNomeFantasia->find('font', 1) : '');
+                if (Validacoes::isNullOrEmpty($fontNomeFantasia)) throw new Exception('Não encontrado fontNomeFantasia');
+
+                $bNomeFantasia = (null !== $fontNomeFantasia->find('b', 0) ? $fontNomeFantasia->find('b', 0) : '');
+                if (Validacoes::isNullOrEmpty($bNomeFantasia)) throw new Exception('Não encontrado bNomeFantasia');
+
+                $nomeFantasiaReceita = $bNomeFantasia->text();
+
+                $tableAtividadeEconomica = (null !== $html->find('table', 7) ? $html->find('table', 7) : '');
+                if (Validacoes::isNullOrEmpty($tableAtividadeEconomica)) throw new Exception('Não encontrado tableAtividadeEconomica');
+
+                $trAtividadeEconomica = (null !== $tableAtividadeEconomica->find('tr', 0) ? $tableAtividadeEconomica->find('tr', 0) : '');
+                if (Validacoes::isNullOrEmpty($trAtividadeEconomica)) throw new Exception('Não encontrado trAtividadeEconomica');
+
+                $tdAtividadeEconomica = (null !== $trAtividadeEconomica->find('td', 0) ? $trAtividadeEconomica->find('td', 0) : '');
+                if (Validacoes::isNullOrEmpty($tdAtividadeEconomica)) throw new Exception('Não encontrado tdAtividadeEconomica');
+
+                $fontAtividadeEconomica = (null !== $tdAtividadeEconomica->find('font', 1) ? $tdAtividadeEconomica->find('font', 1) : '');
+                if (Validacoes::isNullOrEmpty($fontAtividadeEconomica)) throw new Exception('Não encontrado fontAtividadeEconomica');
+
+                $bAtividadeEconomica = (null !== $fontAtividadeEconomica->find('b', 0) ? $fontAtividadeEconomica->find('b', 0) : '');
+                if (Validacoes::isNullOrEmpty($bAtividadeEconomica)) throw new Exception('Não encontrado bAtividadeEconomica');
+
+                $atividadeEconomicaReceita = $bAtividadeEconomica->text();
+
+                $tableLogradouro = (null !== $html->find('table', 10) ? $html->find('table', 10) : '');
+                if (Validacoes::isNullOrEmpty($tableLogradouro)) throw new Exception('Não encontrado tableLogradouro');
+
+                $trLogradouro= (null !== $tableLogradouro->find('tr', 0) ? $tableLogradouro->find('tr', 0) : '');
+                if (Validacoes::isNullOrEmpty($trLogradouro)) throw new Exception('Não encontrado trLogradouro');
+
+                $tdLogradouro = (null !== $trLogradouro->find('td', 0) ? $trLogradouro->find('td', 0) : '');
+                if (Validacoes::isNullOrEmpty($tdLogradouro)) throw new Exception('Não encontrado tdLogradouro');
+
+                $fontLogradouro = (null !== $tdLogradouro->find('font', 1) ? $tdLogradouro->find('font', 1) : '');
+                if (Validacoes::isNullOrEmpty($fontLogradouro)) throw new Exception('Não encontrado fontLogradouro');
+
+                $bLogradouro = (null !== $fontLogradouro->find('b', 0) ? $fontLogradouro->find('b', 0) : '');
+                if (Validacoes::isNullOrEmpty($bLogradouro)) throw new Exception('Não encontrado bLogradouro');
+
+                $logradouroReceita = $bLogradouro->text();
+
+                $tdNumeroLogradouro = (null !== $trLogradouro->find('td', 2) ? $trLogradouro->find('td', 2) : '');
+                if (Validacoes::isNullOrEmpty($tdNumeroLogradouro)) throw new Exception('Não encontrado tdNumeroLogradouro');
+
+                $fontNumeroLogradouro = (null !== $tdNumeroLogradouro->find('font', 1) ? $tdNumeroLogradouro->find('font', 1) : '');
+                if (Validacoes::isNullOrEmpty($fontNumeroLogradouro)) throw new Exception('Não encontrado fontNumeroLogradouro');
+
+                $bNumeroLogradouro = (null !== $fontNumeroLogradouro->find('b', 0) ? $fontNumeroLogradouro->find('b', 0) : '');
+                if (Validacoes::isNullOrEmpty($bNumeroLogradouro)) throw new Exception('Não encontrado bNumeroLogradouro');
+
+                $numeroLogradouroReceita = $bNumeroLogradouro->text();
+
+                $tdComplementoLogradouro = (null !== $trLogradouro->find('td', 4) ? $trLogradouro->find('td', 4) : '');
+                if (Validacoes::isNullOrEmpty($tdComplementoLogradouro)) throw new Exception('Não encontrado tdComplementoLogradouro');
+
+                $fontComplementoLogradouro = (null !== $tdComplementoLogradouro->find('font', 1) ? $tdComplementoLogradouro->find('font', 1) : '');
+                if (Validacoes::isNullOrEmpty($fontComplementoLogradouro)) throw new Exception('Não encontrado fontComplementoLogradouro');
+
+                $bComplementoLogradouro = (null !== $fontComplementoLogradouro->find('b', 0) ? $fontComplementoLogradouro->find('b', 0) : '');
+                if (Validacoes::isNullOrEmpty($bComplementoLogradouro)) throw new Exception('Não encontrado bComplementoLogradouro');
+
+                $complementoLogradouroReceita = $bComplementoLogradouro->text();
+
+                $tableCEPLogradouro = (null !== $html->find('table', 11) ? $html->find('table', 11) : '');
+                if (Validacoes::isNullOrEmpty($tableCEPLogradouro)) throw new Exception('Não encontrado tableCEPLogradouro');
+
+                $trCEPLogradouro = (null !== $tableCEPLogradouro->find('tr', 0) ? $tableCEPLogradouro->find('tr', 0) : '');
+                if (Validacoes::isNullOrEmpty($trCEPLogradouro)) throw new Exception('Não encontrado trCEPLogradouro');
+
+                $tdCEPLogradouro = (null !== $trCEPLogradouro->find('td', 0) ? $trCEPLogradouro->find('td', 0) : '');
+                if (Validacoes::isNullOrEmpty($tdCEPLogradouro)) throw new Exception('Não encontrado tdCEPLogradouro');
+
+                $fontCEPLogradouro = (null !== $tdCEPLogradouro->find('font', 1) ? $tdCEPLogradouro->find('font', 1) : '');
+                if (Validacoes::isNullOrEmpty($fontCEPLogradouro)) throw new Exception('Não encontrado fontCEPLogradouro');
+
+                $bCEPLogradouro = (null !== $fontCEPLogradouro->find('b', 0) ? $fontCEPLogradouro->find('b', 0) : '');
+                if (Validacoes::isNullOrEmpty($bCEPLogradouro)) throw new Exception('Não encontrado bCEPLogradouro');
+
+                $CEPLogradouroReceita = $bCEPLogradouro->text();
+
+                $tdBairroLogradouro = (null !== $trCEPLogradouro->find('td', 2) ? $trCEPLogradouro->find('td', 2) : '');
+                if (Validacoes::isNullOrEmpty($tdBairroLogradouro)) throw new Exception('Não encontrado tdBairroLogradouro');
+
+                $fontBairroLogradouro = (null !== $tdBairroLogradouro->find('font', 1) ? $tdBairroLogradouro->find('font', 1) : '');
+                if (Validacoes::isNullOrEmpty($fontBairroLogradouro)) throw new Exception('Não encontrado fontBairroLogradouro');
+
+                $bBairroLogradouro = (null !== $fontBairroLogradouro->find('b', 0) ? $fontBairroLogradouro->find('b', 0) : '');
+                if (Validacoes::isNullOrEmpty($bBairroLogradouro)) throw new Exception('Não encontrado bBairroLogradouro');
+
+                $bairroLogradouroReceita = $bBairroLogradouro->text();
+
+                $tdCidadeLogradouro = (null !== $trCEPLogradouro->find('td', 4) ? $trCEPLogradouro->find('td', 4) : '');
+                if (Validacoes::isNullOrEmpty($tdCidadeLogradouro)) throw new Exception('Não encontrado tdCidadeLogradouro');
+
+                $fontCidadeLogradouro = (null !== $tdCidadeLogradouro->find('font', 1) ? $tdCidadeLogradouro->find('font', 1) : '');
+                if (Validacoes::isNullOrEmpty($fontCidadeLogradouro)) throw new Exception('Não encontrado fontCidadeLogradouro');
+
+                $bCidadeLogradouro = (null !== $fontCidadeLogradouro->find('b', 0) ? $fontCidadeLogradouro->find('b', 0) : '');
+                if (Validacoes::isNullOrEmpty($bCidadeLogradouro)) throw new Exception('Não encontrado bCidadeLogradouro');
+
+                $cidadeLogradouroReceita = $bCidadeLogradouro->text();
+
+                $tdUFLogradouro = (null !== $trCEPLogradouro->find('td', 6) ? $trCEPLogradouro->find('td', 6) : '');
+                if (Validacoes::isNullOrEmpty($tdUFLogradouro)) throw new Exception('Não encontrado tdUFLogradouro');
+
+                $fontUFLogradouro = (null !== $tdUFLogradouro->find('font', 1) ? $tdUFLogradouro->find('font', 1) : '');
+                if (Validacoes::isNullOrEmpty($fontUFLogradouro)) throw new Exception('Não encontrado fontUFLogradouro');
+
+                $bUFLogradouro = (null !== $fontUFLogradouro->find('b', 0) ? $fontUFLogradouro->find('b', 0) : '');
+                if (Validacoes::isNullOrEmpty($bUFLogradouro)) throw new Exception('Não encontrado bUFLogradouro');
+
+                $UFLogradouroReceita = $bUFLogradouro->text();
+
+                $tableEmail = (null !== $html->find('table', 12) ? $html->find('table', 12) : '');
+                if (Validacoes::isNullOrEmpty($tableEmail)) throw new Exception('Não encontrado tableEmail');
+
+                $trEmail = (null !== $tableEmail->find('tr', 0) ? $tableEmail->find('tr', 0) : '');
+                if (Validacoes::isNullOrEmpty($trEmail)) throw new Exception('Não encontrado trEmail');
+
+                $tdEmail = (null !== $trEmail->find('td', 0) ? $trEmail->find('td', 0) : '');
+                if (Validacoes::isNullOrEmpty($tdEmail)) throw new Exception('Não encontrado tdEmail');
+
+                $fontEmail = (null !== $tdEmail->find('font', 1) ? $tdEmail->find('font', 1) : '');
+                if (Validacoes::isNullOrEmpty($fontEmail)) throw new Exception('Não encontrado fontEmail');
+
+                $bEmail = (null !== $fontEmail->find('b', 0) ? $fontEmail->find('b', 0) : '');
+                if (Validacoes::isNullOrEmpty($bEmail)) throw new Exception('Não encontrado bEmail');
+
+                $emailReceita = $bEmail->text();
+
+                $tdTelefone = (null !== $trEmail->find('td', 2) ? $trEmail->find('td', 2) : '');
+                if (Validacoes::isNullOrEmpty($tdTelefone)) throw new Exception('Não encontrado tdTelefone');
+
+                $fontTelefone = (null !== $tdTelefone->find('font', 1) ? $tdTelefone->find('font', 1) : '');
+                if (Validacoes::isNullOrEmpty($fontTelefone)) throw new Exception('Não encontrado fontTelefone');
+
+                $bTelefone = (null !== $fontTelefone->find('b', 0) ? $fontTelefone->find('b', 0) : '');
+                if (Validacoes::isNullOrEmpty($bTelefone)) throw new Exception('Não encontrado bTelefone');
+
+                $telefoneReceita = $bTelefone->text();
+
+                $tableSituacaoCadastral = (null !== $html->find('table', 14) ? $html->find('table', 14) : '');
+                if (Validacoes::isNullOrEmpty($tableSituacaoCadastral)) throw new Exception('Não encontrado tableSituacaoCadastral');
+
+                $trSituacaoCadastral = (null !== $tableSituacaoCadastral->find('tr', 0) ? $tableSituacaoCadastral->find('tr', 0) : '');
+                if (Validacoes::isNullOrEmpty($trSituacaoCadastral)) throw new Exception('Não encontrado trSituacaoCadastral');
+
+                $tdSituacaoCadastral = (null !== $trSituacaoCadastral->find('td', 0) ? $trSituacaoCadastral->find('td', 0) : '');
+                if (Validacoes::isNullOrEmpty($tdSituacaoCadastral)) throw new Exception('Não encontrado tdSituacaoCadastral');
+
+                $fontSituacaoCadastral = (null !== $tdSituacaoCadastral->find('font', 1) ? $tdSituacaoCadastral->find('font', 1) : '');
+                if (Validacoes::isNullOrEmpty($fontSituacaoCadastral)) throw new Exception('Não encontrado fontSituacaoCadastral');
+
+                $bSituacaoCadastral = (null !== $fontSituacaoCadastral->find('b', 0) ? $fontSituacaoCadastral->find('b', 0) : '');
+                if (Validacoes::isNullOrEmpty($bSituacaoCadastral)) throw new Exception('Não encontrado bSituacaoCadastral');
+
+                $situacaoCadastral = $bSituacaoCadastral->text();
+
+                $tdDataSituacaoCadastral = (null !== $trSituacaoCadastral->find('td', 2) ? $trSituacaoCadastral->find('td', 2) : '');
+                if (Validacoes::isNullOrEmpty($tdDataSituacaoCadastral)) throw new Exception('Não encontrado tdDataSituacaoCadastral');
+
+                $fontDataSituacaoCadastral = (null !== $tdDataSituacaoCadastral->find('font', 1) ? $tdDataSituacaoCadastral->find('font', 1) : '');
+                if (Validacoes::isNullOrEmpty($fontDataSituacaoCadastral)) throw new Exception('Não encontrado fontDataSituacaoCadastral');
+
+                $bDataSituacaoCadastral = (null !== $fontDataSituacaoCadastral->find('b', 0) ? $fontDataSituacaoCadastral->find('b', 0) : '');
+                if (Validacoes::isNullOrEmpty($bDataSituacaoCadastral)) throw new Exception('Não encontrado bDataSituacaoCadastral');
+
+                $dataSituacaoCadastral = $bDataSituacaoCadastral->text();
+                /*******************LER VALORES RETORNADOS*******************/
+
+                $atividadeEconomicaReceita = explode(' ', $atividadeEconomicaReceita);
+                $atividadeEconomicaReceita = str_replace('-', '', $atividadeEconomicaReceita[0]);
+                $atividadeEconomicaReceita = str_replace('.', '', $atividadeEconomicaReceita);
+
+                $atividadeCEPLogradouroReceita = str_replace('-', '', $CEPLogradouroReceita);
+                $atividadeCEPLogradouroReceita = str_replace('.', '', $atividadeCEPLogradouroReceita);
+
+                $dadosReceita['CNPJ'] = Utilidade::retirarCaracteresDesconhecidos(Utilidade::utf8DecodeToUpperDownload($cnpjReceita));
+                $dadosReceita['RAZAOSOCIAL'] = Utilidade::retirarCaracteresDesconhecidos(Utilidade::utf8DecodeToUpperDownload($razaoSocialReceita));
+                $dadosReceita['NOMEFANTASIA'] = Utilidade::retirarCaracteresDesconhecidos(Utilidade::utf8DecodeToUpperDownload($nomeFantasiaReceita));
+                $dadosReceita['RAMOATIVIDADE'] = Utilidade::retirarCaracteresDesconhecidos(Utilidade::utf8DecodeToUpperDownload($atividadeEconomicaReceita));
+                $dadosReceita['LOGRADOURO'] = Utilidade::retirarCaracteresDesconhecidos(Utilidade::utf8DecodeToUpperDownload($logradouroReceita));
+                $dadosReceita['NLOGRADOURO'] = Utilidade::retirarCaracteresDesconhecidos(Utilidade::utf8DecodeToUpperDownload($numeroLogradouroReceita));
+                $dadosReceita['COMPLEMENTO'] = Utilidade::retirarCaracteresDesconhecidos(Utilidade::utf8DecodeToUpperDownload($complementoLogradouroReceita));
+                $dadosReceita['CEP'] = Utilidade::retirarCaracteresDesconhecidos(Utilidade::utf8DecodeToUpperDownload($atividadeCEPLogradouroReceita));
+                $dadosReceita['BAIRRO'] = Utilidade::retirarCaracteresDesconhecidos(Utilidade::utf8DecodeToUpperDownload($bairroLogradouroReceita));
+                $dadosReceita['MUNICIPIO'] = Utilidade::retirarCaracteresDesconhecidos(Utilidade::utf8DecodeToUpperDownload($cidadeLogradouroReceita));
+                $dadosReceita['UF'] = Utilidade::retirarCaracteresDesconhecidos(Utilidade::utf8DecodeToUpperDownload($UFLogradouroReceita));
+                $dadosReceita['EMAIL'] = Utilidade::retirarCaracteresDesconhecidos(Utilidade::utf8DecodeToUpperDownload($emailReceita));
+                $dadosReceita['TELEFONE'] = Utilidade::retirarCaracteresDesconhecidos(Utilidade::utf8DecodeToUpperDownload($telefoneReceita));
+                $dadosReceita['SITUACAOCADASTRAL'] = Utilidade::retirarCaracteresDesconhecidos(Utilidade::utf8DecodeToUpperDownload($situacaoCadastral));
+                $dadosReceita['DATASITUACAOCADASTRAL'] = Utilidade::retirarCaracteresDesconhecidos($dataSituacaoCadastral);
+            }
+
+
+            return (array) $dadosReceita;
+        }
+        catch (Exception $e)
+        {
+            return $e->getMessage() . ', ' . $e->getCode() . ', ' . $e->getFile() . ', ' . $e->getLine();
+        }
     }
 
 
