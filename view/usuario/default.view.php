@@ -73,13 +73,15 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
 
                     <?php if(!empty($usuarios)): ?>
                         <?php foreach($usuarios as $key => $usuario): ?>
-                            <tr>
+                            <tr data-id="<?=$usuario['idUsuario']?>" >
                                 <td><?=$usuario['idUsuario']?></td>
                                 <td><?=$usuario['nome']?>  <?=$usuario['sobreNome']?></td>
                                 <td><?=$usuario['email']?></td>
                                 <td><?=$usuario['telefone']?></td>
-                                <td class="align-center <?=(( $usuario['status']=='0' ) ? "btn-danger" : (($usuario['status']=='1') ? "btn-success" : "btn-primary" ) )?>">
-                                    <?=(( $usuario['status']=='0' ) ? "DELETADO" : (($usuario['status']=='1') ? "ATIVO" : "INATIVO" ) )?>
+                                <td class="align-center">
+                                    <span class=" <?=(( $usuario['status']=='0' ) ? "btn-danger" : (($usuario['status']=='1') ? "btn-success" : "btn-primary" ) )?> ">
+                                        <?=(( $usuario['status']=='0' ) ? "DELETADO" : (($usuario['status']=='1') ? "ATIVO" : "INATIVO" ) )?>
+                                    </span>
                                 </td>
                                 <td>
                                     <button type="button" class="btn btn-primary btn-sm">Editar</button>
