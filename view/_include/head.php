@@ -18,6 +18,11 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pickadate@3.6.4/lib/themes/default.date.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pickadate@3.6.4/lib/themes/default.time.css">
 
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
+<link rel="stylesheet" href="<?=THEME_URI?>/_assets/css/ready.css">
+<!--<link rel="stylesheet" href="--><?//=THEME_URI?><!--/_assets/css/demo.css">-->
+
 <style>
     .picker__select--year{
         background: #f3f3f3;
