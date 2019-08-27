@@ -31,71 +31,88 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
 </head>
 <div class="msg-box"><?php if(!empty($boxMsg)): echo Util::getAlert($boxMsg['msg'], $boxMsg['tipo']); endif; ?></div>
 
+<div class="wrapper">
+    <?php include THEME_DIR . "/_include/topo.php"; ?>
+    <div class="sidebar">
+        <div class="scrollbar-inner sidebar-wrapper">
+            <?php include THEME_DIR . "/_include/sider-perfil.php"; ?>
+            <?php include THEME_DIR . "/_include/menu.php"; ?>
+        </div>
+    </div>
+    <div class="main-panel">
+        <div class="content">
+            <div class="container-fluid">
+                <h4 class="page-title">Usuários</h4>
 
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-sm">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>NOME</th>
+                                <th>EMAIL</th>
+                                <th>TELEFONE</th>
+                                <th>STATUS</th>
+                                <th>AÇÕES</th>
+                            </tr>
+                            </thead>
+                            <tbody>
 
-<body>
-<!-- TOPO -->
-<?php require_once ABSPATH.'/view/_include/topo.php'; ?>
-<!-- END TOPO -->
+                            <?php if(!empty($usuarios)): ?>
+                                <?php foreach($usuarios as $key => $usuario): ?>
+                                    <tr data-id="<?=$usuario['idUsuario']?>" >
+                                        <td><?=$usuario['idUsuario']?></td>
+                                        <td><?=$usuario['nome']?>  <?=$usuario['sobreNome']?></td>
+                                        <td><?=$usuario['email']?></td>
+                                        <td><?=$usuario['telefone']?></td>
+                                        <td class="align-center">
+                                        <span class=" <?=(( $usuario['status']=='0' ) ? "btn-danger" : (($usuario['status']=='1') ? "btn-success" : "btn-primary" ) )?> ">
+                                            <?=(( $usuario['status']=='0' ) ? "DELETADO" : (($usuario['status']=='1') ? "ATIVO" : "INATIVO" ) )?>
+                                        </span>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-primary btn-sm">Editar</button>
+                                        </td>
+                                    </tr>
+                                <?php endforeach;?>
+                            <?php endif;?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
 
-<div class="container-fluid">
-    <div class="row">
-
-        <!-- MENU -->
-            <?php require_once ABSPATH.'/view/_include/menu.php'; ?>
-        <!-- END MENU -->
-
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
-            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-                <h1 class="h2">Usuarios</h1>
-                <div class="btn-toolbar mb-2 mb-md-0">
-<!--                    <div class="btn-group mr-2">-->
-<!--                        <button class="btn btn-sm btn-outline-secondary">Share</button>-->
-<!--                        <button class="btn btn-sm btn-outline-secondary">Export</button>-->
-<!--                    </div>-->
-                    <button class="btn btn-sm btn-outline-secondary ">Novo Usuario <i class="fas fa-user-plus"></i></button>
+            </div>
+        </div>
+        <footer class="footer">
+            <div class="container-fluid">
+                <nav class="pull-left">
+                    <ul class="nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="http://www.avfweb.com.br">
+                                avfweb
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                Help
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                Licenses
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                <div class="copyright ml-auto">
+                    2018, made with <i class="la la-heart heart text-danger"></i> by <a href="http://www.avfweb.com.br">avf</a>
                 </div>
             </div>
-
-            <div class="table-responsive">
-                <table class="table table-striped table-sm">
-                    <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>NOME</th>
-                        <th>EMAIL</th>
-                        <th>TELEFONE</th>
-                        <th>STATUS</th>
-                        <th>AÇÕES</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-
-                    <?php if(!empty($usuarios)): ?>
-                        <?php foreach($usuarios as $key => $usuario): ?>
-                            <tr data-id="<?=$usuario['idUsuario']?>" >
-                                <td><?=$usuario['idUsuario']?></td>
-                                <td><?=$usuario['nome']?>  <?=$usuario['sobreNome']?></td>
-                                <td><?=$usuario['email']?></td>
-                                <td><?=$usuario['telefone']?></td>
-                                <td class="align-center">
-                                    <span class=" <?=(( $usuario['status']=='0' ) ? "btn-danger" : (($usuario['status']=='1') ? "btn-success" : "btn-primary" ) )?> ">
-                                        <?=(( $usuario['status']=='0' ) ? "DELETADO" : (($usuario['status']=='1') ? "ATIVO" : "INATIVO" ) )?>
-                                    </span>
-                                </td>
-                                <td>
-                                    <button type="button" class="btn btn-primary btn-sm">Editar</button>
-                                </td>
-                            </tr>
-                        <?php endforeach;?>
-                    <?php endif;?>
-                    </tbody>
-                </table>
-            </div>
-        </main>
+        </footer>
     </div>
 </div>
-</body>
+</div>
 
 <?php include THEME_DIR . "/_include/footer.php"; ?>
 

@@ -27,9 +27,8 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
 </head>
 
 <body>
+<div class="msg-box"><?php if(!empty($boxMsg)): echo Util::getAlert($boxMsg['msg'], $boxMsg['tipo']); endif; ?></div>
 <div class="wrapper">
-
-    <div class="msg-box"><?php if(!empty($boxMsg)): echo Util::getAlert($boxMsg['msg'], $boxMsg['tipo']); endif; ?></div>
     <?php include THEME_DIR . "/_include/topo.php"; ?>
     <div class="sidebar">
         <div class="scrollbar-inner sidebar-wrapper">

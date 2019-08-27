@@ -98,20 +98,22 @@
                     <ul class="dropdown-menu dropdown-user">
                         <li>
                             <div class="user-box">
-                                <div class="u-img"><img src="../assets/img/profile.jpg" alt="user"></div>
+                                <div class="u-img"><img src="<?=THEME_URI?>/_assets/images/profile.jpg" alt="user"></div>
                                 <div class="u-text">
-                                    <h4>Hizrian</h4>
-                                    <p class="text-muted">hello@themekita.com</p><a href="profile.html" class="btn btn-rounded btn-danger btn-sm">View Profile</a></div>
+                                    <h4>Vinicius</h4>
+                                    <p class="text-muted">contato@avfweb.com.br</p>
+                                    <a href="profile.html" class="btn btn-rounded btn-danger btn-sm">Ver Perfil</a>
+                                </div>
                             </div>
                         </li>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#"><i class="ti-user"></i> My Profile</a>
+                        <a class="dropdown-item" href="#"><i class="ti-user"></i>Meu Perfil</a>
                         <a class="dropdown-item" href="#"></i> My Balance</a>
-                        <a class="dropdown-item" href="#"><i class="ti-email"></i> Inbox</a>
+                        <a class="dropdown-item" href="#"><i class="ti-email"></i> Mensagens</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#"><i class="ti-settings"></i> Account Setting</a>
+                        <a class="dropdown-item" href="#"><i class="ti-settings"></i> Configurações</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#"><i class="fa fa-power-off"></i> Logout</a>
+                        <a class="dropdown-item" href="<?=HOME_URI?>/login/logout"><i class="fa fa-power-off"></i> SAIR</a>
                     </ul>
                     <!-- /.dropdown-user -->
                 </li>
