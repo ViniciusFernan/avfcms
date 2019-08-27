@@ -84,37 +84,11 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
 
             </div>
         </div>
-        <footer class="footer">
-            <div class="container-fluid">
-                <nav class="pull-left">
-                    <ul class="nav">
-                        <li class="nav-item">
-                            <a class="nav-link" href="http://www.avfweb.com.br">
-                                avfweb
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                Help
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                Licenses
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-                <div class="copyright ml-auto">
-                    2018, made with <i class="la la-heart heart text-danger"></i> by <a href="http://www.avfweb.com.br">avf</a>
-                </div>
-            </div>
-        </footer>
+        <?php include THEME_DIR . "/_include/footer.php"; ?>
     </div>
 </div>
 </div>
 
-<?php include THEME_DIR . "/_include/footer.php"; ?>
-
+<?php include THEME_DIR . "/_include/after-footer.php"; ?>
 
 </html>
