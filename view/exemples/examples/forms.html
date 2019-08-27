@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-	<title>Notifications - Ready Bootstrap Dashboard</title>
+	<title>Forms - Ready Bootstrap Dashboard</title>
 	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
 	<link rel="stylesheet" href="../assets/css/bootstrap.min.css">
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
@@ -110,7 +110,7 @@
 										<div class="u-img"><img src="../assets/img/profile.jpg" alt="user"></div>
 										<div class="u-text">
 											<h4>Hizrian</h4>
-											<p class="text-muted">hello@themekita.com</p><a href="profile.html" class="btn btn-rounded btn-danger btn-sm">View Profile</a></div>
+											<p class="text-muted">hello@themekita.com</p><a href="../../../index.php" class="btn btn-rounded btn-danger btn-sm">View Profile</a></div>
 										</div>
 									</li>
 									<div class="dropdown-divider"></div>
@@ -180,7 +180,7 @@
 								<span class="badge badge-count">14</span>
 							</a>
 						</li>
-						<li class="nav-item">
+						<li class="nav-item active">
 							<a href="forms.html">
 								<i class="la la-keyboard-o"></i>
 								<p>Forms</p>
@@ -194,7 +194,7 @@
 								<span class="badge badge-count">6</span>
 							</a>
 						</li>
-						<li class="nav-item active">
+						<li class="nav-item">
 							<a href="notifications.html">
 								<i class="la la-bell"></i>
 								<p>Notifications</p>
@@ -226,102 +226,238 @@
 			<div class="main-panel">
 				<div class="content">
 					<div class="container-fluid">
-						<h4 class="page-title">Notifications</h4>
+						<h4 class="page-title">Forms</h4>
 						<div class="row">
-							<div class="col-md-12">
+							<div class="col-md-6">
 								<div class="card">
 									<div class="card-header">
-										<div class="card-title">Bootstrap Notify</div>
-										<div class="card-category">Turn standard bootstrap alerts into "growl" like notifications from <a class="link" href="http://bootstrap-notify.remabledesigns.com/">Bootstrap Notify</a></div>
+										<div class="card-title">Base Form Control</div>
 									</div>
 									<div class="card-body">
-										<div class="form">
-											<div class="form-group from-show-notify row">
-												<div class="col-lg-3 col-md-3 col-sm-12 text-right">
-													<label>Placement :</label>
-												</div>
-												<div class="col-lg-4 col-md-9 col-sm-12">
-													<select class="form-control input-fixed" id="notify_placement_from">
-														<option value="top">Top</option>
-														<option value="bottom">Bottom</option>
-													</select>
-													<select class="form-control input-fixed" id="notify_placement_align">
-														<option value="left">Left</option>
-														<option value="right" selected="">Right</option>
-														<option value="center">Center</option>
-													</select>
-												</div>
-											</div>
-											<div class="form-group from-show-notify row">
-												<div class="col-lg-3 col-md-3 col-sm-12 text-right">
-													<label>State :</label>
-												</div>
-												<div class="col-lg-4 col-md-9 col-sm-12">
-													<select class="form-control input-fixed" id="notify_state">
-														<option value="primary">Primary</option>
-														<option value="info">Info</option>
-														<option value="success">Success</option>
-														<option value="warning">Warning</option>
-														<option value="danger">Danger</option>
-													</select>
-												</div>
-											</div>
-											<div class="form-group from-show-notify row">
-												<div class="col-lg-3 col-md-3 col-sm-12 text-right">
-													<label>Style :</label>
-												</div>
-												<div class="col-lg-4 col-md-9 col-sm-12">
-													<select class="form-control input-fixed" id="notify_style">
-														<option value="plain">Plain</option>
-														<option value="withicon">With Icon</option>
-													</select>
-												</div>
+										<div class="form-group">
+											<label for="email">Email Address</label>
+											<input type="email" class="form-control" id="email" placeholder="Enter Email">
+											<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+										</div>
+										<div class="form-group">
+											<label for="password">Password</label>
+											<input type="password" class="form-control" id="password" placeholder="Password">
+										</div>
+										<div class="form-group form-inline">
+											<label for="inlineinput" class="col-md-3 col-form-label">Inline Input</label>
+											<div class="col-md-9 p-0">
+												<input type="text" class="form-control input-full" id="inlineinput" placeholder="Enter Input">
 											</div>
 										</div>
-									</div>
-									<div class="card-footer">
-										<div class="form">
-											<div class="form-group from-show-notify row">
-												<div class="col-lg-3 col-md-3 col-sm-12">
-
-												</div>
-												<div class="col-lg-4 col-md-9 col-sm-12">
-													<button id="displayNotif" class="btn btn-success">Display</button>
-												</div>
+										<div class="form-group has-success">
+											<label for="successInput">Success Input</label>
+											<input type="text" id="successInput" value="Success" class="form-control">
+										</div>
+										<div class="form-group has-error has-feedback">
+											<label for="errorInput">Error Input</label>
+											<input type="text" id="errorInput" value="Error" class="form-control">
+											<small id="emailHelp" class="form-text text-muted">Please provide a valid informations.</small>
+										</div>
+										<div class="form-group">
+											<label for="disableinput">Disable Input</label>
+											<input type="text" class="form-control" id="disableinput" placeholder="Enter Input" disabled>
+										</div>
+										<div class="form-check">
+											<label>Gender</label><br/>
+											<label class="form-radio-label">
+												<input class="form-radio-input" type="radio" name="optionsRadios" value=""  checked="">
+												<span class="form-radio-sign">Male</span>
+											</label>
+											<label class="form-radio-label ml-3">
+												<input class="form-radio-input" type="radio" name="optionsRadios" value="">
+												<span class="form-radio-sign">Female</span>
+											</label>
+										</div>
+										<div class="form-group">
+											<label class="control-label">
+												Static
+											</label> <!----> <p class="form-control-static">hello@themekita.com</p> <!---->  <!----></div>
+											<div class="form-group">
+												<label for="exampleFormControlSelect1">Example select</label>
+												<select class="form-control" id="exampleFormControlSelect1">
+													<option>1</option>
+													<option>2</option>
+													<option>3</option>
+													<option>4</option>
+													<option>5</option>
+												</select>
 											</div>
+											<div class="form-group">
+												<label for="exampleFormControlSelect2">Example multiple select</label>
+												<select multiple class="form-control" id="exampleFormControlSelect2">
+													<option>1</option>
+													<option>2</option>
+													<option>3</option>
+													<option>4</option>
+													<option>5</option>
+												</select>
+											</div>
+											<div class="form-group">
+												<label for="exampleFormControlFile1">Example file input</label>
+												<input type="file" class="form-control-file" id="exampleFormControlFile1">
+											</div>
+											<div class="form-group">
+												<label for="comment">Comment</label>
+												<textarea class="form-control" id="comment" rows="5">
+
+												</textarea>
+											</div>
+											<div class="form-check">
+												<label class="form-check-label">
+													<input class="form-check-input" type="checkbox" value="">
+													<span class="form-check-sign">Agree with terms and conditions</span>
+												</label>
+											</div>
+										</div>
+										<div class="card-action">
+											<button class="btn btn-success">Submit</button>
+											<button class="btn btn-danger">Cancel</button>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="card">
+										<div class="card-header">
+											<div class="card-title">Form Control Styles</div>
+										</div>
+										<div class="card-body">
+											<div class="form-group">
+												<label for="squareInput">Square Input</label>
+												<input type="text" class="form-control input-square" id="squareInput" placeholder="Square Input">
+											</div>
+											<div class="form-group">
+												<label for="squareSelect">Square Select</label>
+												<select class="form-control input-square" id="squareSelect">
+													<option>1</option>
+													<option>2</option>
+													<option>3</option>
+													<option>4</option>
+													<option>5</option>
+												</select>
+											</div>
+											<div class="form-group">
+												<label for="pillInput">Pill Input</label>
+												<input type="text" class="form-control input-pill" id="pillInput" placeholder="Pill Input">
+											</div>
+											<div class="form-group">
+												<label for="pillSelect">Pill Select</label>
+												<select class="form-control input-pill" id="pillSelect">
+													<option>1</option>
+													<option>2</option>
+													<option>3</option>
+													<option>4</option>
+													<option>5</option>
+												</select>
+											</div>
+											<div class="form-group">
+												<label for="solidInput">Solid Input</label>
+												<input type="text" class="form-control input-solid" id="solidInput" placeholder="Solid Input">
+											</div>
+											<div class="form-group">
+												<label for="solidSelect">Solid Select</label>
+												<select class="form-control input-solid" id="solidSelect">
+													<option>1</option>
+													<option>2</option>
+													<option>3</option>
+													<option>4</option>
+													<option>5</option>
+												</select>
+											</div>											
+										</div>
+										<div class="card-action">
+											<button class="btn btn-success">Submit</button>
+											<button class="btn btn-danger">Cancel</button>
+										</div>
+									</div>
+									<div class="card">
+										<div class="card-header">
+											<div class="card-title">Form Control Styles</div>
+										</div>
+										<div class="card-body">
+											<div class="form-group">
+												<label for="largeInput">Large Input</label>
+												<input type="text" class="form-control form-control-lg" id="largeInput" placeholder="Large Input">
+											</div>
+											<div class="form-group">
+												<label for="largeInput">Default Input</label>
+												<input type="text" class="form-control form-control" id="defaultInput" placeholder="Default Input">
+											</div>
+											<div class="form-group">
+												<label for="smallInput">Small Input</label>
+												<input type="text" class="form-control form-control-sm" id="smallInput" placeholder="Small Input">
+											</div>
+											<div class="form-group">
+												<label for="largeSelect">Large Select</label>
+												<select class="form-control form-control-lg" id="largeSelect">
+													<option>1</option>
+													<option>2</option>
+													<option>3</option>
+													<option>4</option>
+													<option>5</option>
+												</select>
+											</div>
+											<div class="form-group">
+												<label for="defaultSelect">Default Select</label>
+												<select class="form-control form-control" id="defaultSelect">
+													<option>1</option>
+													<option>2</option>
+													<option>3</option>
+													<option>4</option>
+													<option>5</option>
+												</select>
+											</div>
+											<div class="form-group">
+												<label for="smallSelect">Small Select</label>
+												<select class="form-control form-control-sm" id="smallSelect">
+													<option>1</option>
+													<option>2</option>
+													<option>3</option>
+													<option>4</option>
+													<option>5</option>
+												</select>
+											</div>
+										</div>
+										<div class="card-action">
+											<button class="btn btn-success">Submit</button>
+											<button class="btn btn-danger">Cancel</button>
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
+					<footer class="footer">
+						<div class="container-fluid">
+							<nav class="pull-left">
+								<ul class="nav">
+									<li class="nav-item">
+										<a class="nav-link" href="http://www.themekita.com">
+											ThemeKita
+										</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" href="#">
+											Help
+										</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" href="#">
+											Licenses
+										</a>
+									</li>
+								</ul>
+							</nav>
+							<div class="copyright ml-auto">
+								2018, made with <i class="la la-heart heart text-danger"></i> by <a href="http://www.themekita.com">ThemeKita</a>
+							</div>				
+						</div>
+					</footer>
 				</div>
-				<footer class="footer">
-					<div class="container-fluid">
-						<nav class="pull-left">
-							<ul class="nav">
-								<li class="nav-item">
-									<a class="nav-link" href="http://www.themekita.com">
-										ThemeKita
-									</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link" href="#">
-										Help
-									</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link" href="#">
-										Licenses
-									</a>
-								</li>
-							</ul>
-						</nav>
-						<div class="copyright ml-auto">
-							2018, made with <i class="la la-heart heart text-danger"></i> by <a href="http://www.themekita.com">ThemeKita</a>
-						</div>				
-					</div>
-				</footer>
 			</div>
 		</div>
 	</div>
@@ -360,32 +496,4 @@
 <script src="../assets/js/plugin/chart-circle/circles.min.js"></script>
 <script src="../assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
 <script src="../assets/js/ready.min.js"></script>
-<script>
-	$('#displayNotif').on('click', function(){
-		var placementFrom = $('#notify_placement_from option:selected').val();
-		var placementAlign = $('#notify_placement_align option:selected').val();
-		var state = $('#notify_state option:selected').val();
-		var style = $('#notify_style option:selected').val();
-		var content = {};
-
-		content.message = 'Turning standard Bootstrap alerts into "notify" like notifications';
-		content.title = 'Bootstrap notify';
-		if (style == "withicon") {
-			content.icon = 'la la-bell';
-		} else {
-			content.icon = 'none';
-		}
-		content.url = 'index.html';
-		content.target = '_blank';
-
-		$.notify(content,{
-			type: state,
-			placement: {
-				from: placementFrom,
-				align: placementAlign
-			},
-			time: 1000,
-		});
-	});
-</script>
 </html>
