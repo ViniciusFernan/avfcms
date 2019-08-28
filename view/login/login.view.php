@@ -54,6 +54,6 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
 </body>
 
 
-<?php include THEME_DIR . "/_include/footer.php";?>
+<?php include THEME_DIR . "/_include/after-footer.php";?>
 
 </html>
