@@ -180,4 +180,19 @@ class UsuarioDAO extends Conn {
         }
     }
 
+    public function getUsuarioPorId($id) {
+        try{
+            if(empty($id)) throw new Exception('Erro identificador do usuario não enviado');
+
+            $select = new Select();
+            $dadosUsuario = $select->ExeRead('usuario', "WHERE id=:id", "id={$id}");
+            if(!is_array($dadosUsuario) && !empty($dadosUsuario)) throw new Exception($dadosUsuario);
+            if(empty($dadosUsuario)) throw new Exception('Não achou nada nesse trem!');
+
+            return $dadosUsuario;
+        }catch(Exeption $e){
+            return $e->getMessage;
+        }
+    }
+
 }

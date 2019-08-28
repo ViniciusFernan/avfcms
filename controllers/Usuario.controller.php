@@ -42,4 +42,20 @@ class UsuarioController extends MainController {
         $View->showContents();
     }
 
+
+    public function editarUsuarioAction(){
+
+        $resp = [];
+        $id = $this->parametros[0];
+        $dadosUsuario = (new UsuarioModel())->getUsuarioPorId($id);
+        if(!is_array($dadosUsuario) && !empty($dadosUsuario)) $resp['boxMsg'] = ['msg'=>$dadosUsuario, 'tipo'=>'danger'];;
+        if(empty($dadosUsuario)) $resp['boxMsg'] = ['msg'=>'Nenhum Usuário Encontrado', 'tipo'=>'danger'];
+
+        $resp['usuario'] = $dadosUsuario;
+
+        $View = new View('usuario/edit.usuario.view.php');
+        $View->setParams($resp);
+        $View->showContents();
+    }
+
 }

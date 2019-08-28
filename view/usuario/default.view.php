@@ -44,41 +44,43 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
             <div class="container-fluid">
                 <h4 class="page-title">Usuários</h4>
 
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-striped table-sm">
-                            <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>NOME</th>
-                                <th>EMAIL</th>
-                                <th>TELEFONE</th>
-                                <th>STATUS</th>
-                                <th>AÇÕES</th>
-                            </tr>
-                            </thead>
-                            <tbody>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-sm">
+                                <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>NOME</th>
+                                    <th>EMAIL</th>
+                                    <th>TELEFONE</th>
+                                    <th>STATUS</th>
+                                    <th>AÇÕES</th>
+                                </tr>
+                                </thead>
+                                <tbody>
 
-                            <?php if(!empty($usuarios)): ?>
-                                <?php foreach($usuarios as $key => $usuario): ?>
-                                    <tr data-id="<?=$usuario['idUsuario']?>" >
-                                        <td><?=$usuario['idUsuario']?></td>
-                                        <td><?=$usuario['nome']?>  <?=$usuario['sobreNome']?></td>
-                                        <td><?=$usuario['email']?></td>
-                                        <td><?=$usuario['telefone']?></td>
-                                        <td class="align-center">
-                                        <span class=" <?=(( $usuario['status']=='0' ) ? "btn-danger" : (($usuario['status']=='1') ? "btn-success" : "btn-primary" ) )?> ">
-                                            <?=(( $usuario['status']=='0' ) ? "DELETADO" : (($usuario['status']=='1') ? "ATIVO" : "INATIVO" ) )?>
-                                        </span>
-                                        </td>
-                                        <td>
-                                            <button type="button" class="btn btn-primary btn-sm">Editar</button>
-                                        </td>
-                                    </tr>
-                                <?php endforeach;?>
-                            <?php endif;?>
-                            </tbody>
-                        </table>
+                                <?php if(!empty($usuarios)): ?>
+                                    <?php foreach($usuarios as $key => $usuario): ?>
+                                        <tr data-id="<?=$usuario['idUsuario']?>" >
+                                            <td><?=$usuario['idUsuario']?></td>
+                                            <td><?=$usuario['nome']?>  <?=$usuario['sobreNome']?></td>
+                                            <td><?=$usuario['email']?></td>
+                                            <td><?=$usuario['telefone']?></td>
+                                            <td class="align-center">
+                                            <span class=" <?=(( $usuario['status']=='0' ) ? "btn-danger" : (($usuario['status']=='1') ? "btn-success" : "btn-primary" ) )?> ">
+                                                <?=(( $usuario['status']=='0' ) ? "DELETADO" : (($usuario['status']=='1') ? "ATIVO" : "INATIVO" ) )?>
+                                            </span>
+                                            </td>
+                                            <td>
+                                                <button type="button" class="btn btn-primary btn-sm">Editar</button>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach;?>
+                                <?php endif;?>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
 
