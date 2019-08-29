@@ -116,15 +116,27 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
 
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="sexo">Sexo:</label>
-                                    <input type="sexo" class="form-control" placeholder="Sexo">
+                                    <label for="sexo">Sexo:</label><br />
+
+                                    <label class="form-radio-label">
+                                        <input class="form-radio-input" type="radio" name="optionsRadios" value="M" checked="">
+                                        <span class="form-radio-sign">M</span>
+                                    </label>
+                                    <label class="form-radio-label ml-3">
+                                        <input class="form-radio-input" type="radio" name="optionsRadios" value="F">
+                                        <span class="form-radio-sign">F</span>
+                                    </label>
+
                                 </div>
                             </div>
 
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="status">Status:</label>
-                                    <input type="status" class="form-control" placeholder="Status">
+                                    <select class="form-control" name="status">
+                                        <option value="1">ATIVO</option>
+                                        <option value="2">INATIVO</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
