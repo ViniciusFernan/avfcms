@@ -185,7 +185,7 @@ class UsuarioDAO extends Conn {
             if(empty($id)) throw new Exception('Erro identificador do usuario não enviado');
 
             $select = new Select();
-            $dadosUsuario = $select->ExeRead('usuario', "WHERE id=:id", "id={$id}");
+            $dadosUsuario = $select->ExeRead('usuario', "WHERE idUsuario=:id", "id={$id}");
             if(!is_array($dadosUsuario) && !empty($dadosUsuario)) throw new Exception($dadosUsuario);
             if(empty($dadosUsuario)) throw new Exception('Não achou nada nesse trem!');
 

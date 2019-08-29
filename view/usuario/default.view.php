@@ -47,7 +47,7 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
                 <div class="card">
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-striped table-sm">
+                            <table class="table table-striped table-hover table-head-bg-info table-sm">
                                 <thead>
                                 <tr>
                                     <th>#</th>
@@ -73,7 +73,8 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
                                             </span>
                                             </td>
                                             <td>
-                                                <button type="button" class="btn btn-primary btn-sm">Editar</button>
+                                                <a href="<?=HOME_URI?>/usuario/editarusuario/<?=$usuario['idUsuario']?>" class="btn btn-primary btn-sm">Editar</a>
+                                                <a href=""  class="btn btn-danger btn-sm">APAGAR</a>
                                             </td>
                                         </tr>
                                     <?php endforeach;?>
