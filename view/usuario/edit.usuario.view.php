@@ -62,21 +62,21 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="nome">Nome:</label>
-                                    <input type="nome" class="form-control" placeholder="Nome">
+                                    <input type="nome" class="form-control" placeholder="Nome" tabindex="0" >
                                 </div>
                             </div>
 
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="sobreNome">Sobre Nome:</label>
-                                    <input type="sobreNome" class="form-control" placeholder="Sobre Nome">
+                                    <input type="sobreNome" class="form-control" placeholder="Sobre Nome" tabindex="1">
                                 </div>
                             </div>
 
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="cpf">CPF:</label>
-                                    <input type="cpf" class="form-control" placeholder="CPF">
+                                    <input type="cpf" class="form-control" placeholder="CPF" tabindex="2">
                                 </div>
                             </div>
 
@@ -86,21 +86,21 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="email">Email:</label>
-                                    <input type="email" class="form-control" placeholder="Email">
+                                    <input type="email" class="form-control" placeholder="Email" tabindex="3">
                                 </div>
                             </div>
 
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="telefone">Telefone:</label>
-                                    <input type="telefone" class="form-control" placeholder="Telefone">
+                                    <input type="telefone" class="form-control" placeholder="Telefone" tabindex="4" >
                                 </div>
                             </div>
 
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="senha">Senha de acesso:</label>
-                                    <input type="senha" class="form-control" placeholder="Senha de acesso">
+                                    <input type="senha" class="form-control" placeholder="Senha de acesso" tabindex="5" >
                                 </div>
                             </div>
                         </div>
@@ -110,7 +110,7 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="dataNascimento">Data de nascimento:</label>
-                                    <input type="dataNascimento" class="form-control" placeholder="Data de nascimento">
+                                    <input type="dataNascimento" class="form-control" placeholder="Data de nascimento" tabindex="6">
                                 </div>
                             </div>
 
