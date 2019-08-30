@@ -43,13 +43,6 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
         <div class="content">
             <div class="container-fluid">
 
-
-                [sexo] => 1
-
-                [status] => 1
-                [detalhes] =>
-                [imgPerfil] =>
-
                 <div class="card">
                     <div class="card-header">
                         <div class="card-title">Editar Usuário</div>
@@ -61,7 +54,7 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="imgPerfil">Imagem de perfil:</label>
-                                    <input type="imgPerfil" class="form-control" placeholder="imgPerfil">
+                                    <input type="imgPerfil" class="form-control" placeholder="imgPerfil" value="<?=(!empty($usuario['imgPerfil']) ? $usuario['imgPerfil'] : '')?>">
                                 </div>
                             </div>
                         </div>
@@ -70,21 +63,21 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="nome">Nome:</label>
-                                    <input type="nome" class="form-control" placeholder="Nome" tabindex="0" value="<?=$usuario['nome'];?>" >
+                                    <input type="nome" class="form-control" placeholder="Nome" tabindex="0" value="<?=(!empty($usuario['nome']) ? $usuario['nome'] : '')?>" >
                                 </div>
                             </div>
 
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="sobreNome">Sobre Nome:</label>
-                                    <input type="sobreNome" class="form-control" placeholder="Sobre Nome" tabindex="1" value="<?=$usuario['sobreNome'];?>" >
+                                    <input type="sobreNome" class="form-control" placeholder="Sobre Nome" tabindex="1" value="<?=(!empty($usuario['sobreNome']) ? $usuario['sobreNome'] : '')?>" >
                                 </div>
                             </div>
 
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="cpf">CPF:</label>
-                                    <input type="cpf" class="form-control" placeholder="CPF" tabindex="2"  value="<?=$usuario['CPF'];?>">
+                                    <input type="cpf" class="form-control" placeholder="CPF" tabindex="2"  value="<?=(!empty($usuario['CPF']) ? $usuario['CPF'] : '')?>">
                                 </div>
                             </div>
 
@@ -94,14 +87,14 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="email">Email:</label>
-                                    <input type="email" class="form-control" placeholder="Email" tabindex="3"  value="<?=$usuario['email'];?>">
+                                    <input type="email" class="form-control" placeholder="Email" tabindex="3"  value="<?=(!empty($usuario['email']) ? $usuario['email'] : '')?>">
                                 </div>
                             </div>
 
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="telefone">Telefone:</label>
-                                    <input type="telefone" class="form-control" placeholder="Telefone" tabindex="4"  value="<?=$usuario['telefone'];?>">
+                                    <input type="telefone" class="form-control" placeholder="Telefone" tabindex="4"  value="<?=(!empty($usuario['telefone']) ? $usuario['telefone'] : '')?>">
                                 </div>
                             </div>
 
@@ -118,7 +111,7 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="dataNascimento">Data de nascimento:</label>
-                                    <input type="dataNascimento" class="form-control" placeholder="Data de nascimento" tabindex="6"  value="<?=$usuario['dataNascimento'];?>" >
+                                    <input type="dataNascimento" class="form-control" placeholder="Data de nascimento" tabindex="6"  value="<?=(!empty($usuario['dataNascimento']) ? $usuario['dataNascimento'] :'')?>" >
                                 </div>
                             </div>
 
@@ -127,11 +120,11 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
                                     <label for="sexo">Sexo:</label><br />
 
                                     <label class="form-radio-label">
-                                        <input class="form-radio-input" type="radio" name="optionsRadios" value="M" checked="">
+                                        <input class="form-radio-input" type="radio" name="sexo" value="M" <?=(!empty($usuario['sexo']=='M') ? 'checked="true"' : '')?> >
                                         <span class="form-radio-sign">M</span>
                                     </label>
                                     <label class="form-radio-label ml-3">
-                                        <input class="form-radio-input" type="radio" name="optionsRadios" value="F">
+                                        <input class="form-radio-input" type="radio" name="sexo" value="F" <?=(!empty($usuario['sexo']=='F') ? 'checked="true"' : '')?>>
                                         <span class="form-radio-sign">F</span>
                                     </label>
 
@@ -142,8 +135,8 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
                                 <div class="form-group">
                                     <label for="status">Status:</label>
                                     <select class="form-control" name="status">
-                                        <option value="1">ATIVO</option>
-                                        <option value="2">INATIVO</option>
+                                        <option value="1" <?=(!empty($usuario['status']=='1') ? 'selected' : '')?>>ATIVO</option>
+                                        <option value="2" <?=(!empty($usuario['status']=='2') ? 'selected' : '')?>>INATIVO</option>
                                     </select>
                                 </div>
                             </div>
