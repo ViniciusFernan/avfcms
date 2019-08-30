@@ -43,20 +43,11 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
         <div class="content">
             <div class="container-fluid">
 
-                [idUsuario] => 1
-                [idPerfil] => 1
-                [nome] => Vinicius
-                [sobreNome] => Fernandes
-                [email] => xxxxxxxxxx@gmail.com
-                [telefone] => (xx) xxxxxxxx
-                [CPF] => xxxxxxxxxxxx
-                [dataNascimento] => 1988-04-05 00:00:00
+
                 [sexo] => 1
-                [dataCadastro] => 2019-04-14 21:59:45
-                [dataUltimoAcesso] =>
+
                 [status] => 1
                 [detalhes] =>
-                [superAdmin] => 0
                 [imgPerfil] =>
 
                 <div class="card">
@@ -65,6 +56,7 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
                     </div>
                     <div class="card-body">
 
+                        <input type="hidden" value="<?=$usuario['idUsuario'];?>">
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -78,21 +70,21 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="nome">Nome:</label>
-                                    <input type="nome" class="form-control" placeholder="Nome" tabindex="0" value="<?=$usuario[''];?>" >
+                                    <input type="nome" class="form-control" placeholder="Nome" tabindex="0" value="<?=$usuario['nome'];?>" >
                                 </div>
                             </div>
 
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="sobreNome">Sobre Nome:</label>
-                                    <input type="sobreNome" class="form-control" placeholder="Sobre Nome" tabindex="1">
+                                    <input type="sobreNome" class="form-control" placeholder="Sobre Nome" tabindex="1" value="<?=$usuario['sobreNome'];?>" >
                                 </div>
                             </div>
 
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="cpf">CPF:</label>
-                                    <input type="cpf" class="form-control" placeholder="CPF" tabindex="2">
+                                    <input type="cpf" class="form-control" placeholder="CPF" tabindex="2"  value="<?=$usuario['CPF'];?>">
                                 </div>
                             </div>
 
@@ -102,21 +94,21 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="email">Email:</label>
-                                    <input type="email" class="form-control" placeholder="Email" tabindex="3">
+                                    <input type="email" class="form-control" placeholder="Email" tabindex="3"  value="<?=$usuario['email'];?>">
                                 </div>
                             </div>
 
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="telefone">Telefone:</label>
-                                    <input type="telefone" class="form-control" placeholder="Telefone" tabindex="4" >
+                                    <input type="telefone" class="form-control" placeholder="Telefone" tabindex="4"  value="<?=$usuario['telefone'];?>">
                                 </div>
                             </div>
 
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="senha">Senha de acesso:</label>
-                                    <input type="senha" class="form-control" placeholder="Senha de acesso" tabindex="5" >
+                                    <input type="senha" class="form-control" placeholder="Senha de acesso" tabindex="5" value="" >
                                 </div>
                             </div>
                         </div>
@@ -126,7 +118,7 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="dataNascimento">Data de nascimento:</label>
-                                    <input type="dataNascimento" class="form-control" placeholder="Data de nascimento" tabindex="6">
+                                    <input type="dataNascimento" class="form-control" placeholder="Data de nascimento" tabindex="6"  value="<?=$usuario['dataNascimento'];?>" >
                                 </div>
                             </div>
 
@@ -161,7 +153,7 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="detalhes">Detalhes:</label>
-                                    <input type="detalhes" class="form-control" placeholder="Detalhes">
+                                    <textarea name="detalhes" class="form-control" placeholder="Detalhes"><?=$usuario['detalhes'];?></textarea>
                                 </div>
                             </div>
                         </div>
