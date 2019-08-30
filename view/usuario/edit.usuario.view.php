@@ -3,7 +3,7 @@ if (!defined('ABSPATH'))
     exit;
 $Param = $this->getParams();
 $boxMsg = (!empty($Param['boxMsg']) ? $Param['boxMsg'] : NULL);
-$usuarios = (!empty($Param['usuarios']) ? $Param['usuarios'] : NULL);
+$usuario = (!empty($Param['usuario']) ? $Param['usuario'][0] : NULL);
 $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
 ?>
 <!DOCTYPE html>
@@ -43,6 +43,22 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
         <div class="content">
             <div class="container-fluid">
 
+                [idUsuario] => 1
+                [idPerfil] => 1
+                [nome] => Vinicius
+                [sobreNome] => Fernandes
+                [email] => xxxxxxxxxx@gmail.com
+                [telefone] => (xx) xxxxxxxx
+                [CPF] => xxxxxxxxxxxx
+                [dataNascimento] => 1988-04-05 00:00:00
+                [sexo] => 1
+                [dataCadastro] => 2019-04-14 21:59:45
+                [dataUltimoAcesso] =>
+                [status] => 1
+                [detalhes] =>
+                [superAdmin] => 0
+                [imgPerfil] =>
+
                 <div class="card">
                     <div class="card-header">
                         <div class="card-title">Editar Usuário</div>
@@ -62,7 +78,7 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="nome">Nome:</label>
-                                    <input type="nome" class="form-control" placeholder="Nome" tabindex="0" >
+                                    <input type="nome" class="form-control" placeholder="Nome" tabindex="0" value="<?=$usuario[''];?>" >
                                 </div>
                             </div>
 
