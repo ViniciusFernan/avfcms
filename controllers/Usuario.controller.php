@@ -32,7 +32,7 @@ class UsuarioController extends MainController {
 
         $resp = [];
         $listaUsuarios = (new UsuarioModel())->getListaDeUsuarios();
-        if(!is_array($listaUsuarios) && !empty($listaUsuarios)) $resp['boxMsg'] = ['msg'=>$listaUsuarios, 'tipo'=>'danger'];;
+        if(is_string($listaUsuarios) && !empty($listaUsuarios)) $resp['boxMsg'] = ['msg'=>$listaUsuarios, 'tipo'=>'danger'];;
         if(empty($listaUsuarios)) $resp['boxMsg'] = ['msg'=>'Nenhum Usuário Encontrado', 'tipo'=>'danger'];
 
         $resp['usuarios'] = $listaUsuarios;
@@ -48,10 +48,10 @@ class UsuarioController extends MainController {
         $resp = [];
         $id = $this->parametros[0];
         $dadosUsuario = (new UsuarioModel())->getUsuarioPorId($id);
-        if(!is_array($dadosUsuario) && !empty($dadosUsuario)) $resp['boxMsg'] = ['msg'=>$dadosUsuario, 'tipo'=>'danger'];;
+        if(is_string($dadosUsuario) && !empty($dadosUsuario)) $resp['boxMsg'] = ['msg'=>$dadosUsuario, 'tipo'=>'danger'];;
         if(empty($dadosUsuario)) $resp['boxMsg'] = ['msg'=>'Nenhum Usuário Encontrado', 'tipo'=>'danger'];
 
-        $resp['usuario'] = $dadosUsuario;
+        $resp['usuario'] = $dadosUsuario[0];
 
         $View = new View('usuario/edit.usuario.view.php');
         $View->setParams($resp);

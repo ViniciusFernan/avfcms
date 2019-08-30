@@ -170,7 +170,7 @@ class UsuarioDAO extends Conn {
             $select = new Select();
             $listaUsuario = $select->FullSelect($sql);
 
-            if(!is_array($listaUsuario) && !empty($listaUsuario)) throw new Exception($listaUsuario);
+            if(is_string($listaUsuario) && !empty($listaUsuario)) throw new Exception($listaUsuario);
 
             if(empty($listaUsuario)) throw new Exception('Não achou nada nesse trem!');
 
@@ -186,7 +186,7 @@ class UsuarioDAO extends Conn {
 
             $select = new Select();
             $dadosUsuario = $select->ExeRead('usuario', "WHERE idUsuario=:id", "id={$id}");
-            if(!is_array($dadosUsuario) && !empty($dadosUsuario)) throw new Exception($dadosUsuario);
+            if(is_string($dadosUsuario) && !empty($dadosUsuario)) throw new Exception($dadosUsuario);
             if(empty($dadosUsuario)) throw new Exception('Não achou nada nesse trem!');
 
             return $dadosUsuario;

@@ -54,6 +54,7 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
                                     <th>NOME</th>
                                     <th>EMAIL</th>
                                     <th>TELEFONE</th>
+                                    <th>PERFIL</th>
                                     <th>STATUS</th>
                                     <th>AÇÕES</th>
                                 </tr>
@@ -62,18 +63,23 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
 
                                 <?php if(!empty($usuarios)): ?>
                                     <?php foreach($usuarios as $key => $usuario): ?>
-                                        <tr data-id="<?=$usuario['idUsuario']?>" >
-                                            <td><?=$usuario['idUsuario']?></td>
-                                            <td><?=$usuario['nome']?>  <?=$usuario['sobreNome']?></td>
-                                            <td><?=$usuario['email']?></td>
-                                            <td><?=$usuario['telefone']?></td>
+                                        <tr data-id="<?=$usuario->idUsuario ?>" >
+                                            <td><?=$usuario->idUsuario ?></td>
+                                            <td><?=$usuario->nome?>  <?=$usuario->sobreNome?></td>
+                                            <td><?=$usuario->email ?></td>
+                                            <td><?=$usuario->telefone ?></td>
+                                            <td>
+                                                 <span class="p-1 <?=(( $usuario->idPerfil=='1' ) ? "btn-success" : ""  )?> ">
+                                                 <?=$usuario->nomePerfil ?>
+                                                </span>
+                                            </td>
                                             <td class="align-center">
-                                            <span class=" <?=(( $usuario['status']=='0' ) ? "btn-danger" : (($usuario['status']=='1') ? "btn-success" : "btn-primary" ) )?> ">
-                                                <?=(( $usuario['status']=='0' ) ? "DELETADO" : (($usuario['status']=='1') ? "ATIVO" : "INATIVO" ) )?>
+                                            <span class="p-1 <?=(( $usuario->status=='0' ) ? "btn-danger" : (($usuario->status=='1') ? "btn-success" : "btn-primary" ) )?> ">
+                                                <?=(( $usuario->status=='0' ) ? "DELETADO" : (($usuario->status=='1') ? "ATIVO" : "INATIVO" ) )?>
                                             </span>
                                             </td>
                                             <td>
-                                                <a href="<?=HOME_URI?>/usuario/editarusuario/<?=$usuario['idUsuario']?>" class="btn btn-primary btn-sm">Editar</a>
+                                                <a href="<?=HOME_URI?>/usuario/editarusuario/<?=$usuario->idUsuario?>" class="btn btn-primary btn-sm">Editar</a>
                                                 <a href=""  class="btn btn-danger btn-sm">APAGAR</a>
                                             </td>
                                         </tr>

@@ -33,6 +33,7 @@ class LoginModel{
 				throw new Exception($loginResult);
             if (empty($loginResult) ) 
 				throw new Exception("Usuario não encontrado");
+
             $_SESSION['usuario'] = $loginResult[0];
             return true;
         }catch (Exception $e){

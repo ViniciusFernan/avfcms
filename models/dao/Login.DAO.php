@@ -37,7 +37,7 @@ class LoginDAO extends Conn {
         try{
             $select = new Select();
             $listaUsuarios = $select->FullSelect($sql, "email={$email}&senha={$senha}");
-            if (!empty($listaUsuarios) && !is_array($listaUsuarios)) throw new Exception($listaUsuarios);
+            if (!empty($listaUsuarios) && is_string($listaUsuarios)) throw new Exception($listaUsuarios);
 			return $listaUsuarios;  
         }catch (Exception $e){
             return $e->getMessage();
