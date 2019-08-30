@@ -232,7 +232,8 @@ class Select extends Conn {
             $this->Connect();
             $this->getSyntax();
             $this->Read->execute();
-            return $this->Read->fetchAll();
+            //return $this->Read->fetchObject(); //return objects
+            return $this->Read->fetchAll(); //return array
         } catch (PDOException $e) {
            return $e->getMessage();
         }
