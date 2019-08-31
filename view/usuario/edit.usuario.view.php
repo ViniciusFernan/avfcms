@@ -29,8 +29,6 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
     </style>
 
 </head>
-<div class="msg-box"><?php if(!empty($boxMsg)): echo Util::getAlert($boxMsg['msg'], $boxMsg['tipo']); endif; ?></div>
-
 <div class="wrapper">
     <?php include THEME_DIR . "/_include/topo.php"; ?>
     <div class="sidebar">
@@ -42,19 +40,19 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
     <div class="main-panel">
         <div class="content">
             <div class="container-fluid">
-
+                <div class="msg-box"><?php if(!empty($boxMsg)): echo Util::getAlert($boxMsg['msg'], $boxMsg['tipo']); endif; ?></div>
+                <form action="<?=HOME_URI?>/usuario/editarUsuario/" method="post" >
                 <div class="card">
                     <div class="card-header">
                         <div class="card-title">Editar Usuário</div>
                     </div>
                     <div class="card-body">
-
-                        <input type="hidden" value="<?=$usuario->idUsuario;?>">
+                        <input type="hidden" value="<?=(!empty($usuario->idUsuario ) ? $usuario->idUsuario  : '')?>">
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="imgPerfil">Imagem de perfil:</label>
-                                    <input type="imgPerfil" class="form-control" placeholder="imgPerfil" value="<?=(!empty($usuario->imgPerfil ) ? $usuario->imgPerfil  : '')?>">
+                                    <input type="file" name="imgPerfil" class="form-control" placeholder="imgPerfil" value="<?=(!empty($usuario->imgPerfil ) ? $usuario->imgPerfil  : '')?>">
                                 </div>
                             </div>
                         </div>
@@ -63,21 +61,21 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="nome">Nome:</label>
-                                    <input type="nome" class="form-control" placeholder="Nome" tabindex="0" value="<?=(!empty($usuario->nome ) ? $usuario->nome  : '')?>" >
+                                    <input type="text" name="nome" class="form-control" placeholder="Nome" tabindex="0" value="<?=(!empty($usuario->nome ) ? $usuario->nome  : '')?>" >
                                 </div>
                             </div>
 
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="sobreNome">Sobre Nome:</label>
-                                    <input type="sobreNome" class="form-control" placeholder="Sobre Nome" tabindex="1" value="<?=(!empty($usuario->sobreNome ) ? $usuario->sobreNome  : '')?>" >
+                                    <input type="text" name="sobreNome" class="form-control" placeholder="Sobre Nome" tabindex="1" value="<?=(!empty($usuario->sobreNome ) ? $usuario->sobreNome  : '')?>" >
                                 </div>
                             </div>
 
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="cpf">CPF:</label>
-                                    <input type="cpf" class="form-control" placeholder="CPF" tabindex="2"  value="<?=(!empty($usuario->CPF ) ? $usuario->CPF  : '')?>">
+                                    <input type="text" name="cpf" class="form-control" placeholder="CPF" tabindex="2"  value="<?=(!empty($usuario->CPF ) ? $usuario->CPF  : '')?>">
                                 </div>
                             </div>
 
@@ -87,21 +85,21 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="email">Email:</label>
-                                    <input type="email" class="form-control" placeholder="Email" tabindex="3"  value="<?=(!empty($usuario->email ) ? $usuario->email  : '')?>">
+                                    <input type="email" name="email" class="form-control" placeholder="Email" tabindex="3"  value="<?=(!empty($usuario->email ) ? $usuario->email  : '')?>">
                                 </div>
                             </div>
 
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="telefone">Telefone:</label>
-                                    <input type="telefone" class="form-control" placeholder="Telefone" tabindex="4"  value="<?=(!empty($usuario->telefone ) ? $usuario->telefone  : '')?>">
+                                    <input type="text" name="telefone" class="form-control" placeholder="Telefone" tabindex="4"  value="<?=(!empty($usuario->telefone ) ? $usuario->telefone  : '')?>">
                                 </div>
                             </div>
 
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="senha">Senha de acesso:</label>
-                                    <input type="senha" class="form-control" placeholder="Senha de acesso" tabindex="5" value="" >
+                                    <input type="password" name="senha" class="form-control" placeholder="Senha de acesso" tabindex="5" value="" >
                                 </div>
                             </div>
                         </div>
@@ -111,7 +109,7 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="dataNascimento">Data de nascimento:</label>
-                                    <input type="dataNascimento" class="form-control" placeholder="Data de nascimento" tabindex="6"  value="<?=(!empty($usuario->dataNascimento ) ? $usuario->dataNascimento  :'')?>" >
+                                    <input type="text" name="dataNascimento" class="form-control" placeholder="Data de nascimento" tabindex="6"  value="<?=(!empty($usuario->dataNascimento ) ? $usuario->dataNascimento  :'')?>" >
                                 </div>
                             </div>
 
@@ -150,13 +148,14 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
                                 </div>
                             </div>
                         </div>
-
                     </div>
+
                     <div class="card-action">
                         <button class="btn btn-success">Submit</button>
                         <button class="btn btn-danger">Cancel</button>
                     </div>
                 </div>
+                </form>
 
             </div>
         </div>

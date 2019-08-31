@@ -43,7 +43,7 @@ class UsuarioController extends MainController {
     }
 
 
-    public function editarUsuarioAction(){
+    public function viewUsuarioEditAction(){
 
         $resp = [];
         $id = $this->parametros[0];
@@ -52,6 +52,25 @@ class UsuarioController extends MainController {
         if(empty($dadosUsuario)) $resp['boxMsg'] = ['msg'=>'Nenhum Usuário Encontrado', 'tipo'=>'danger'];
 
         $resp['usuario'] = $dadosUsuario[0];
+
+        $View = new View('usuario/edit.usuario.view.php');
+        $View->setParams($resp);
+        $View->showContents();
+    }
+
+    public function editarUsuarioAction(){
+
+        $resp = [];
+
+        if(empty($this->parametrosPost)){
+            $resp['boxMsg'] = ['msg'=>'Nenhum Dado Encontrado', 'tipo'=>'danger'];
+        }else{
+
+            if(is_string($dadosUsuario) && !empty($dadosUsuario)) $resp['boxMsg'] = ['msg'=>$dadosUsuario, 'tipo'=>'danger'];;
+            if(empty($dadosUsuario)) $resp['boxMsg'] = ['msg'=>'Nenhum Usuário Encontrado', 'tipo'=>'danger'];
+
+            $resp['usuario'] = $dadosUsuario[0];
+        }
 
         $View = new View('usuario/edit.usuario.view.php');
         $View->setParams($resp);

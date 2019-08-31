@@ -29,8 +29,6 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
     </style>
 
 </head>
-<div class="msg-box"><?php if(!empty($boxMsg)): echo Util::getAlert($boxMsg['msg'], $boxMsg['tipo']); endif; ?></div>
-
 <div class="wrapper">
     <?php include THEME_DIR . "/_include/topo.php"; ?>
     <div class="sidebar">
@@ -42,6 +40,7 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
     <div class="main-panel">
         <div class="content">
             <div class="container-fluid">
+                <div class="msg-box"><?php if(!empty($boxMsg)): echo Util::getAlert($boxMsg['msg'], $boxMsg['tipo']); endif; ?></div>
                 <h4 class="page-title">Usuários</h4>
 
                 <div class="card">
@@ -79,7 +78,7 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
                                             </span>
                                             </td>
                                             <td>
-                                                <a href="<?=HOME_URI?>/usuario/editarusuario/<?=$usuario->idUsuario?>" class="btn btn-primary btn-sm">Editar</a>
+                                                <a href="<?=HOME_URI?>/usuario/viewUsuarioEdit/<?=$usuario->idUsuario?>" class="btn btn-primary btn-sm">Editar</a>
                                                 <a href=""  class="btn btn-danger btn-sm">APAGAR</a>
                                             </td>
                                         </tr>
