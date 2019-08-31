@@ -95,7 +95,7 @@ h4.page-title {
   font-weight: 600;
   color: #333333;
   line-height: 30px;
-  margin-bottom: 20px;
+  margin-bottom: 12px;
 }
 
 .text-primary {
@@ -2255,7 +2255,7 @@ body {
 
 .footer {
   border-top: 1px solid #eee;
-  padding: 15px;
+  padding: 5px 15px;
   background: #ffffff;
 }
 .footer .container-fluid {
@@ -5550,11 +5550,14 @@ body {
 .table thead th {
   color: #554;
   border-bottom-width: 2px;
-}
-.table td, .table th {
   font-size: 14px;
   border-color: #ebedf2 !important;
   padding: 0.75rem !important;
+}
+.table td{
+  font-size: 14px;
+  border-color: #ebedf2 !important;
+  padding: 0.3rem !important;
 }
 
 /* table full-width */
@@ -6093,7 +6096,7 @@ body {
 
 .btn-sm {
   font-size: 12px;
-  padding: 7px 13px;
+  padding: 4px 13px;
 }
 
 .btn-xs {
