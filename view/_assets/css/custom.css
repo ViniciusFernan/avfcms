@@ -11,9 +11,9 @@ body{background: none; }
 
 .align-center{text-align: center; }
 
-.bg-roxo{background-color:#673ab7 }
+.bg-roxo{background-color:#673ab7 !important }
 
-.bg-blue{background-color:#6c64ea }
+.bg-blue{background-color:#6c64ea !important }
 
 .h1, h1{ font-size: 1.8rem; }
 

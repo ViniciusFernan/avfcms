@@ -67,7 +67,13 @@ class UsuarioController extends MainController {
         }else{
 
             $dadosUsuario = (new UsuarioModel())->editarUsuario($this->parametrosPost);
+            if(is_string($dadosUsuario) && !empty($dadosUsuario)) $resp['boxMsg'] = ['msg'=>$dadosUsuario, 'tipo'=>'danger'];;
+            if(empty($dadosUsuario)) $resp['boxMsg'] = ['msg'=>'Nenhum Usuário Encontrado', 'tipo'=>'danger'];
 
+            $resp['boxMsg'] = ['msg'=>'Usuário Editado com sucesso', 'tipo'=>'success'];
+
+            //listar usuario
+            $dadosUsuario = (new UsuarioModel())->getUsuarioPorId($this->parametrosPost['idUsuario']);
             if(is_string($dadosUsuario) && !empty($dadosUsuario)) $resp['boxMsg'] = ['msg'=>$dadosUsuario, 'tipo'=>'danger'];;
             if(empty($dadosUsuario)) $resp['boxMsg'] = ['msg'=>'Nenhum Usuário Encontrado', 'tipo'=>'danger'];
 

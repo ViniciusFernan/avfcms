@@ -6048,12 +6048,7 @@ body {
   font-size: 14px;
 }
 .alert .close {
-  background: rgba(255, 255, 255, 0.8);
-  width: 25px;
-  height: 25px;
-  line-height: 25px;
-  top: auto !important;
-  border-radius: 50%;
+  background: none; /* rgba(255, 255, 255, 0.8);  */
 }
 
 .alert-primary {

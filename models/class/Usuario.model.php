@@ -89,27 +89,24 @@ class UsuarioModel extends UsuarioFactory {
 
             $usuarioDAO = new UsuarioDAO;
             $user = $usuarioDAO->buscarUsuarioPorEmail($email);
-            if(is_array($user) && empty($user)) throw new Exception('Usuários não encontrado!');
-            if(!is_array($user) && !empty($user)) throw new Exception($user);
+            if(empty($user)) throw new Exception('Usuários não encontrado!');
+            if(is_string($user) && !empty($user)) throw new Exception($user);
 
             $hash['chaveDeRecuperacao'] = Util::encriptaSenha(rand(1, 1000));
 
             $t = $email . "__" . $hash['chaveDeRecuperacao'];
             $dataEncriptada = Util::encriptaData($t);
 
-            $userUpdate['idUsuario'] = $user->idUsuario ;
             $userUpdate['chaveDeRecuperacao'] = $hash['chaveDeRecuperacao'];
 
-            $idUsuario=$userUpdate['idUsuario'];
-            unset($userUpdate['idUsuario']);
-            $updateusuario = $usuarioDAO->editarUsuario($userUpdate, $idUsuario);
+            $updateusuario = $usuarioDAO->editarUsuario($userUpdate, $user->idUsuario);
             if(is_string($updateusuario) && !empty($updateusuario)) throw new Exception($updateusuario);
 
             $template['action'] = 'Recuperação de senha';
             $template['user'] = $user->nome .' '.$user->sobreNome ;
             $template['url'] = HOME_URI . '/cadastro/viewPageNovaSenha/' . $dataEncriptada;
             $template['texto'] = 'Olá, ' . $user->nome .' '.$user->sobreNome  . ', <br />
-                                Alguém solicitou recentemente uma alteração na senha da sua conta do Marombeiros. Se foi você, então defina sua nova senha aqui: <br />
+                                Alguém solicitou recentemente uma alteração da senha em sua conta do '.PROJECT_NAME.'. Se foi você, então defina sua nova senha aqui: <br />
                                 <a href="' . HOME_URI . '/cadastro/viewPageNovaSenha/' . $dataEncriptada . '" target="_blank">Redefinir senha</a> <br />
                                 Se não quiser alterar a senha ou não tiver feito essa solicitação, basta ignorar e excluir esta mensagem. <br />
                                 Para manter sua conta segura, não encaminhe este e-mail para ninguém. <br />
@@ -166,6 +163,7 @@ class UsuarioModel extends UsuarioFactory {
             unset($post['idUsuario']);
 
             if(!empty($post['senha'])) $post['senha'] = Util::encriptaSenha($post['senha']);
+            else unset($post['senha']);
 
             $updateUsuario = (new  UsuarioDAO)->editarUsuario($post, $idUsuario);
             if(is_string($updateUsuario) && !empty($updateUsuario)) throw new Exception($updateUsuario);

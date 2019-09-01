@@ -716,7 +716,7 @@ class Util{
                                         <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse">
                                             <tbody><tr>
                                                     <td align="center" style="background-color:#ffffff;font-family:Helvetica,Arial,sans-serif;line-height:160%;padding-top:20px;padding-bottom:20px;background:#fff" >
-                                                        <img src="'. HOME_URI . '/_assets/images/logoEmail.png" alt="Marombeiros" width="200px" style="border:0;height:auto;line-height:100%;outline:none;text-decoration:none;height: 40%;">
+                                                        <img src="'. HOME_URI . '/_assets/images/logoEmail.png" alt="'.PROJECT_NAME.'" width="200px" style="border:0;height:auto;line-height:100%;outline:none;text-decoration:none;height: 40%;">
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -729,7 +729,7 @@ class Util{
                                             <tbody>
                                                 <tr>
                                                     <td style="font-family:Helvetica,Arial,sans-serif;text-align:center;background:#009ab7;padding: 30px 0 12px 0;">
-                                                        <h1 style="color: white;font-family:Helvetica,Arial,sans-serif;font-weight:normal">' .(!empty($template["action"]) ? $template["action"]  : 'Contato pelo site marombeiro' ) .'</h1>
+                                                        <h1 style="color: white;font-family:Helvetica,Arial,sans-serif;font-weight:normal">' .(!empty($template["action"]) ? $template["action"]  : 'Contato pelo site '.PROJECT_NAME ) .'</h1>
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -782,7 +782,7 @@ class Util{
                                                 </tr>
                                                 <tr>
                                                     <td style="font-family:Helvetica,Arial,sans-serif;line-height:160%;padding-bottom:16px;text-align:center">
-                                                        <p style="margin:0;padding-bottom:16px;color:#666;font-size:13px">Marombeiro - '. date("Y") .'</p>
+                                                        <p style="margin:0;padding-bottom:16px;color:#666;font-size:13px">'.PROJECT_NAME.' - '. date("Y") .'</p>
                                                     </td>
                                                 </tr>
                                             </tbody>

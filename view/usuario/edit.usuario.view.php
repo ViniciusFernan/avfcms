@@ -33,7 +33,7 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
     <?php include THEME_DIR . "/_include/topo.php"; ?>
     <div class="sidebar">
         <div class="scrollbar-inner sidebar-wrapper">
-            <?php include THEME_DIR . "/_include/sider-perfil.php"; ?>
+            <?php //include THEME_DIR . "/_include/sider-perfil.php"; ?>
             <?php include THEME_DIR . "/_include/menu.php"; ?>
         </div>
     </div>
