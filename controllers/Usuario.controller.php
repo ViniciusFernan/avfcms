@@ -66,6 +66,8 @@ class UsuarioController extends MainController {
             $resp['boxMsg'] = ['msg'=>'Nenhum Dado Encontrado', 'tipo'=>'danger'];
         }else{
 
+            $dadosUsuario = (new UsuarioModel())->editarUsuario($this->parametrosPost);
+
             if(is_string($dadosUsuario) && !empty($dadosUsuario)) $resp['boxMsg'] = ['msg'=>$dadosUsuario, 'tipo'=>'danger'];;
             if(empty($dadosUsuario)) $resp['boxMsg'] = ['msg'=>'Nenhum Usuário Encontrado', 'tipo'=>'danger'];
 

@@ -47,7 +47,7 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
                         <div class="card-title">Editar Usuário</div>
                     </div>
                     <div class="card-body">
-                        <input type="hidden" value="<?=(!empty($usuario->idUsuario ) ? $usuario->idUsuario  : '')?>">
+                        <input type="hidden" name="idUsuario" value="<?=(!empty($usuario->idUsuario ) ? $usuario->idUsuario  : '')?>">
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -144,7 +144,7 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="detalhes">Detalhes:</label>
-                                    <textarea name="detalhes" class="form-control" placeholder="Detalhes"><?=$usuario->detalhes ;?></textarea>
+                                    <textarea name="detalhes" class="form-control" placeholder="Detalhes"><?=(!empty($usuario->detalhes ) ? $usuario->detalhes  : '')?></textarea>
                                 </div>
                             </div>
                         </div>

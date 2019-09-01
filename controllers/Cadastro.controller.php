@@ -29,25 +29,11 @@ class CadastroController extends MainController {
         $resp = [];
 		$error = false;
 
-        $post["idPerfil"] = 6 ;
-        $post["nome"] = (!empty($this->parametrosPost['nome']) ? $this->parametrosPost['nome'] : NULL );
-        $post["sobreNome"] = (!empty($this->parametrosPost['sobreNome']) ? $this->parametrosPost['sobreNome'] : NULL );
-        $post["email"] = (!empty($this->parametrosPost['email']) ? $this->parametrosPost['email'] : NULL );
-        $post["telefone"] = (!empty($this->parametrosPost['telefone']) ? $this->parametrosPost['telefone'] : NULL );
-        $post["CPF"] = (!empty($this->parametrosPost['CPF']) ? $this->parametrosPost['CPF'] : NULL );
-        $post["senha"] = (!empty($this->parametrosPost['senha']) ? Util::encriptaSenha($this->parametrosPost['senha']) : NULL );
-        $post["dataNascimento"] = (!empty($this->parametrosPost['dataNascimento']) ? Util::DataToDate($this->parametrosPost['dataNascimento']) : NULL );
-        $post["sexo"] = (!empty($this->parametrosPost['sexo']) ? $this->parametrosPost['sexo'] : NULL );
-        $post["dataCadastro"] = date('Y-m-d H:i:s');
-        $post["detalhes"] = (!empty($this->parametrosPost['detalhes']) ? $this->parametrosPost['detalhes'] : NULL );
-        $post["status"] = 1 ;
-
         $usuario = new UsuarioModel;
 
-
-        $insertResp = $usuario->novoUsuario($post);
+        $insertResp = $usuario->novoUsuario($this->parametrosPost);
         if(empty($insertResp) && !is_int($insertResp) ) {
-            unset($post["idPerfil"], $post["senha"]);
+            unset($this->parametrosPost["senha"]);
             $resp=['msg' => "Erro ao cadastrar usuário!", 'tipo' => 'danger'];
             $error = true;
         }else if(!empty($insertResp) && !is_int($insertResp) ){

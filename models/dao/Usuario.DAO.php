@@ -56,9 +56,7 @@ class UsuarioDAO extends Conn {
             if(!is_array($post) || empty($post))
                 throw new Exception('Error grave nesse trem');
 
-            $userC = new Create;
-            $userCreate = $userC->ExeCreate('usuario', $post);
-
+            $userCreate = (new Create)->ExeCreate('usuario', $post);
             if(!is_int($userCreate) && !empty($userCreate)) throw new Exception($userCreate);
 
             return $userCreate;
@@ -68,14 +66,13 @@ class UsuarioDAO extends Conn {
 
     }
 
-    public function editarUsuario($Data){
+    public function editarUsuario($Data, $idUsuario){
         if(!is_array($Data) || empty($Data)) throw new Exception('Tem um trem errado aqui!');
 
-        $user['idUsuario'] = $Data['idUsuario'];
         unset($Data['idUsuario']);
 
         $update = new Update();
-        $updateUsuario = $update->ExeUpdate('usuario', $Data, 'WHERE idUsuario=:idUsuario', "idUsuario={$user['idUsuario']}");
+        $updateUsuario = $update->ExeUpdate('usuario', $Data, 'WHERE idUsuario=:idUsuario', "idUsuario={$idUsuario}");
         if(is_string($updateUsuario) && !empty($updateUsuario)) throw new Exception($updateUsuario);
         if(empty($updateUsuario)) throw new Exception('Ops, erro ao atualizar usuario');
 
