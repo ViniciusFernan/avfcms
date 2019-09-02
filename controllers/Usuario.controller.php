@@ -85,4 +85,26 @@ class UsuarioController extends MainController {
         $View->showContents();
     }
 
+    public function deletarUsuarioAction(){
+
+        $resp = [];
+
+        if(empty($this->parametros)){
+            $resp['boxMsg'] = ['msg'=>'Nenhum Dado Encontrado', 'tipo'=>'danger'];
+        }else{
+            $dataSet['idUsuario'] = $this->parametros[0];
+            $dataSet['status'] = '0';
+
+            $dadosUsuario = (new UsuarioModel())->editarUsuario($dataSet);
+            if(is_string($dadosUsuario) && !empty($dadosUsuario)) $resp['boxMsg'] = ['msg'=>$dadosUsuario, 'tipo'=>'danger'];;
+            if(empty($dadosUsuario)) $resp['boxMsg'] = ['msg'=>'Nenhum Usuário Encontrado', 'tipo'=>'danger'];
+
+            $resp['boxMsg'] = ['msg'=>'Usuário deletado com sucesso', 'tipo'=>'success'];
+        }
+
+        $View = new View('usuario/default.view.php');
+        $View->setParams($resp);
+        $View->showContents();
+    }
+
 }
