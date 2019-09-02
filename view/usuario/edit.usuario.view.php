@@ -135,6 +135,7 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
                                     <select class="form-control" name="status">
                                         <option value="1" <?=((!empty($usuario->status) && $usuario->status =='1')  ? 'selected' : '')?>>ATIVO</option>
                                         <option value="2" <?=((!empty($usuario->status) && $usuario->status =='2') ? 'selected' : '')?>>INATIVO</option>
+                                        <option value="0" <?=((!empty($usuario->status) && $usuario->status =='0') ? 'selected' : '')?>>DELETADO</option>
                                     </select>
                                 </div>
                             </div>

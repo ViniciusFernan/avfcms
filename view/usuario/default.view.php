@@ -78,8 +78,8 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
                                             </span>
                                             </td>
                                             <td>
-                                                <a href="<?=HOME_URI?>/usuario/viewUsuarioEdit/<?=$usuario->idUsuario?>" class="btn btn-primary btn-sm">Editar</a>
-                                                <a href=""  class="btn btn-danger btn-sm">APAGAR</a>
+                                                <a href="<?=HOME_URI?>/usuario/viewUsuarioEdit/<?=$usuario->idUsuario?>" class="btn btn-primary btn-sm">EDITAR</a>
+                                                <a href="<?=HOME_URI?>/usuario/inativarUsuario/<?=$usuario->idUsuario?>"  class="btn btn-danger btn-sm">INATIVAR</a>
                                             </td>
                                         </tr>
                                     <?php endforeach;?>
