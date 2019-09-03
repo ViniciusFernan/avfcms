@@ -46,9 +46,11 @@ class UsuarioController extends MainController {
     public function viewUsuarioEditAction(){
 
         $resp = [];
-        $id = $this->parametros[0];
+
+        $userLogado = $_SESSION['usuario'];
+        $id = ($userLogado->idPerfil==1) ? $this->parametros[0] : $userLogado->idUsuario;
         $dadosUsuario = (new UsuarioModel())->getUsuarioPorId($id);
-        if(is_string($dadosUsuario) && !empty($dadosUsuario)) $resp['boxMsg'] = ['msg'=>$dadosUsuario, 'tipo'=>'danger'];;
+        if(is_string($dadosUsuario) && !empty($dadosUsuario)) $resp['boxMsg'] = ['msg'=>$dadosUsuario, 'tipo'=>'danger'];
         if(empty($dadosUsuario)) $resp['boxMsg'] = ['msg'=>'Nenhum Usuário Encontrado', 'tipo'=>'danger'];
 
         $resp['usuario'] = $dadosUsuario[0];
