@@ -13,8 +13,8 @@
     <div class="info">
         <a class="" data-toggle="collapse" href="#collapseExample" aria-expanded="true">
                         <span>
-                            Hizrian
-                            <span class="user-level">Administrator</span>
+                            <?=$_SESSION['usuario']->nome?>
+                            <span class="user-level"><?=$_SESSION['usuario']->nomePerfil?></span>
                             <span class="caret"></span>
                         </span>
         </a>
@@ -23,13 +23,8 @@
         <div class="collapse in" id="collapseExample" aria-expanded="true" style="">
             <ul class="nav">
                 <li>
-                    <a href="#profile">
-                        <span class="link-collapse">My Profile</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#edit">
-                        <span class="link-collapse">Edit Profile</span>
+                    <a href="<?=HOME_URI?>/usuario/viewUsuarioEdit/<?=$_SESSION['usuario']->idUsuario?>">
+                        <span class="link-collapse">Meu Perfil</span>
                     </a>
                 </li>
                 <li>
