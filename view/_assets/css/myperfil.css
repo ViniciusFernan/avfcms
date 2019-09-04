@@ -1,0 +1,82 @@
+.timelineContainer {
+    width: 100%;
+    position: relative
+}
+
+.timelineBackground {
+    min-height: 315px;
+    position: relative;
+    margin-top: -20px;
+    overflow: hidden;
+    background-color: #ececec;
+    border: 5px solid #e2e2e2;
+    box-shadow: 0 1px 2px 1px #8e8e8e;
+    background-position: center;
+    background-size: cover;
+}
+
+.timelineBackground img{
+    margin: 0 auto;
+}
+
+.timelineProfilePic {
+    width: 170px;
+    height: 170px;
+    border: 5px solid #e2e2e2;
+    background-color: #ffffff;
+    position: absolute;
+    margin-top: -145px;
+    margin-left: 20px;
+    z-index: 5;
+    overflow: hidden;
+    box-shadow: 0 0 2px 1px #8e8e8e;
+    position: relative;
+}
+
+
+.absolute{
+    position: absolute;
+    right: 1px;
+    bottom: 0px;
+    cursor: pointer;
+    color: #ccc;
+    text-shadow: 0px 0px 2px #000;
+    font-size: 32px;
+}
+
+.upload{
+    position: absolute;
+    right: 1px;
+    top: 0px;
+    cursor: pointer;
+    color: #01b0cc;
+    text-shadow: 0px 0px 2px #ccc;
+    font-size: 62px;
+    display: none;
+}
+
+.upload:hover, .absolute:hover{
+    color: #000;
+    text-shadow: 0px 0px 2px #fff;
+}
+
+
+
+.uploadFile {
+    height: 32px;
+    width: 32px;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.timelineContainer  input {
+    filter: alpha(opacity=0);
+    opacity: 0;
+    margin-left: -110px;
+    visibility: hidden;
+}
+
+.custom-file-input {
+    height: 25px;
+    cursor: pointer;
+}

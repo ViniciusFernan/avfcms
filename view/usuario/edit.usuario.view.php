@@ -23,6 +23,8 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
     <!-- Custom styling plus plugins -->
     <link href="<?= THEME_URI; ?>/_assets/css/custom.css" rel="stylesheet">
 
+    <!-- Custom styling plus plugins -->
+    <link href="<?= THEME_URI; ?>/_assets/css/myperfil.css" rel="stylesheet">
 
     <style>
 
@@ -52,7 +54,16 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="imgPerfil">Imagem de perfil:</label>
-                                    <input type="file" name="imgPerfil" class="form-control" placeholder="imgPerfil" value="<?=(!empty($usuario->imgPerfil ) ? $usuario->imgPerfil  : '')?>">
+
+                                    <div class="timelineProfilePic my-bg">
+                                        <img src="  <?=(!empty($usuario->imgPerfil ) ? $usuario->imgPerfil  : 'http://marombeiros.ml/UPLOADS/users/1/perfil/img_perfil.jpg')?> " class="bgImage imgPerfil">
+
+                                        <i class="fas fa-camera absolute foto-perfil"></i>
+                                        <i class="fas fa-cloud-upload-alt upload foto-perfil-up" data-up="fotoPerfil"></i>
+                                        <form method="post" enctype="multipart/form-data" class="uploadFile timelineUploadBG">
+                                            <input type="file" name="fotoPerfil" class="custom-file-input">
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
