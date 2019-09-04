@@ -29,7 +29,6 @@ class UsuarioController extends MainController {
      * é referenciado
      */
     public function indexAction(){
-
         $resp = [];
         $listaUsuarios = (new UsuarioModel())->getListaDeUsuarios();
         if(is_string($listaUsuarios) && !empty($listaUsuarios)) $resp['boxMsg'] = ['msg'=>$listaUsuarios, 'tipo'=>'danger'];;
@@ -59,7 +58,6 @@ class UsuarioController extends MainController {
     }
 
     public function editarUsuarioAction(){
-
         $resp = [];
 
         if(empty($this->parametrosPost)){
@@ -86,7 +84,6 @@ class UsuarioController extends MainController {
     }
 
     public function deletarUsuarioAction(){
-
         $resp = [];
 
         if(empty($this->parametros)){
