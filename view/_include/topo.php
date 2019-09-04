@@ -107,14 +107,7 @@
                             </div>
                         </li>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="<?=HOME_URI?>/usuario/viewUsuarioEdit/<?=$_SESSION['usuario']->idUsuario?>">
-                            <i class="ti-user"></i>Meu Perfil
-                        </a>
-                        <a class="dropdown-item" href="#"></i> My Balance</a>
-                        <a class="dropdown-item" href="#"><i class="ti-email"></i> Mensagens</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#"><i class="ti-settings"></i> Configurações</a>
-                        <div class="dropdown-divider"></div>
+                        <!-- EXEMPLE <a class="dropdown-item" href="#"></i> My Balance</a>-->
                         <a class="dropdown-item" href="<?=HOME_URI?>/login/logout"><i class="fa fa-power-off"></i> SAIR</a>
                     </ul>
                     <!-- /.dropdown-user -->

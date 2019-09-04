@@ -41,7 +41,7 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
         <div class="content">
             <div class="container-fluid">
                 <div class="msg-box"><?php if(!empty($boxMsg)): echo Util::getAlert($boxMsg['msg'], $boxMsg['tipo']); endif; ?></div>
-                <form action="<?=HOME_URI?>/usuario/editarUsuario/" method="post" >
+                <form action="<?=HOME_URI?>/usuario/editarUsuario/" method="post"  enctype="multipart/form-data" >
                 <div class="card">
                     <div class="card-header">
                         <div class="card-title">Editar Usuário</div>
@@ -166,5 +166,6 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
 </div>
 
 <?php include THEME_DIR . "/_include/after-footer.php"; ?>
+
 
 </html>
