@@ -204,7 +204,7 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
             form_data.append('file', file_data);
 
             $.ajax({
-                url: 'http://marombeiros.ml/Usuariosajax/Cropimagemfromperfilajax',
+                url: '<?=HOME_URI?>/Usuariosajax/Cropimagemfromperfilajax',
                 dataType: 'text',
                 method: 'POST',
 
