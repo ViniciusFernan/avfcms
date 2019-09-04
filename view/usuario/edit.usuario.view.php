@@ -59,9 +59,9 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
                                         <img src="  <?=(!empty($usuario->imgPerfil ) ? $usuario->imgPerfil  : 'http://marombeiros.ml/UPLOADS/users/1/perfil/img_perfil.jpg')?> " class="bgImage imgPerfil">
 
                                         <i class="fas fa-camera absolute foto-perfil"></i>
-                                        <i class="fas fa-cloud-upload-alt upload foto-perfil-up" data-up="fotoPerfil"></i>
+                                        <i class="fas fa-cloud-upload-alt upload foto-perfil-up" data-up="imgPerfil"></i>
                                         <form method="post" enctype="multipart/form-data" class="uploadFile timelineUploadBG">
-                                            <input type="file" name="fotoPerfil" class="custom-file-input">
+                                            <input type="file" name="imgPerfil" class="custom-file-input">
                                         </form>
                                     </div>
                                 </div>
@@ -178,5 +178,71 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
 
 <?php include THEME_DIR . "/_include/after-footer.php"; ?>
 
+<script>
+    $(function () {
+
+        $('.foto-perfil').on('click', function(){
+            $('[name="imgPerfil"]').trigger('click');
+        });
+
+        $('input[name="imgPerfil"]').on("change", function(){
+            $('input[name="imgPerfil"]').each(function(index){
+                if ($('input[name="imgPerfil"]').eq(index).val() != ""){
+
+                    $('html, body').animate({scrollTop: $('.timelineProfilePic').offset().top-80 }, 'slow');
+
+                    $('.timelineProfilePic').find('.upload').fadeIn();
+                }
+            });
+        });
+
+
+        $('.foto-perfil-up').on('click', function(){
+            var input = $(this).attr('data-up');
+            var file_data = $('[name="'+input+'"]').prop('files')[0];
+            var form_data = new FormData();
+            form_data.append('file', file_data);
+
+            $.ajax({
+                url: 'http://marombeiros.ml/Usuariosajax/Cropimagemfromperfilajax',
+                dataType: 'text',
+                method: 'POST',
+
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: form_data,
+                beforeSend: function (xhr) {
+                    loading();
+                },
+                success: function (x) {
+                    var resp = JSON.parse(x);
+                    $('.upload').fadeOut();
+                    $(".loading").remove();
+                    //location.reload(true);
+                    $('.'+resp.class).css({'background-image': 'url('+resp.url+')'});
+                }
+            });
+        });
+
+
+        $('#showPassword').on('click', function(){
+            var passwordField = $('.password');
+            var passwordFieldType = passwordField.attr('type');
+            if(passwordFieldType == 'password') {
+                passwordField.attr('type', 'text');
+                $(this).html('<i class="material-icons" style="color: #000">visibility_off</i> <span> Ocultar Senha </span>');
+            }else{
+                passwordField.attr('type', 'password');
+                $(this).html(' <i class="material-icons" style="color: #000">visibility</i> <span> Mostrar senha </span>');
+            }
+        });
+
+
+    });
+
+
+
+</script>
 
 </html>
