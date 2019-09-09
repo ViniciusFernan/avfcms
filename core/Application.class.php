@@ -91,7 +91,7 @@ class Application{
             $path = array();
             unset($path);
 
-            if (!file_exists(ABSPATH . "/controllers/{$this->controller}.controller.php") && !file_exists(ABSPATH . "/modules/".strtolower($this->module)."/controllers/{$this->controller}.controller.php")) {
+            if (!file_exists(ABSPATH . "/controllers/{$this->controller}Controller.php") && !file_exists(ABSPATH . "/modules/".strtolower($this->module)."/controllers/{$this->controller}Controller.php")) {
                 $this->module = 'page404';
                 $this->controller = 'Page404';
                 $this->action = 'index';
@@ -113,10 +113,10 @@ class Application{
     public function dispatch() {
         $this->loadRoute();
 
-        if(file_exists(ABSPATH.'/controllers/'.$this->controller.'.controller.php')):
-            require_once ABSPATH.'/controllers/'.$this->controller.'.controller.php';  //verificando se o arquivo de controle existe
+        if(file_exists(ABSPATH.'/controllers/'.$this->controller.'Controller.php')):
+            require_once ABSPATH.'/controllers/'.$this->controller.'Controller.php';  //verificando se o arquivo de controle existe
        else:
-            trigger_error('Arquivo ' . $this->controller.'.controller.php  nao encontrado', E_USER_ERROR);
+            trigger_error('Arquivo ' . $this->controller.'Controller.php  nao encontrado', E_USER_ERROR);
         endif;
 
         //verificando se a classe existe, se existir, estancia a classe
@@ -126,7 +126,7 @@ class Application{
             $class->setParametros($this->parametros);
             $class->setParametrosPost($this->parametrosPost);
         else:
-            trigger_error("Classe {$controller} nao existe no arquivo {$this->controller}.controller.php ", E_USER_ERROR);
+            trigger_error("Classe {$controller} nao existe no arquivo {$this->controller}Controller.php ", E_USER_ERROR);
         endif;
 
         //verificando se o metodo existe
