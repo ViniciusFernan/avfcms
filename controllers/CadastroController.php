@@ -10,7 +10,7 @@
  * @author AVF-WEB
  * @version 1.0
  * */
-require_once ABSPATH . "/models/class/Usuario.model.php";
+require_once ABSPATH . "/models/class/UsuarioModel.php";
 
 class CadastroController extends MainController {
 

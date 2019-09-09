@@ -9,7 +9,7 @@
  * @author AVF
  * @version 1.0.0
  */
-require_once ABSPATH . "/models/class/Usuario.model.php";
+require_once ABSPATH . "/models/class/UsuarioModel.php";
 
 class RecuperarSenhaController extends MainController {
     public function indexAction(){
