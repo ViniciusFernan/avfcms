@@ -12,6 +12,11 @@
 require_once ABSPATH . "/models/class/UsuarioModel.php";
 
 class RecuperarSenhaController extends MainController {
+
+    public function __construct() {
+        $this->isLogin= false;
+    }
+
     public function indexAction(){
         $View = new View('cadastro/novasenha.view.php');
         $View->showContents();

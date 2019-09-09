@@ -12,6 +12,11 @@
  * */
 class Page404Controller extends MainController {
 
+
+    public function __construct() {
+        $this->isLogin= false;
+    }
+
     /**
      * Ação que deverá ser executada quando
      * nenhuma outra for especificada, do mesmo jeito que o

@@ -15,6 +15,7 @@ require_once ABSPATH . "/models/class/LoginModel.php";
 class LoginController extends MainController {
 
     public function __construct() {
+        $this->isLogin= false;
         //Classe de manipulação do login
         $this->Login = new LoginModel;
 

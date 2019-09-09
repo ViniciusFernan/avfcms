@@ -14,6 +14,13 @@ require_once ABSPATH . "/models/class/LoginModel.php";
 abstract class MainController {
 
     /**
+     * Atribudo define se acesso a area deve ter um login ativo
+     * segue como pagina privada por default
+     */
+    protected $isLogin = true;
+
+
+    /**
      * Classe de Manipulação do login
      * @var LoginModel
      * */
@@ -38,6 +45,15 @@ abstract class MainController {
      * @var Array
      */
     protected $permissoes = array();
+
+    /**
+     * constructor definindo acesso
+     */
+    public function __construct() {
+        if($this->isLogin==true){
+            $this->checkLogado();
+        }
+    }
 
     /**
      * Verifica permissao de acesso, caso acesso negado, carrega a pagina de acesso negado

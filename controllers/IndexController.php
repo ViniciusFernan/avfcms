@@ -16,12 +16,7 @@ class IndexController extends MainController {
      * IndexController constructor.
      * Define qual rota seguir
      */
-    public function __construct() {
-        if(LOGIN_MODULE===true){
-            $this->checkLogado();
-        }
-
-    }
+    public function __construct() { }
 
     /**
      * Ação que deverá ser executada quando
