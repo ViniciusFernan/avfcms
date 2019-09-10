@@ -18,7 +18,9 @@ class DashboardController extends MainController {
      * IndexController constructor.
      * Define qual rota seguir
      */
-    public function __construct(){ }
+    public function __construct() {
+        parent::__construct();
+    }
 
     /**
      * Ação que deverá ser executada quando
