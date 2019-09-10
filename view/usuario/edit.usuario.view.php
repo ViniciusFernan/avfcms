@@ -51,12 +51,12 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
                     <div class="card-body">
                         <input type="hidden" name="idUsuario" value="<?=(!empty($usuario->idUsuario ) ? $usuario->idUsuario  : '')?>">
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="imgPerfil">Imagem de perfil:</label>
 
                                     <div class="timelineProfilePic my-bg">
-                                        <img src="  <?=(!empty($usuario->imgPerfil ) ? $usuario->imgPerfil  : 'http://marombeiros.ml/UPLOADS/users/1/perfil/img_perfil.jpg')?> " class="bgImage imgPerfil">
+                                        <img src="  <?=(!empty($usuario->imgPerfil ) ? $usuario->imgPerfil  :  THEME_URI.'/_assets/images/profile.jpg')?> " class="bgImage imgPerfil">
 
                                         <i class="fas fa-camera absolute foto-perfil"></i>
                                         <i class="fas fa-cloud-upload-alt upload foto-perfil-up" data-up="imgPerfil"></i>
@@ -66,30 +66,28 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="form-group">
+                            <div class="col-md-8">
+                                <div class="form-group mb-1">
                                     <label for="nome">Nome:</label>
                                     <input type="text" name="nome" class="form-control" placeholder="Nome" tabindex="0" value="<?=(!empty($usuario->nome ) ? $usuario->nome  : '')?>" >
                                 </div>
-                            </div>
 
-                            <div class="col-md-4">
-                                <div class="form-group">
+
+                                <div class="form-group mb-1">
                                     <label for="sobreNome">Sobre Nome:</label>
                                     <input type="text" name="sobreNome" class="form-control" placeholder="Sobre Nome" tabindex="1" value="<?=(!empty($usuario->sobreNome ) ? $usuario->sobreNome  : '')?>" >
                                 </div>
-                            </div>
 
-                            <div class="col-md-4">
-                                <div class="form-group">
+
+                                <div class="form-group mb-1">
                                     <label for="cpf">CPF:</label>
                                     <input type="text" name="cpf" class="form-control" placeholder="CPF" tabindex="2"  value="<?=(!empty($usuario->CPF ) ? $usuario->CPF  : '')?>">
                                 </div>
+                                
                             </div>
-
+                            
+                            
                         </div>
 
                         <div class="row">
@@ -164,7 +162,7 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
 
                     <div class="card-action">
                         <button class="btn btn-success">Submit</button>
-                        <button class="btn btn-danger">Cancel</button>
+                        <button class="btn btn-danger" type="reset">Cancel</button>
                     </div>
                 </div>
                 </form>
