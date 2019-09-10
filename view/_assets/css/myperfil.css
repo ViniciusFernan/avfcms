@@ -20,19 +20,20 @@
 }
 
 .timelineProfilePic {
-    width: 170px;
-    height: 170px;
+    width: 100%;
+    height: 244px;
     border: 5px solid #e2e2e2;
     background-color: #ffffff;
-    position: absolute;
-    margin-top: -145px;
-    margin-left: 20px;
+    margin-top: 0px;
+    margin-left: 0px;
     z-index: 5;
     overflow: hidden;
     box-shadow: 0 0 2px 1px #8e8e8e;
     position: relative;
 }
-
+.timelineProfilePic img{
+    width: 100%;
+}
 
 .absolute{
     position: absolute;
