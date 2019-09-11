@@ -5,7 +5,7 @@
 * @version 1.0
 * */
 
-class UsuarioFactory{
+Abstract class UsuarioFactory{
 
     private $nome;
     private $sobreNome;
