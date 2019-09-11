@@ -6,7 +6,6 @@
 * */
 
 Abstract class UsuarioFactory{
-
     private $nome;
     private $sobreNome;
     private $email;
