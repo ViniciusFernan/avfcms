@@ -5,7 +5,7 @@
 * @version 1.0
 * */
 
-require_once ABSPATH . "/models/dao/LoginDAO.php";
+require_once ABSPATH . "/models/dao/auth/LoginDAO.php";
 class LoginModel{
 
     public function logar($email, $senha) {

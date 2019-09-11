@@ -7,6 +7,9 @@
  * @author AVF-WEB
  * @version 1.0
  */
+
+require_once ABSPATH.'/models/class/mailer/MailerModel.php';
+
 class Util{
 
     private static $Data;
