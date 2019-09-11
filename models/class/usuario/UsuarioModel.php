@@ -5,8 +5,8 @@
 * @version 1.0
 * */
 
-require_once ABSPATH . "/models/factory/UsuarioFactory.php";
-require_once ABSPATH . "/models/dao/UsuarioDAO.php";
+require_once ABSPATH . "/models/factory/usuario/UsuarioFactory.php";
+require_once ABSPATH . "/models/dao/usuario/UsuarioDAO.php";
 class UsuarioModel extends UsuarioFactory {
 
     /**

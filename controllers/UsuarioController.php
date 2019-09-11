@@ -11,7 +11,7 @@
  * @version 1.0
  * */
 
-require_once ABSPATH . "/models/class/UsuarioModel.php";
+require_once ABSPATH . "/models/class/usuario/UsuarioModel.php";
 class UsuarioController extends MainController {
 
     /**
