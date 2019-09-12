@@ -6,6 +6,7 @@
 * */
 
 require_once ABSPATH . "/models/dao/auth/LoginDAO.php";
+require_once ABSPATH . "/models/dao/usuario/UsuarioDAO.php";
 class LoginModel{
 
     public function logar($email, $senha) {
@@ -26,8 +27,7 @@ class LoginModel{
             $_SESSION['usuario'] = [];
             unset($_SESSION['usuario']);
 
-            $loginDAO = new LoginDAO();
-            $loginResult = $loginDAO->getUsuarioFromEmailSenha(strtolower($email), Util::encriptaSenha($senha));
+            $loginResult = (new UsuarioDAO())->getUsuarioFromEmailSenha(strtolower($email), Util::encriptaSenha($senha));
 			
 			if(!empty($loginResult) && is_string($loginResult)) 
 				throw new Exception($loginResult);
