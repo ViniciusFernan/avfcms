@@ -14,35 +14,33 @@ class UsuarioDAO extends Conn {
      * @throws string
      */
     public function getUsuarioFromEmailSenha($email, $senha) {
+        $sql = "SELECT
+                    usuario.idUsuario,
+                    usuario.nome,
+                    usuario.sobreNome,
+                    usuario.email,
+                    usuario.idPerfil,
+                    usuario.superAdmin,
+                    usuario.status,
+                    perfil.idPerfil,
+                    perfil.nomePerfil
+                FROM usuario
+                INNER JOIN perfil ON usuario.idPerfil = perfil.idPerfil
+                WHERE  usuario.status = 1
+                AND usuario.email = :email
+                AND senha = BINARY :senha
+                LIMIT 1 ";
+
         try{
-            $sql = "SELECT
-                        usuario.idUsuario,
-                        usuario.nome,
-                        usuario.sobreNome,
-                        usuario.email,
-                        usuario.idPerfil,
-                        usuario.superAdmin,
-                        usuario.status,
-                        perfil.idPerfil,
-                        perfil.nomePerfil
-                    FROM usuario
-                    INNER JOIN perfil ON usuario.idPerfil = perfil.idPerfil
-                    WHERE  usuario.status = 1
-                    AND usuario.email = :email
-                    AND senha = BINARY :senha
-                    LIMIT 1 ";
-
             $select = new Select();
-            $dadosUsuario = $select->FullSelect($sql, "email={$email}&senha={$senha}");
-
-            if(!is_array($dadosUsuario) && !empty($dadosUsuario)) throw new Exception($dadosUsuario);
-
-            if(empty($dadosUsuario)) throw new Exception('Não achou nada nesse trem!');
-
-            return $dadosUsuario[0];
-        }catch(Exeption $e){
-            return $e->getMessage;
+            $listaUsuarios = $select->FullSelect($sql, "email={$email}&senha={$senha}");
+            if (!empty($listaUsuarios) && is_string($listaUsuarios)) throw new Exception($listaUsuarios);
+            return $listaUsuarios;
+        }catch (Exception $e){
+            return $e->getMessage();
         }
+
+
     }
 
     /**
@@ -190,5 +188,7 @@ class UsuarioDAO extends Conn {
             return $e->getMessage;
         }
     }
+
+
 
 }
