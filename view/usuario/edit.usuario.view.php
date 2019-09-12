@@ -106,9 +106,10 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
                             </div>
 
                             <div class="col-md-4">
-                                <div class="form-group">
+                                <div class="form-group passwordBox">
                                     <label for="senha">Senha de acesso:</label>
-                                    <input type="password" name="senha" class="form-control" placeholder="Senha de acesso" tabindex="5" value="" >
+                                    <input type="password" name="senha" class="form-control password" placeholder="Senha de acesso" tabindex="5" value="" >
+                                    <i id="showPassword" class="far fa-eye"></i>
                                 </div>
                             </div>
                         </div>
@@ -162,7 +163,7 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
 
                     <div class="card-action">
                         <button class="btn btn-success">Submit</button>
-                        <button class="btn btn-danger" type="reset">Cancel</button>
+                        <a class="btn btn-danger" href="<?=HOME_URI?>/usuario">Cancel</a>
                     </div>
                 </div>
                 </form>
@@ -229,10 +230,10 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
             var passwordFieldType = passwordField.attr('type');
             if(passwordFieldType == 'password') {
                 passwordField.attr('type', 'text');
-                $(this).html('<i class="material-icons" style="color: #000">visibility_off</i> <span> Ocultar Senha </span>');
+                $(this).removeClass('fa-eye').addClass('fa-eye-slash');
             }else{
                 passwordField.attr('type', 'password');
-                $(this).html(' <i class="material-icons" style="color: #000">visibility</i> <span> Mostrar senha </span>');
+                $(this).removeClass('fa-eye-slash').addClass('fa-eye');
             }
         });
 
