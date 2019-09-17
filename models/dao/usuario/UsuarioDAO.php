@@ -114,6 +114,25 @@ class UsuarioDAO extends Conn {
 
     }
 
+    public function checarUsuarioCadastrado($key, $valor){
+        try{
+            if(empty($key) || empty($valor) )
+                throw new Exception('Error grave nesse trem');
+
+            $select = new Select();
+            $dadosUsuario = $select->ExeRead('usuario', "WHERE {$key}=:{$key} AND status=:status", "{$key}={$valor}&status=1");
+            if(!is_array($dadosUsuario) && !empty($dadosUsuario)) throw new Exception($dadosUsuario);
+            if(!empty($dadosUsuario)):
+                return true;
+            else:
+                return false;
+            endif;
+        }catch(Exeption $e){
+            return $e->getMessage;
+        }
+
+    }
+
     public function buscarUsuarioPorEmail($email) {
         try{
             $sql = "SELECT
