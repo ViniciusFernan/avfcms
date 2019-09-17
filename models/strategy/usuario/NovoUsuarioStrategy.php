@@ -32,7 +32,7 @@ class NovoUsuarioStrategy extends UsuarioFactory {
             if(!empty($checkCPF))
                 throw new Exception('CPF já cadastrado!');
 
-            $post["idPerfil"] = 6;
+            $post["idPerfil"] = (!empty($post["idPerfil"])? $post["idPerfil"] : 6);
             $post["senha"] = Util::encriptaSenha($post['senha']);
             $post["dataNascimento"] = Util::DataToDate($post['dataNascimento']);
             $post["dataCadastro"] = date('Y-m-d H:i:s');
