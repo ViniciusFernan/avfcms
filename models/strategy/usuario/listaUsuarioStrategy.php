@@ -13,7 +13,7 @@ class listaUsuarioStrategy extends UsuarioFactory {
     /**
      * cadastro de novo usuario
      */
-    public function listaUsuario($post) {
+    public function listaUsuario() {
         try{
             $listaUsuarios = (new UsuarioDAO)->getListaDeUsuarios();
             if(!empty($listaUsuarios) && is_string($listaUsuarios)) throw new Exception($listaUsuarios);
