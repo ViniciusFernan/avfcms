@@ -9,6 +9,9 @@ require_once ABSPATH . "/models/factory/usuario/UsuarioFactory.php";
 require_once ABSPATH . "/models/dao/usuario/UsuarioDAO.php";
 require_once ABSPATH . "/models/strategy/usuario/NovoUsuarioStrategy.php";
 require_once ABSPATH . "/models/strategy/usuario/RecuperarSenhaUsuarioStrategy.php";
+require_once ABSPATH . "/models/strategy/usuario/listaUsuarioStrategy.php";
+require_once ABSPATH . "/models/strategy/usuario/editarUsuarioStrategy.php";
+require_once ABSPATH . "/models/strategy/usuario/getUsuarioStrategy.php";
 
 
 class UsuarioModel extends UsuarioFactory {
@@ -54,7 +57,7 @@ class UsuarioModel extends UsuarioFactory {
      */
     public function getListaDeUsuarios() {
         try{
-            $listaUsuarios = (new UsuarioDAO)->getListaDeUsuarios();
+            $listaUsuarios = (new listaUsuarioStrategy)->listaUsuario();
             if(!empty($listaUsuarios) && is_string($listaUsuarios)) throw new Exception($listaUsuarios);
             return $listaUsuarios;
         }catch (Exception $e){
@@ -69,7 +72,7 @@ class UsuarioModel extends UsuarioFactory {
         try{
             if(empty($id)) throw new Exception('Erro identificador do usuario não enviado');
 
-            $dadosUsuario = (new UsuarioDAO)->getUsuarioPorId($id);
+            $dadosUsuario = (new getUsuarioStrategy)->getUsuario($id);
             if(!empty($dadosUsuario) && is_string($dadosUsuario)) throw new Exception($dadosUsuario);
             return $dadosUsuario;
         }catch (Exception $e){
@@ -79,16 +82,7 @@ class UsuarioModel extends UsuarioFactory {
 
     public function editarUsuario($post){
         try{
-
-            if(empty($post['idUsuario'])) throw new Exception('Erro identificador do usuario não enviado');
-
-            $idUsuario=$post['idUsuario'];
-            unset($post['idUsuario']);
-
-            if(!empty($post['senha'])) $post['senha'] = Util::encriptaSenha($post['senha']);
-            else unset($post['senha']);
-
-            $updateUsuario = (new  UsuarioDAO)->editarUsuario($post, $idUsuario);
+            $updateUsuario = (new  editarUsuarioStrategy)->editarUsuario($post);
             if(is_string($updateUsuario) && !empty($updateUsuario)) throw new Exception($updateUsuario);
 
             return $updateUsuario;
