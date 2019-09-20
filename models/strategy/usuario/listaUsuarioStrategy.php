@@ -11,7 +11,8 @@ require_once ABSPATH . "/models/dao/usuario/UsuarioDAO.php";
 class listaUsuarioStrategy extends UsuarioFactory {
     
     /**
-     * cadastro de novo usuario
+     * lista de usuario
+     * @author Antonio Vinicius Fernandes
      */
     public function listaUsuario() {
         try{

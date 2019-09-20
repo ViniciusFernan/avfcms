@@ -12,6 +12,7 @@ class getUsuarioStrategy extends UsuarioFactory {
 
     /**
      * Retorna lista de usuarios
+     * @author Antonio Vinicius Fernandes
      */
     public function getUsuario($id){
         try{

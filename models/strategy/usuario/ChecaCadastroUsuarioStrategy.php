@@ -11,6 +11,7 @@ class ChecaCadastroUsuarioStrategy extends UsuarioFactory {
 
     /**
      * checar se existe usuario com esse email
+     * @author Antonio Vinicius Fernandes
      */
     public function checaCadastradoUsuario($key, $valor) {
         try{

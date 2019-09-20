@@ -13,6 +13,7 @@ class NovoUsuarioStrategy extends UsuarioFactory {
     
     /**
      * cadastro de novo usuario
+     * @author Antonio Vinicius Fernandes
      */
     public function novoUsuario($post) {
         try{

@@ -10,6 +10,12 @@ require_once ABSPATH . "/models/dao/usuario/UsuarioDAO.php";
 
 class editarUsuarioStrategy extends UsuarioFactory {
 
+    /**
+     * Edite usuario
+     * @author Antonio Vinicius Fernandes
+     * @param $post
+     * @return bool|string
+     */
     public function editarUsuario($post){
         try{
 
