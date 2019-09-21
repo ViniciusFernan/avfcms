@@ -106,12 +106,12 @@ class UsuarioController extends MainController {
         $View->showContents();
     }
 
-    public function UploadImagemPerfil(){
+    public function UploadImagemPerfilAction(){
 
         $this->checkLogado();
         if (empty($_FILES)) exit;
 
-        $dir = UP_ABSPATH."/users/{$_SESSION['usuario']['idUsuario']}/perfil/";
+        $dir = UP_ABSPATH."/usuario/{$_SESSION['usuario']['idUsuario']}/perfil/";
         $newName = 'img_prefil';
         $handle = new upload($_FILES['file']);
 

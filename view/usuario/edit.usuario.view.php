@@ -203,7 +203,7 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
             form_data.append('file', file_data);
 
             $.ajax({
-                url: '<?=HOME_URI?>/UsuarioController/UploadImagemPerfil',
+                url: '<?=HOME_URI?>/usuario/UploadImagemPerfil',
                 dataType: 'text',
                 method: 'POST',
 
