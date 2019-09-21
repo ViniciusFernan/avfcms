@@ -12,6 +12,8 @@
  * */
 
 require_once ABSPATH . "/models/class/usuario/UsuarioModel.php";
+require_once  ABSPATH . "/lib/UploadVerot/class.upload.php";
+
 class UsuarioController extends MainController {
 
     /**
@@ -103,5 +105,72 @@ class UsuarioController extends MainController {
         $View->setParams($resp);
         $View->showContents();
     }
+
+    public function UploadImagemPerfil(){
+
+        $this->checkLogado();
+        if (empty($_FILES)) exit;
+
+        $dir = UP_ABSPATH."/users/{$_SESSION['usuario']['idUsuario']}/perfil/";
+        $newName = 'img_prefil';
+        $handle = new upload($_FILES['file']);
+
+        $handle->file_new_name_body  = $newName;
+        $handle->image_convert       = 'jpg';
+        $handle->image_resize        = true;
+        $handle->image_ratio_fill    = true;
+        $handle->image_ratio_crop    = true;
+        $handle->image_x             = 1030;
+        $handle->image_y             = 306;
+        $handle->file_overwrite      = true;
+        $handle->file_auto_rename    = false;
+
+        $handle->allowed             = array('image/jpeg','image/jpg','image/gif','image/png');
+        $handle->process($dir);
+        $newImage = $handle->file_dst_name;
+
+
+
+        $handle->file_new_name_body  = "menu_".$newName;
+        $handle->image_convert       = 'jpg';
+        $handle->image_resize        = true;
+        $handle->image_ratio_crop    = true;
+        $handle->image_x             = 300;
+        $handle->image_y             = 135;
+
+        $handle->file_overwrite      = true;
+        $handle->file_auto_rename    = false;
+
+        $handle->allowed             = array('image/jpeg','image/jpg','image/gif','image/png');
+        $handle->process($dir);
+
+        if ($handle->processed) {
+
+            $data['idUsuario'] = $_SESSION['usuario']['idUsuario'];
+            $data['imgCapa'] = $newImage;
+
+            $user = new UsuariosModel;
+            $user->editarUsuario($data);
+            if(empty($user->getResult())){
+                $resp = array(
+                    "status" => 'error',
+                    "url" => '',
+                );
+            }
+
+            $resp = array(
+                "status" => 'success',
+                "url" => HOME_URI."/UPLOADS/users/".$_SESSION['usuario']['idUsuario']."/capa/".$newImage,
+                "class"=> 'imgCapa',
+            );
+            $handle->clean();
+        } else {
+            $resp['error'] = $handle->error;
+        }
+
+
+        echo json_encode($resp);
+    }
+
 
 }

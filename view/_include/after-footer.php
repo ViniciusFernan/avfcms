@@ -16,6 +16,7 @@
 <script src="https://cdn.jsdelivr.net/npm/pickadate@3.6.4/lib/picker.time.js"></script>
 
 <script src="https://rawgit.com/RobinHerbots/jquery.inputmask/3.x/dist/jquery.inputmask.bundle.js"></script>
+<script src="<?=THEME_URI?>/_assets/js/functions.js"></script>
 
 
 

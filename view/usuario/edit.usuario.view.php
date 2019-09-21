@@ -56,7 +56,7 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
                                     <label for="imgPerfil">Imagem de perfil:</label>
 
                                     <div class="timelineProfilePic my-bg">
-                                        <img src="  <?=(!empty($usuario->imgPerfil ) ? $usuario->imgPerfil  :  THEME_URI.'/_assets/images/profile.jpg')?> " class="bgImage imgPerfil">
+                                        <img src="<?=(!empty($usuario->imgPerfil ) ? $usuario->imgPerfil  :  THEME_URI.'/_assets/images/profile.jpg')?> " class="bgImage imgPerfil">
 
                                         <i class="fas fa-camera absolute foto-perfil"></i>
                                         <i class="fas fa-cloud-upload-alt upload foto-perfil-up" data-up="imgPerfil"></i>
@@ -203,7 +203,7 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
             form_data.append('file', file_data);
 
             $.ajax({
-                url: '<?=HOME_URI?>/Usuariosajax/Cropimagemfromperfilajax',
+                url: '<?=HOME_URI?>/UsuariosController/UploadImagemPerfil',
                 dataType: 'text',
                 method: 'POST',
 
