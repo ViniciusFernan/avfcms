@@ -110,7 +110,7 @@ class UsuarioController extends MainController {
         $this->checkLogado();
         if (empty($_FILES)) exit;
 
-        $optionsImagens['dir'] = UP_ABSPATH."/usuario/{$_SESSION['usuario']['idUsuario']}/perfil/";
+        $optionsImagens['dir'] = UP_ABSPATH."/usuario/{$_SESSION['usuario']->idUsuario}/perfil/";
         $optionsImagens['newName'] = 'img_prefil';
         $optionsImagens['tipoImage'] = 'jpg';
 
@@ -121,19 +121,19 @@ class UsuarioController extends MainController {
 
         if ($uploadprocessed['success']==true){
 
-            $data['idUsuario'] = $_SESSION['usuario']['idUsuario'];
+            $data['idUsuario'] = $_SESSION['usuario']->idUsuario;
             $data['imgPerfil'] = $uploadprocessed['msg'];
 
-            $user = new UsuarioModel;
-            $user->editarUsuario($data);
-            if(empty($user->getResult())){
-                $resp = array( "status"=>
-                    "error", "url"=>"");
-            }
+
+            $userEdit = (new UsuarioModel)->editarUsuario($data);
+
+            if(empty($userEdit)) $resp = array( "status"=> "error", "url"=>"");
+            if(!empty($userEdit) && !is_int($userEdit)) $resp = array( "status"=> "error", "url"=>"");
+
 
             $resp = array(
                 "status" => 'success',
-                "url" => UP_ABSPATH."/usuario/{$_SESSION['usuario']['idUsuario']}/perfil/".$uploadprocessed['msg']
+                "url" => UP_ABSPATH."/usuario/{$_SESSION['usuario']->idUsuario}/perfil/".$uploadprocessed['msg']
             );
 
         } else {
