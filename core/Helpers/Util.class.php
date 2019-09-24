@@ -8,7 +8,8 @@
  * @version 1.0
  */
 
-require_once ABSPATH.'/models/class/mailer/MailerModel.php';
+require_once ABSPATH . "/models/class/mailer/MailerModel.php";
+require_once ABSPATH . "/lib/UploadVerot/class.upload.php";
 
 class Util{
 
@@ -819,6 +820,39 @@ class Util{
         $cepLimpo = str_replace(array('.', '-'), '', $cep);
         $resp = json_decode( file_get_contents("http://viacep.com.br/ws/".$cepLimpo."/json/ ") );
         return $resp;
+    }
+
+    /** get endereço com cep == return object**/
+    public static function cropImagem($optionsImagem, $file){
+
+        if(!is_array($optionsImagem)) return false;
+
+        $handle = new upload($file);
+
+        $handle->file_new_name_body  = $optionsImagem['newName'];
+        $handle->image_convert       = $optionsImagem['tipoImage'];
+        $handle->image_resize        = true;
+        $handle->image_ratio_fill    = true;
+        $handle->image_ratio_crop    = true;
+        $handle->image_x             = $optionsImagem['size_x'];
+        $handle->image_y             = $optionsImagem['size_y'];
+        $handle->file_overwrite      = true;
+        $handle->file_auto_rename    = false;
+        $handle->allowed             = array('image/jpeg','image/jpg','image/gif','image/png');
+        $handle->process($optionsImagem['dir']);
+        $newImage = $handle->file_dst_name;
+
+        $retorno=[];
+        if($handle->processed) {
+            $handle->clean();
+            $retorno['success'] = true;
+            $retorno['msg'] = $newImage;
+        }
+        else {
+            $retorno['success'] = false;
+            $retorno['msg'] = $handle->error;
+        }
+        return $retorno;
     }
 
 }

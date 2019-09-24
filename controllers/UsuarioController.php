@@ -9,10 +9,9 @@
  * @package Sistema distribuido em modulos
  * @author AVF-WEB
  * @version 1.0
- * */
+ */
 
 require_once ABSPATH . "/models/class/usuario/UsuarioModel.php";
-require_once  ABSPATH . "/lib/UploadVerot/class.upload.php";
 
 class UsuarioController extends MainController {
 
@@ -111,6 +110,45 @@ class UsuarioController extends MainController {
         $this->checkLogado();
         if (empty($_FILES)) exit;
 
+        $optionsImagens['dir'] = UP_ABSPATH."/usuario/{$_SESSION['usuario']['idUsuario']}/perfil/";
+        $optionsImagens['newName'] = 'img_prefil';
+        $optionsImagens['tipoImage'] = 'jpg';
+
+        $optionsImagens['size_x']=300;
+        $optionsImagens['size_y']=300;
+
+        $uploadprocessed = Util::cropImagem($optionsImagens, $_FILES['file']);
+
+        if ($uploadprocessed['success']==true){
+
+            $data['idUsuario'] = $_SESSION['usuario']['idUsuario'];
+            $data['imgPerfil'] = $uploadprocessed['msg'];
+
+            $user = new UsuarioModel;
+            $user->editarUsuario($data);
+            if(empty($user->getResult())){
+                $resp = array( "status"=>
+                    "error", "url"=>"");
+            }
+
+            $resp = array(
+                "status" => 'success',
+                "url" => UP_ABSPATH."/usuario/{$_SESSION['usuario']['idUsuario']}/perfil/".$uploadprocessed['msg']
+            );
+
+        } else {
+            $resp['error'] = $uploadprocessed['msg'];
+        }
+
+
+        echo json_encode($resp);
+    }
+
+    public function ___Action(){
+
+        $this->checkLogado();
+        if (empty($_FILES)) exit;
+
         $dir = UP_ABSPATH."/usuario/{$_SESSION['usuario']['idUsuario']}/perfil/";
         $newName = 'img_prefil';
         $handle = new upload($_FILES['file']);
@@ -160,7 +198,7 @@ class UsuarioController extends MainController {
 
             $resp = array(
                 "status" => 'success',
-                "url" => HOME_URI."/UPLOADS/users/".$_SESSION['usuario']['idUsuario']."/capa/".$newImage,
+                "url" => UP_ABSPATH."/usuario/{$_SESSION['usuario']['idUsuario']}/perfil/".$newImage,
                 "class"=> 'imgCapa',
             );
             $handle->clean();
