@@ -56,7 +56,7 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
                                     <label for="imgPerfil">Imagem de perfil:</label>
 
                                     <div class="timelineProfilePic my-bg">
-                                        <img src="<?=(!empty($usuario->imgPerfil ) ? $usuario->imgPerfil  :  THEME_URI.'/_assets/images/profile.jpg')?> " class="bgImage imgPerfil">
+                                        <img src="<?=(!empty($usuario->imgPerfil ) ?  UP_URI."/usuario/{$_SESSION['usuario']->idUsuario}/perfil/{$usuario->imgPerfil}"  :  THEME_URI.'/_assets/images/profile.jpg')?> " class="bgImage imgPerfil">
 
                                         <i class="fas fa-camera absolute foto-perfil"></i>
                                         <i class="fas fa-cloud-upload-alt upload foto-perfil-up" data-up="imgPerfil"></i>
@@ -217,9 +217,8 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
                 success: function (x) {
                     var resp = JSON.parse(x);
                     $('.upload').fadeOut();
-                    $(".loading").remove();
-                    //location.reload(true);
-                    $('.'+resp.class).css({'background-image': 'url('+resp.url+')'});
+                    $(".loading").remove();  //location.reload(true);
+                    $('.imgPerfil').attr({ 'src': resp.url });
                 }
             });
         });

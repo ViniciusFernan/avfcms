@@ -133,7 +133,7 @@ class UsuarioController extends MainController {
 
             $resp = array(
                 "status" => 'success',
-                "url" => UP_ABSPATH."/usuario/{$_SESSION['usuario']->idUsuario}/perfil/".$uploadprocessed['msg']
+                "url" => UP_URI."/usuario/{$_SESSION['usuario']->idUsuario}/perfil/".$uploadprocessed['msg']
             );
 
         } else {
