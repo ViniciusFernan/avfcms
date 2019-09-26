@@ -8,7 +8,7 @@
 ?>
 <div class="user">
     <div class="photo">
-        <img src="<?=THEME_URI?>/_assets/images/profile.jpg">
+        <img class="imgPerfil" src="<?=(!empty($usuario->imgPerfil ) ?  UP_URI."/usuario/{$_SESSION['usuario']->idUsuario}/perfil/{$usuario->imgPerfil}"  :  THEME_URI.'/_assets/images/profile.jpg').'?v-'. rand(0, 1000)  ?>">
     </div>
     <div class="info">
         <a class="" data-toggle="collapse" href="#collapseExample" aria-expanded="true">

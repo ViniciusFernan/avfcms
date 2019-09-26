@@ -93,12 +93,12 @@
                 </li>
                 <li class="nav-item dropdown">
                     <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#" aria-expanded="false">
-                        <img src="<?=THEME_URI?>/_assets/images/profile.jpg" alt="user-img" width="36" class="img-circle"><span >Vinicius</span></span>
+                        <img src="<?=(!empty($usuario->imgPerfil ) ?  UP_URI."/usuario/{$_SESSION['usuario']->idUsuario}/perfil/{$usuario->imgPerfil}"  :  THEME_URI.'/_assets/images/profile.jpg').'?v-'. rand(0, 1000)  ?>" alt="user-img" width="36" class="img-circle imgPerfil"><span >Vinicius</span></span>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
                         <li>
                             <div class="user-box">
-                                <div class="u-img"><img src="<?=THEME_URI?>/_assets/images/profile.jpg" alt="user"></div>
+                                <div class="u-img"><img class="imgPerfil" src="<?=(!empty($usuario->imgPerfil ) ?  UP_URI."/usuario/{$_SESSION['usuario']->idUsuario}/perfil/{$usuario->imgPerfil}"  :  THEME_URI.'/_assets/images/profile.jpg').'?v-'. rand(0, 1000)  ?>" alt="user"></div>
                                 <div class="u-text">
                                     <h4><?=$_SESSION['usuario']->nome?></h4>
                                     <p class="text-muted"><?=$_SESSION['usuario']->email?></p>
