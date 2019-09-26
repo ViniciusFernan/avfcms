@@ -25,16 +25,7 @@ function removePreload() {
 
 function loading() {
 	$(".loading").remove();
-	var html="<div class='preloader pl-size-xl loading' style='position: fixed; top: 32%; left: 45%; z-index: 1000'>" +
-		"        <div class='spinner-layer pl-red'>" +
-		"            <div class='circle-clipper left'>" +
-		"                <div class='circle'></div>" +
-		"            </div>" +
-		"            <div class='circle-clipper right'>" +
-		"                <div class='circle'></div>" +
-		"            </div>" +
-		"        </div>" +
-		"    </div>";
+	var html='<div class="loading"><div class="spinner-border text-primary loading-cicle" role="status"><span class="sr-only">Loading...</span></div></div>';
 	$('body').append(html);
 }
 
