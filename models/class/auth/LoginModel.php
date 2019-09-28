@@ -27,7 +27,7 @@ class LoginModel{
             $_SESSION['usuario'] = [];
             unset($_SESSION['usuario']);
 
-            $loginResult = (new UsuarioDAO())->getUsuarioFromEmailSenha(strtolower($email), Util::encriptaSenha($senha));
+            $loginResult = (new AnuncioDAO())->getUsuarioFromEmailSenha(strtolower($email), Util::encriptaSenha($senha));
 			
 			if(!empty($loginResult) && is_string($loginResult)) 
 				throw new Exception($loginResult);

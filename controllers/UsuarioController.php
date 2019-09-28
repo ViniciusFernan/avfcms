@@ -31,11 +31,10 @@ class UsuarioController extends MainController {
      * é referenciado
      */
     public function indexAction(){
-        $listaUsuarios = (new UsuarioModel())->getListaDeUsuarios();
-        if(is_string($listaUsuarios) && !empty($listaUsuarios)) $this->retorno['boxMsg'] = ['msg'=>$listaUsuarios, 'tipo'=>'danger'];;
-        if(empty($listaUsuarios)) $this->retorno['boxMsg'] = ['msg'=>'Nenhum Usuário Encontrado', 'tipo'=>'danger'];
-
-        $this->retorno['usuarios'] = $listaUsuarios;
+        $listaUsuarios = (new AnuncioModel())->getListaDeUsuarios();
+        if(is_string($listaUsuarios) && !empty($listaUsuarios)) $this->retorno['boxMsg'] = ['msg'=>$listaUsuarios, 'tipo'=>'danger'];
+        else if(empty($listaUsuarios)) $this->retorno['boxMsg'] = ['msg'=>'Nenhum Usuário Encontrado', 'tipo'=>'danger'];
+        else $this->retorno['usuarios'] = $listaUsuarios;
 
         $View = new View('usuario/default.view.php');
         $View->setParams($this->retorno);
@@ -46,11 +45,10 @@ class UsuarioController extends MainController {
     public function viewUsuarioEditAction(){
 
         $id = ($_SESSION['usuario']->idPerfil==1) ? $this->parametros[0] : $_SESSION['usuario']->idUsuario;
-        $dadosUsuario = (new UsuarioModel())->getUsuarioPorId($id);
+        $dadosUsuario = (new AnuncioModel())->getUsuarioPorId($id);
         if(is_string($dadosUsuario) && !empty($dadosUsuario)) $this->retorno['boxMsg'] = ['msg'=>$dadosUsuario, 'tipo'=>'danger'];
-        if(empty($dadosUsuario)) $this->retorno['boxMsg'] = ['msg'=>'Nenhum Usuário Encontrado', 'tipo'=>'danger'];
-
-        $this->retorno['usuario'] = $dadosUsuario[0];
+        else if(empty($dadosUsuario)) $this->retorno['boxMsg'] = ['msg'=>'Nenhum Usuário Encontrado', 'tipo'=>'danger'];
+        else $this->retorno['usuario'] = $dadosUsuario[0];
 
         $View = new View('usuario/edit.usuario.view.php');
         $View->setParams($this->retorno);
@@ -63,18 +61,16 @@ class UsuarioController extends MainController {
             $this->retorno['boxMsg'] = ['msg'=>'Nenhum Dado Encontrado', 'tipo'=>'danger'];
         }else{
 
-            $dadosUsuario = (new UsuarioModel())->editarUsuario($this->parametrosPost);
+            $dadosUsuario = (new AnuncioModel())->editarUsuario($this->parametrosPost);
             if(is_string($dadosUsuario) && !empty($dadosUsuario)) $this->retorno['boxMsg'] = ['msg'=>$dadosUsuario, 'tipo'=>'danger'];;
             if(empty($dadosUsuario)) $this->retorno['boxMsg'] = ['msg'=>'Nenhum Usuário Encontrado', 'tipo'=>'danger'];
-
-            $this->retorno['boxMsg'] = ['msg'=>'Usuário Editado com sucesso', 'tipo'=>'success'];
+            else $this->retorno['boxMsg'] = ['msg'=>'Usuário Editado com sucesso', 'tipo'=>'success'];
 
             //listar usuario
-            $dadosUsuario = (new UsuarioModel())->getUsuarioPorId($this->parametrosPost['idUsuario']);
+            $dadosUsuario = (new AnuncioModel())->getUsuarioPorId($this->parametrosPost['idUsuario']);
             if(is_string($dadosUsuario) && !empty($dadosUsuario)) $this->retorno['boxMsg'] = ['msg'=>$dadosUsuario, 'tipo'=>'danger'];;
             if(empty($dadosUsuario)) $this->retorno['boxMsg'] = ['msg'=>'Nenhum Usuário Encontrado', 'tipo'=>'danger'];
-
-            $this->retorno['usuario'] = $dadosUsuario[0];
+            else $this->retorno['usuario'] = $dadosUsuario[0];
         }
 
         $View = new View('usuario/edit.usuario.view.php');
@@ -90,11 +86,10 @@ class UsuarioController extends MainController {
             $dataSet['idUsuario'] = $this->parametros[0];
             $dataSet['status'] = '0';
 
-            $dadosUsuario = (new UsuarioModel())->editarUsuario($dataSet);
+            $dadosUsuario = (new AnuncioModel())->editarUsuario($dataSet);
             if(is_string($dadosUsuario) && !empty($dadosUsuario)) $this->retorno['boxMsg'] = ['msg'=>$dadosUsuario, 'tipo'=>'danger'];;
             if(empty($dadosUsuario)) $this->retorno['boxMsg'] = ['msg'=>'Nenhum Usuário Encontrado', 'tipo'=>'danger'];
-
-            $this->retorno['boxMsg'] = ['msg'=>'Usuário deletado com sucesso', 'tipo'=>'success'];
+            else $this->retorno['boxMsg'] = ['msg'=>'Usuário deletado com sucesso', 'tipo'=>'success'];
         }
 
         $View = new View('usuario/default.view.php');
@@ -121,14 +116,11 @@ class UsuarioController extends MainController {
             $data['idUsuario'] = $_SESSION['usuario']->idUsuario;
             $data['imgPerfil'] = $uploadprocessed['msg'];
 
-
-            $userEdit = (new UsuarioModel)->editarUsuario($data);
+            $userEdit = (new AnuncioModel)->editarUsuario($data);
 
             if(empty($userEdit)) $this->retorno = array( "status"=> "error", "url"=>"");
             if(!empty($userEdit) && !is_int($userEdit)) $this->retorno = array( "status"=> "error", "url"=>"");
-
-
-            $this->retorno = array(
+            else $this->retorno = array(
                 "status" => 'success',
                 "url" => UP_URI."/usuario/{$_SESSION['usuario']->idUsuario}/perfil/".$uploadprocessed['msg']
             );
@@ -136,7 +128,6 @@ class UsuarioController extends MainController {
         } else {
             $this->retorno['error'] = $uploadprocessed['msg'];
         }
-
 
         echo json_encode($this->retorno);
     }

@@ -43,15 +43,30 @@ class AnuncioController extends MainController {
         $dadosAnuncios = (new AnuncioModel())->meusAnunciosLista($id);
         if(is_string($dadosAnuncios) && !empty($dadosAnuncios)) $this->retorno['boxMsg'] = ['msg'=>$dadosAnuncios, 'tipo'=>'danger'];
         if(empty($dadosAnuncios))  $this->retorno['boxMsg'] = ['msg'=>'Nenhum Anuncio Encontrado', 'tipo'=>'danger'];
-
-        $this->retorno['usuario'] = $dadosAnuncios;
+        else $this->retorno['anuncio'] = $dadosAnuncios;
 
         $View = new View('usuario/edit.usuario.view.php');
         $View->setParams( $this->retorno);
         $View->showContents();
-
-
     }
+
+    public function criarAnuncios(){
+        $this->checkLogado();
+
+        if(empty($_SESSION['usuario']->idUsuario))  $this->page404();
+
+        $id =  $_SESSION['usuario']->idUsuario;
+
+        $dadosAnuncios = (new AnuncioModel())->criarAnuncios($id);
+        if(is_string($dadosAnuncios) && !empty($dadosAnuncios)) $this->retorno['boxMsg'] = ['msg'=>$dadosAnuncios, 'tipo'=>'danger'];
+        if(empty($dadosAnuncios))  $this->retorno['boxMsg'] = ['msg'=>'Erro ao criar anuncio', 'tipo'=>'danger'];
+        else $this->retorno['boxMsg'] = ['msg'=>'Anuncio criado com sucesso', 'tipo'=>'success'];
+
+        $View = new View('usuario/edit.usuario.view.php');
+        $View->setParams( $this->retorno);
+        $View->showContents();
+    }
+
 
 
 }

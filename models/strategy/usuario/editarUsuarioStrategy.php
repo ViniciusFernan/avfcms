@@ -27,7 +27,7 @@ class editarUsuarioStrategy extends UsuarioFactory {
             if(!empty($post['senha'])) $post['senha'] = Util::encriptaSenha($post['senha']);
             else unset($post['senha']);
 
-            $updateUsuario = (new  UsuarioDAO)->editarUsuario($post, $idUsuario);
+            $updateUsuario = (new  AnuncioDAO)->editarUsuario($post, $idUsuario);
             if(is_string($updateUsuario) && !empty($updateUsuario)) throw new Exception($updateUsuario);
 
             return $updateUsuario;

@@ -19,7 +19,7 @@ class RecuperarSenhaUsuarioStrategy extends UsuarioFactory {
 
             $resp = $user = [];
 
-            $usuarioDAO = new UsuarioDAO;
+            $usuarioDAO = new AnuncioDAO;
             $user = $usuarioDAO->buscarUsuarioPorEmail($email);
             if(empty($user)) throw new Exception('Usuários não encontrado!');
             if(is_string($user) && !empty($user)) throw new Exception($user);

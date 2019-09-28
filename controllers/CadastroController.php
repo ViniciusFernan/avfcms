@@ -28,7 +28,7 @@ class CadastroController extends MainController {
     public function cadastrarNovoUsuarioAction(){
         $error = false;
 
-        $usuario = new UsuarioModel;
+        $usuario = new AnuncioModel;
 
         $insertResp = $usuario->novoUsuario($this->parametrosPost);
         if(empty($insertResp) && !is_int($insertResp) ) {
@@ -54,7 +54,7 @@ class CadastroController extends MainController {
 
     /***********************************   AJAX   ********************************************/
     public function checarSeUsuariosJaExisteAjaxAction(){
-        $usuario = new UsuarioModel;
+        $usuario = new AnuncioModel;
 
         if(!empty($this->parametrosPost['email'])) {
             $selectResp = $usuario->checarEmailJaEstaCadastrado(['email' => $this->parametrosPost['email']] );

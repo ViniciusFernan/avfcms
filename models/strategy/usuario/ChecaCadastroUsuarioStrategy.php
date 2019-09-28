@@ -17,7 +17,7 @@ class ChecaCadastroUsuarioStrategy extends UsuarioFactory {
         try{
             if(empty($key)|| empty($valor)) throw new Exception('Error em processar dados');
 
-            $returnUsuario = (new UsuarioDAO)->checarUsuarioCadastrado($key, $valor);
+            $returnUsuario = (new AnuncioDAO)->checarUsuarioCadastrado($key, $valor);
             if(!empty($returnUsuario) && is_string($returnUsuario)) throw new Exception($returnUsuario);
             return $returnUsuario;
         }catch (Exception $e){

@@ -18,7 +18,7 @@ class getUsuarioStrategy extends UsuarioFactory {
         try{
             if(empty($id)) throw new Exception('Erro identificador do usuario não enviado');
 
-            $dadosUsuario = (new UsuarioDAO)->getUsuarioPorId($id);
+            $dadosUsuario = (new AnuncioDAO)->getUsuarioPorId($id);
             if(!empty($dadosUsuario) && is_string($dadosUsuario)) throw new Exception($dadosUsuario);
             return $dadosUsuario;
         }catch (Exception $e){

@@ -28,7 +28,7 @@ class RecuperarSenhaController extends MainController {
 
         $post = (!empty($this->parametrosPost) ? $this->parametrosPost : false);
 
-        $user = (new UsuarioModel)->recuperarSenhaDoUsuario($post['email']);
+        $user = (new AnuncioModel)->recuperarSenhaDoUsuario($post['email']);
 
         if(empty($user)){
             $this->retorno['msg'] = 'Erro ao enviar email';
