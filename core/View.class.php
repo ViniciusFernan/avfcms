@@ -128,12 +128,8 @@ class View {
     private function checkViewFile($ViewFile){
         $return = false;
         if (!empty($ViewFile)){
-            if (file_exists(THEME_DIR.'/'.$ViewFile)){
-                $return = THEME_DIR.'/'.$ViewFile;
-            }
-
-            if(file_exists(MODULES_DIR . '/' . $ViewFile)){
-                $return = MODULES_DIR.'/'.$ViewFile;
+            if (file_exists(THEME_DIR.'/'.$ViewFile)) {
+                $return = THEME_DIR . '/' . $ViewFile;
             }
         }
 
