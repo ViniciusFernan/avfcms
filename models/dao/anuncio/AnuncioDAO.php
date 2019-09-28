@@ -75,6 +75,24 @@ class AnuncioDAO extends Conn {
 
     }
 
+    public function listarAnuncioPorUsuario($idUsuario){
+        try{
+            if(empty($idUsuario) )
+                throw new Exception('Error grave nesse trem');
+
+            $select = new Select();
+            $dadosAnuncio = $select->ExeRead('anuncio', "WHERE idUsuario=:idUsuario", "idUsuario={$idUsuario}");
+            if(!is_array($dadosAnuncio) && !empty($dadosAnuncio)) throw new Exception($dadosAnuncio);
+            if(!empty($dadosAnuncio)):
+                return true;
+            else:
+                return false;
+            endif;
+        }catch(Exeption $e){
+            return $e->getMessage;
+        }
+    }
+
 
 
 }
