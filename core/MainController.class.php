@@ -61,14 +61,16 @@ abstract class MainController {
      * @param BOOLEAN $ajax - True para barrar o acesso a pagina 404
      * @return boolean
      */
-    public function checaPermissoes($checaPermissoes, $ajax = false) {
-        if (!Util::Permissoes($checaPermissoes)) {
-            if ($ajax)
-                exit;
+    public function notPermission() {
             $View = new View('PermissaoNegada.view.php');
             $View->showContents();
-        }
     }
+
+    public function page404() {
+        $View = new View('page404/page404.php');
+        $View->showContents();
+    }
+
 
     public function checkLogado(){
         if(empty($_SESSION['usuario']) || !isset($_SESSION['usuario'])){

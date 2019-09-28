@@ -11,7 +11,7 @@
  * @version 1.0
  * */
 class Page404Controller extends MainController {
-
+    public $retorno =[];
 
     public function __construct() {
         $this->isLogin= false;

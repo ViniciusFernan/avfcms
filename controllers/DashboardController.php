@@ -13,7 +13,7 @@
 require_once ABSPATH . "/models/class/DashboardModel.php";
 
 class DashboardController extends MainController {
-
+    public $retorno =[];
     /**
      * IndexController constructor.
      * Define qual rota seguir

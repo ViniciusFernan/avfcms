@@ -13,6 +13,7 @@
 require_once ABSPATH . "/models/class/AnuncioModel.php";
 
 class AnuncioController extends MainController {
+    public $retorno =[];
 
     /**
      * IndexController constructor.
@@ -29,7 +30,27 @@ class AnuncioController extends MainController {
      * é referenciado
      */
     public function indexAction() {
-        echo 'Dashboard';
+        echo 'Anuncios';
+    }
+
+    public function meusAnuncios(){
+        $this->checkLogado();
+
+        if(empty($_SESSION['usuario']->idUsuario))  $this->page404();
+
+        $id =  $_SESSION['usuario']->idUsuario;
+
+        $dadosAnuncios = (new AnuncioModel())->meusAnunciosLista($id);
+        if(is_string($dadosAnuncios) && !empty($dadosAnuncios)) $this->retorno['boxMsg'] = ['msg'=>$dadosAnuncios, 'tipo'=>'danger'];
+        if(empty($dadosAnuncios))  $this->retorno['boxMsg'] = ['msg'=>'Nenhum Anuncio Encontrado', 'tipo'=>'danger'];
+
+        $this->retorno['usuario'] = $dadosAnuncios;
+
+        $View = new View('usuario/edit.usuario.view.php');
+        $View->setParams( $this->retorno);
+        $View->showContents();
+
+
     }
 
 

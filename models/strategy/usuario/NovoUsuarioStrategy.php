@@ -17,7 +17,8 @@ class NovoUsuarioStrategy extends UsuarioFactory {
      */
     public function novoUsuario($post) {
         try{
-            if(!is_array($post) || empty($post)) throw new Exception('Preencha o formulário!');
+            if(!is_array($post) || empty($post))
+                throw new Exception('Preencha o formulário!');
 
             if(empty($post['nome']) || empty($post['email']) || empty($post['CPF']) || empty($post['senha']) || empty($post['dataNascimento']))
                 throw new Exception('Dados obrigatórios não informados');

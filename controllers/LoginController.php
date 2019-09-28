@@ -13,6 +13,7 @@
 
 require_once ABSPATH . "/models/class/auth/LoginModel.php";
 class LoginController extends MainController {
+    public $retorno =[];
 
     public function __construct() {
         $this->isLogin= false;
@@ -35,25 +36,24 @@ class LoginController extends MainController {
 
 
         $logar = new LoginModel();
-        $resp = [];
         if (!empty($this->parametrosPost['email']) && !empty($this->parametrosPost['senha']) ) {
             $logado = $logar->logar($this->parametrosPost['email'], $this->parametrosPost['senha']);
 
             if (is_string($logado) && !empty($logado)) {
-                $resp['email'] = $this->parametrosPost['email'];
-                $resp['senha'] = $this->parametrosPost['senha'];
-                $resp['boxMsg'] = ['msg'=>$logado, 'tipo'=>'danger'];
+                $this->retorno['email'] = $this->parametrosPost['email'];
+                $this->retorno['senha'] = $this->parametrosPost['senha'];
+                $this->retorno['boxMsg'] = ['msg'=>$logado, 'tipo'=>'danger'];
             }else{
                 Util::redirect(HOME_URI);
             }
         }else{
-            $resp['email'] = !(empty($this->parametrosPost['email'])) ? $this->parametrosPost['email'] : '';
-            $resp['senha'] = !(empty($this->parametrosPost['senha'])) ? $this->parametrosPost['senha'] : '';
+            $this->retorno['email'] = !(empty($this->parametrosPost['email'])) ? $this->parametrosPost['email'] : '';
+            $this->retorno['senha'] = !(empty($this->parametrosPost['senha'])) ? $this->parametrosPost['senha'] : '';
         }
 
         //acesso a view;
         $View = new View('login/login.view.php');
-        $View->setParams($resp);
+        $View->setParams($this->retorno);
         $View->showContents();
     }
 

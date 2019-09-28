@@ -11,6 +11,7 @@
  * @version 1.0
  * */
 class IndexController extends MainController {
+    public $retorno =[];
 
     /**
      * IndexController constructor.
