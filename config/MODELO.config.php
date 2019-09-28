@@ -10,11 +10,9 @@
 $url = ($_SERVER['SERVER_NAME'] == 'localhost' ? 'http://localhost' : 'http://avfweb.com.br');
 
 define('HOME_URI', $url);
-/**PROJECT DIRETORIES */
-define('PROJECT', ($_SERVER['SERVER_NAME'] == 'localhost' ? '/avf_cms' : '' ) );
 
 /** Caminho para a raiz */
-define('ABSPATH', $_SERVER['DOCUMENT_ROOT'].PROJECT);
+define('ABSPATH', $_SERVER['DOCUMENT_ROOT']);
 
 /** Caminho para a pasta do tema */
 define('THEME_DIR', ABSPATH . '/view');
@@ -22,14 +20,11 @@ define('THEME_DIR', ABSPATH . '/view');
 /** URL do tema */
 define('THEME_URI', HOME_URI . '/view');
 
-/** URL do modulo */
-define('MODULES_URI', HOME_URI . '/modules');
-
-/** Caminho para a pasta do modulos */
-define('MODULES_DIR', ABSPATH . '/modules');
-
 /** Caminho para a pasta de uploads */
 define('UP_ABSPATH', ABSPATH . '/_uploads');
+
+/** Caminho para a pasta de uploads */
+define('UP_URI', HOME_URI . '/_uploads');
 
 /** Criptografia da senha */
 define('HASH', '502ff82f7f1f8218dd41201fe4353687');
