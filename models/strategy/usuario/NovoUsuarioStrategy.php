@@ -26,11 +26,11 @@ class NovoUsuarioStrategy extends UsuarioFactory {
             if(!empty($post['CPF']) && Util::CPF($post['CPF'])==FALSE )
                 throw new Exception('CPF informado é invalido');
 
-            $checkEmail = (new ChecaCadastroAnuncioStrategy)->checaCadastradoUsuario('email', $post['email']);
+            $checkEmail = (new ChecaCadastroUsuarioStrategy)->checaCadastradoUsuario('email', $post['email']);
             if(!empty($checkEmail))
                 throw new Exception('Email já cadastrado!');
 
-            $checkCPF = (new ChecaCadastroAnuncioStrategy)->checaCadastradoUsuario('CPF', $post['CPF']);
+            $checkCPF = (new ChecaCadastroUsuarioStrategy)->checaCadastradoUsuario('CPF', $post['CPF']);
             if(!empty($checkCPF))
                 throw new Exception('CPF já cadastrado!');
 
@@ -40,7 +40,7 @@ class NovoUsuarioStrategy extends UsuarioFactory {
             $post["dataCadastro"] = date('Y-m-d H:i:s');
             $post["status"] = 1 ;
 
-            $insertResp = (new AnuncioDAO)->insertNewUser($post);
+            $insertResp = (new UsuarioDAO)->insertNewUser($post);
 
             if(!empty($insertResp) && !is_int($insertResp))  throw new Exception($insertResp);
 

@@ -25,7 +25,7 @@ class UsuarioModel extends UsuarioFactory {
 
             $post["idPerfil"] = 6;
 
-            $insertResp = (new NovoAnuncioStrategy)->novoUsuario($post);
+            $insertResp = (new NovoUsuarioStrategy)->novoUsuario($post);
             if(!empty($insertResp) && !is_int($insertResp))  throw new Exception($insertResp);
 
             return $insertResp;
@@ -57,7 +57,7 @@ class UsuarioModel extends UsuarioFactory {
      */
     public function getListaDeUsuarios() {
         try{
-            $listaUsuarios = (new listaAnuncioPorUsuarioStrategy)->listaUsuario();
+            $listaUsuarios = (new listaUsuarioStrategy)->listaUsuario();
             if(!empty($listaUsuarios) && is_string($listaUsuarios)) throw new Exception($listaUsuarios);
             return $listaUsuarios;
         }catch (Exception $e){
@@ -72,7 +72,7 @@ class UsuarioModel extends UsuarioFactory {
         try{
             if(empty($id)) throw new Exception('Erro identificador do usuario não enviado');
 
-            $dadosUsuario = (new getAnuncioStrategy)->getUsuario($id);
+            $dadosUsuario = (new getUsuarioStrategy)->getUsuario($id);
             if(!empty($dadosUsuario) && is_string($dadosUsuario)) throw new Exception($dadosUsuario);
             return $dadosUsuario;
         }catch (Exception $e){
@@ -82,7 +82,7 @@ class UsuarioModel extends UsuarioFactory {
 
     public function editarUsuario($post){
         try{
-            $updateUsuario = (new  editarAnuncioStrategy)->editarUsuario($post);
+            $updateUsuario = (new  editarUsuarioStrategy)->editarUsuario($post);
             if(is_string($updateUsuario) && !empty($updateUsuario)) throw new Exception($updateUsuario);
 
             return $updateUsuario;

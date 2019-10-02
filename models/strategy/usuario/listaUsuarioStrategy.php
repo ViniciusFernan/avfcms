@@ -16,7 +16,7 @@ class listaUsuarioStrategy extends UsuarioFactory {
      */
     public function listaUsuario() {
         try{
-            $listaUsuarios = (new AnuncioDAO)->getListaDeUsuarios();
+            $listaUsuarios = (new UsuarioDAO)->getListaDeUsuarios();
             if(!empty($listaUsuarios) && is_string($listaUsuarios)) throw new Exception($listaUsuarios);
             return $listaUsuarios;
         }catch (Exception $e){
