@@ -9,7 +9,7 @@ require_once ABSPATH . "/models/factory/anuncio/AnuncioFactory.php";
 require_once ABSPATH . "/models/dao/anuncio/AnuncioDAO.php";
 require_once ABSPATH . "/models/strategy/anuncio/ChecaCadastroAnuncioStrategy.php";
 
-class NovoAnuncioStrategy extends UsuarioFactory {
+class NovoAnuncioStrategy extends AnuncioFactory {
     
     /**
      * cadastro de novo usuario
