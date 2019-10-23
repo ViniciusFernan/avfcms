@@ -846,10 +846,12 @@ class Util{
         if($handle->processed) {
             $handle->clean();
             $retorno['success'] = true;
-            $retorno['msg'] = $newImage;
+            $retorno['imgName'] = $newImage;
+            $retorno['msg'] = '';
         }
         else {
             $retorno['success'] = false;
+            $retorno['imgName'] = '';
             $retorno['msg'] = $handle->error;
         }
         return $retorno;

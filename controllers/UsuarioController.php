@@ -44,11 +44,14 @@ class UsuarioController extends MainController {
 
     public function viewUsuarioEditAction(){
 
+        if(!empty($this->parametrosPost) && !empty($_SESSION['usuario']) ) $this->editarUsuarioAction();
+
         $id = ($_SESSION['usuario']->idPerfil==1) ? $this->parametros[0] : $_SESSION['usuario']->idUsuario;
         $dadosUsuario = (new UsuarioModel())->getUsuarioPorId($id);
         if(is_string($dadosUsuario) && !empty($dadosUsuario)) $this->retorno['boxMsg'] = ['msg'=>$dadosUsuario, 'tipo'=>'danger'];
         else if(empty($dadosUsuario)) $this->retorno['boxMsg'] = ['msg'=>'Nenhum Usuário Encontrado', 'tipo'=>'danger'];
         else $this->retorno['usuario'] = $dadosUsuario[0];
+
 
         $View = new View('usuario/edit.usuario.view.php');
         $View->setParams($this->retorno);
@@ -114,19 +117,22 @@ class UsuarioController extends MainController {
         if ($uploadprocessed['success']==true){
 
             $data['idUsuario'] = $_SESSION['usuario']->idUsuario;
-            $data['imgPerfil'] = $uploadprocessed['msg'];
+            $data['imgPerfil'] = $uploadprocessed['imgName'];
 
             $userEdit = (new UsuarioModel)->editarUsuario($data);
 
             if(empty($userEdit)) $this->retorno = array( "status"=> "error", "url"=>"");
-            if(!empty($userEdit) && !is_int($userEdit)) $this->retorno = array( "status"=> "error", "url"=>"");
+            if(!empty($userEdit) && $userEdit!=true) $this->retorno = array( "status"=> "error", "url"=>"");
             else $this->retorno = array(
                 "status" => 'success',
-                "url" => UP_URI."/usuario/{$_SESSION['usuario']->idUsuario}/perfil/".$uploadprocessed['msg']
+                "url" => UP_URI."/usuario/{$_SESSION['usuario']->idUsuario}/perfil/".$uploadprocessed['imgName']
             );
 
         } else {
-            $this->retorno['error'] = $uploadprocessed['msg'];
+            $this->retorno['error'] = array(
+                "status" => 'error',
+                "url" =>''
+            );
         }
 
         echo json_encode($this->retorno);

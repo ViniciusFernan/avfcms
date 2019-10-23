@@ -43,7 +43,7 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
         <div class="content">
             <div class="container-fluid">
                 <div class="msg-box"><?php if(!empty($boxMsg)): echo Util::getAlert($boxMsg['msg'], $boxMsg['tipo']); endif; ?></div>
-                <form action="<?=HOME_URI?>/usuario/editarUsuario/" method="post"  enctype="multipart/form-data" >
+                <form action="<?=HOME_URI?>/usuario/viewUsuarioEdit/<?=$usuario->idUsuario?>" method="post"  enctype="multipart/form-data" >
                 <div class="card">
                     <div class="card-header">
                         <div class="card-title">Editar Usuário</div>
