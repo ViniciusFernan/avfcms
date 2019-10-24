@@ -52,7 +52,7 @@ class UsuarioController extends MainController {
         try{
             $id = ($_SESSION['usuario']->idPerfil==1) ? $this->parametros[0] : $_SESSION['usuario']->idUsuario;
             $dadosUsuario = (new UsuarioModel())->getUsuarioPorId($id);
-            if($dadosUsuario instanceof $dadosUsuario)throw $dadosUsuario;
+            if($dadosUsuario instanceof Exception) throw $dadosUsuario;
             if(empty($dadosUsuario)) throw new Exception('Nenhum Usuário Encontrado');
 
             $this->retorno['usuario'] = $dadosUsuario[0];
