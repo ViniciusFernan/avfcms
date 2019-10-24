@@ -50,6 +50,8 @@ class UsuarioController extends MainController {
 
     public function viewUsuarioEditAction(){
         try{
+            if(!empty($this->parametrosPost) && !empty($_SESSION['usuario']) ) $this->editarUsuarioAction();
+
             $id = ($_SESSION['usuario']->idPerfil==1) ? $this->parametros[0] : $_SESSION['usuario']->idUsuario;
             $dadosUsuario = (new UsuarioModel())->getUsuarioPorId($id);
             if($dadosUsuario instanceof Exception) throw $dadosUsuario;
@@ -59,7 +61,6 @@ class UsuarioController extends MainController {
         }catch (Exception $e){
             $this->retorno['boxMsg'] = ['msg'=>$e->getMessage(), 'tipo'=>'danger'];
         }
-        if(!empty($this->parametrosPost) && !empty($_SESSION['usuario']) ) $this->editarUsuarioAction();
 
         $View = new View('usuario/edit.usuario.view.php');
         $View->setParams($this->retorno);
