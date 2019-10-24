@@ -46,7 +46,7 @@ class NovoUsuarioStrategy extends UsuarioFactory {
 
             return $insertResp;
         }catch (Exception $e){
-            return $e->getMessage();
+            return $e;
         }
     }
 

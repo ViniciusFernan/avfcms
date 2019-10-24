@@ -33,7 +33,7 @@ abstract class Conn {
                 self::$Connect = new PDO($dsn, self::$User, self::$Pass, $options);
             endif;
         } catch (PDOException $e) {
-            return $e->getMessage();
+            return $e;
         }
 
         self::$Connect->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -45,7 +45,7 @@ abstract class Conn {
         try {
             return self::Conectar();
         }catch (PDOException $e){
-            return $e->getMessage();
+            return $e;
         }
     }
 

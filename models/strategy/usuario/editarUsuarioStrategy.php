@@ -32,7 +32,7 @@ class editarUsuarioStrategy extends UsuarioFactory {
 
             return $updateUsuario;
         }catch (Exception $e){
-            return $e->getMessage();
+            return $e;
         }
     }
 

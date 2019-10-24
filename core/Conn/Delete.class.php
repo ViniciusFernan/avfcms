@@ -23,7 +23,7 @@ class Delete extends Conn {
             $this->getSyntax();
             $this->Execute();
         }catch (Exception $e){
-            return $e->getMessage();
+            return $e;
         }
     }
 
@@ -60,7 +60,7 @@ class Delete extends Conn {
             $this->Delete->execute($this->Places);
            return true;
         } catch (PDOException $e) {
-            return  $e->getMessage();
+            return  $e;
         }
     }
 

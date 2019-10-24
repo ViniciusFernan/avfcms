@@ -156,7 +156,7 @@ class Mailer {
             }
 
         }catch (Exception $e){
-            return $e->getMessage();
+            return $e;
         }
     }
 

@@ -21,7 +21,7 @@ class ChecaCadastroUsuarioStrategy extends UsuarioFactory {
             if(!empty($returnUsuario) && is_string($returnUsuario)) throw new Exception($returnUsuario);
             return $returnUsuario;
         }catch (Exception $e){
-            return $e->getMessage();
+            return $e;
         }
     }
 

@@ -20,7 +20,7 @@ class listaUsuarioStrategy extends UsuarioFactory {
             if(!empty($listaUsuarios) && is_string($listaUsuarios)) throw new Exception($listaUsuarios);
             return $listaUsuarios;
         }catch (Exception $e){
-            return $e->getMessage();
+            return $e;
         }
     }
 

@@ -19,10 +19,10 @@ class getAnuncioStrategy extends AnuncioFactory {
             if(empty($id)) throw new Exception('Erro identificador do usuario não enviado');
 
             $dadosAnuncio = (new AnuncioDAO)->getAnuncioPorId($id);
-            if(!empty($dadosAnuncio) && is_string($dadosAnuncio)) throw new Exception($dadosAnuncio);
+            if($dadosAnuncio instanceof Exception) throw $dadosAnuncio;
             return $dadosAnuncio;
         }catch (Exception $e){
-            return $e->getMessage();
+            return $e;
         }
     }
 

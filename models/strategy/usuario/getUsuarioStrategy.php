@@ -22,7 +22,7 @@ class getUsuarioStrategy extends UsuarioFactory {
             if(!empty($dadosUsuario) && is_string($dadosUsuario)) throw new Exception($dadosUsuario);
             return $dadosUsuario;
         }catch (Exception $e){
-            return $e->getMessage();
+            return $e;
         }
     }
 

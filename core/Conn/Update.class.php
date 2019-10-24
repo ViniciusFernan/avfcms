@@ -88,7 +88,7 @@ class Update extends Conn {
             $this->Update->execute(array_merge($this->Dados, $this->Places));
            return $this->getRowCount();
         } catch (PDOException $e) {
-           return $e->getMessage();
+           return $e;
         }
     }
 

@@ -29,12 +29,11 @@ class NovoAnuncioStrategy extends AnuncioFactory {
             $post["status"] = 1 ;
 
             $insertResp = (new AnuncioDAO)->inserirNovoAnuncio($post);
-
-            if(!empty($insertResp) && !is_int($insertResp))  throw new Exception($insertResp);
+            if($insertResp instanceof Exception) throw $insertResp;
 
             return $insertResp;
         }catch (Exception $e){
-            return $e->getMessage();
+            return $e;
         }
     }
 

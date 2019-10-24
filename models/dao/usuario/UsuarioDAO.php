@@ -34,10 +34,10 @@ class UsuarioDAO extends Conn {
         try{
             $select = new Select();
             $listaUsuarios = $select->FullSelect($sql, "email={$email}&senha={$senha}");
-            if (!empty($listaUsuarios) && is_string($listaUsuarios)) throw new Exception($listaUsuarios);
+            if($listaUsuarios instanceof Exception) throw  $listaUsuarios;
             return $listaUsuarios;
         }catch (Exception $e){
-            return $e->getMessage();
+            return $e;
         }
 
 
@@ -55,11 +55,11 @@ class UsuarioDAO extends Conn {
                 throw new Exception('Error grave nesse trem');
 
             $userCreate = (new Create)->ExeCreate('usuario', $post);
-            if(!is_int($userCreate) && !empty($userCreate)) throw new Exception($userCreate);
+            if($userCreate instanceof Exception) throw  $userCreate;
 
             return $userCreate;
         }catch(Exeption $e){
-            return $e->getMessage;
+            return $e;
         }
 
     }
@@ -82,7 +82,7 @@ class UsuarioDAO extends Conn {
 
             $select = new Select();
             $dadosUsuario = $select->ExeRead('usuario', "WHERE email=:email AND status=:status", "email={$post['email']}&status=1");
-            if(!is_array($dadosUsuario) && !empty($dadosUsuario)) throw new Exception($dadosUsuario);
+            if($dadosUsuario instanceof Exception) throw $dadosUsuario;
             if(!empty($dadosUsuario)):
                 return true;
             else:
@@ -90,7 +90,7 @@ class UsuarioDAO extends Conn {
             endif;
 
         }catch(Exeption $e){
-            return $e->getMessage;
+            return $e;
         }
 
     }
@@ -102,14 +102,14 @@ class UsuarioDAO extends Conn {
 
             $select = new Select();
             $dadosUsuario = $select->ExeRead('usuario', "WHERE CPF=:CPF AND status=:status", "CPF={$post['CPF']}&status=1");
-            if(!is_array($dadosUsuario) && !empty($dadosUsuario)) throw new Exception($dadosUsuario);
+            if($dadosUsuario instanceof Exception) throw $dadosUsuario;
             if(!empty($dadosUsuario)):
                 return true;
             else:
                 return false;
             endif;
         }catch(Exeption $e){
-            return $e->getMessage;
+            return $e;
         }
 
     }
@@ -121,14 +121,14 @@ class UsuarioDAO extends Conn {
 
             $select = new Select();
             $dadosUsuario = $select->ExeRead('usuario', "WHERE {$key}=:{$key} AND status=:status", "{$key}={$valor}&status=1");
-            if(!is_array($dadosUsuario) && !empty($dadosUsuario)) throw new Exception($dadosUsuario);
+            if($dadosUsuario instanceof Exception) throw $dadosUsuario;
             if(!empty($dadosUsuario)):
                 return true;
             else:
                 return false;
             endif;
         }catch(Exeption $e){
-            return $e->getMessage;
+            return $e;
         }
 
     }
@@ -153,14 +153,13 @@ class UsuarioDAO extends Conn {
 
             $select = new Select();
             $dadosUsuario = $select->FullSelect($sql, "email={$email}");
-
-            if(!is_array($dadosUsuario) && !empty($dadosUsuario)) throw new Exception($dadosUsuario);
+            if($dadosUsuario instanceof Exception) throw $dadosUsuario;
 
             if(empty($dadosUsuario)) throw new Exception('Não achou nada nesse trem!');
 
             return $dadosUsuario[0];
         }catch(Exeption $e){
-            return $e->getMessage;
+            return $e;
         }
     }
 
@@ -182,14 +181,13 @@ class UsuarioDAO extends Conn {
 
             $select = new Select();
             $listaUsuario = $select->FullSelect($sql);
-
-            if(is_string($listaUsuario) && !empty($listaUsuario)) throw new Exception($listaUsuario);
+            if($listaUsuario instanceof Exception) throw $listaUsuario;
 
             if(empty($listaUsuario)) throw new Exception('Não achou nada nesse trem!');
 
             return $listaUsuario;
         }catch(Exeption $e){
-            return $e->getMessage;
+            return $e;
         }
     }
 
@@ -199,12 +197,12 @@ class UsuarioDAO extends Conn {
 
             $select = new Select();
             $dadosUsuario = $select->ExeRead('usuario', "WHERE idUsuario=:id", "id={$id}");
-            if(is_string($dadosUsuario) && !empty($dadosUsuario)) throw new Exception($dadosUsuario);
+            if($dadosUsuario instanceof Exception) throw $dadosUsuario;
             if(empty($dadosUsuario)) throw new Exception('Não achou nada nesse trem!');
 
             return $dadosUsuario;
         }catch(Exeption $e){
-            return $e->getMessage;
+            return $e;
         }
     }
 

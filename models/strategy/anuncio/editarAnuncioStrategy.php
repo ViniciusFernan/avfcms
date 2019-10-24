@@ -28,7 +28,7 @@ class editarAnuncioStrategy extends AnuncioFactory {
 
             return $updateAnuncio;
         }catch (Exception $e){
-            return $e->getMessage();
+            return $e;
         }
     }
 

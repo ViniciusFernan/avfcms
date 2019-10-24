@@ -59,7 +59,7 @@ class Create extends Conn {
             $this->Create->execute($this->Dados);
            return (int)$this->Conn->lastInsertId();
         } catch (PDOException $e) {
-            return $e->getMessage();
+            return $e;
         }
     }
 

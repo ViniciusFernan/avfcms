@@ -37,7 +37,7 @@ class PDF {
             $dompdf->stream();
 
         }catch (Exception $e){
-            return $e->getMessage();
+            return $e;
         }
     }
 

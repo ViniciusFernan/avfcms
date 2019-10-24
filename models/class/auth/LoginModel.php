@@ -37,7 +37,7 @@ class LoginModel{
             $_SESSION['usuario'] = $loginResult[0];
             return true;
         }catch (Exception $e){
-            return $e->getMessage();
+            return $e;
         }
     }
 

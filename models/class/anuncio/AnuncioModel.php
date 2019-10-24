@@ -18,11 +18,10 @@ class AnuncioModel extends UsuarioFactory {
             if(!is_array($post) || empty($post)) throw new Exception('Preencha o formulário!');
 
             $insertResp = (new NovoAnuncioStrategy)->novoAnuncio($post);
-            if(!empty($insertResp) && !is_int($insertResp))  throw new Exception($insertResp);
-
+            if($insertResp instanceof Exception) throw  $insertResp;
             return $insertResp;
         }catch (Exception $e){
-            return $e->getMessage();
+            return $e;
         }
     }
 
@@ -33,10 +32,10 @@ class AnuncioModel extends UsuarioFactory {
     public function getListaAnunciosUsuario($idUsuario) {
         try{
             $listaUsuarios = (new listaAnuncioPorUsuarioStrategy)->listaAnuncio();
-            if(!empty($listaUsuarios) && is_string($listaUsuarios)) throw new Exception($listaUsuarios);
+            if($listaUsuarios instanceof  Exception) throw $listaUsuarios;
             return $listaUsuarios;
         }catch (Exception $e){
-            return $e->getMessage();
+            return $e;
         }
     }
 
@@ -46,10 +45,10 @@ class AnuncioModel extends UsuarioFactory {
             if(empty($id)) throw new Exception('Erro identificador do usuario não enviado');
 
             $dadosUsuario = (new getAnuncioStrategy)->getAnuncio($id);
-            if(!empty($dadosUsuario) && is_string($dadosUsuario)) throw new Exception($dadosUsuario);
+            if($dadosUsuario instanceof Exception) throw $dadosUsuario;
             return $dadosUsuario;
         }catch (Exception $e){
-            return $e->getMessage();
+            return $e;
         }
     }
 
@@ -61,11 +60,11 @@ class AnuncioModel extends UsuarioFactory {
     public function editarAnuncio($post){
         try{
             $updateUsuario = (new  editarAnuncioStrategy)->editarUsuario($post);
-            if(is_string($updateUsuario) && !empty($updateUsuario)) throw new Exception($updateUsuario);
+            if($updateUsuario instanceof Exception) throw $updateUsuario;
 
             return $updateUsuario;
         }catch (Exception $e){
-            return $e->getMessage();
+            return $e;
         }
     }
 

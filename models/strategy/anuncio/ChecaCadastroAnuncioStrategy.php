@@ -22,7 +22,7 @@ class ChecaCadastroAnuncioStrategy extends AnuncioFactory {
             if(!empty($returnAnuncio) && is_string($returnAnuncio)) throw new Exception($returnAnuncio);
             return $returnAnuncio;
         }catch (Exception $e){
-            return $e->getMessage();
+            return $e;
         }
     }
 

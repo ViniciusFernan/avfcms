@@ -20,25 +20,30 @@ class AnuncioDAO extends Conn {
                 throw new Exception('Error grave nesse trem');
 
             $anuncioCreate = (new Create)->ExeCreate('anuncio', $post);
-            if(!is_int($anuncioCreate) && !empty($anuncioCreate)) throw new Exception($anuncioCreate);
+            if($anuncioCreate instanceof Exception) throw $anuncioCreate;
 
             return $anuncioCreate;
         }catch(Exeption $e){
-            return $e->getMessage;
+            return $e;
         }
 
     }
 
     public function editarAnuncio($Data, $idAnuncio){
-        if(!is_array($Data) || empty($Data)) throw new Exception('Tem um trem errado aqui!');
+        try{
+            if(!is_array($Data) || empty($Data)) throw new Exception('Tem um trem errado aqui!');
 
-        unset($Data['idAnuncio']);
+            unset($Data['idAnuncio']);
 
-        $updateAnuncio = (new Update)->ExeUpdate('anuncio', $Data, 'WHERE idAnuncio=:idAnuncio', "idAnuncio={$idAnuncio}");
-        if(is_string($updateAnuncio) && !empty($updateAnuncio)) throw new Exception($updateAnuncio);
-        if(empty($updateAnuncio)) throw new Exception('Ops, erro ao atualizar usuario');
+            $updateAnuncio = (new Update)->ExeUpdate('anuncio', $Data, 'WHERE idAnuncio=:idAnuncio', "idAnuncio={$idAnuncio}");
+            if($updateAnuncio instanceof Exception) throw $updateAnuncio;
+            if(empty($updateAnuncio)) throw new Exception('Ops, erro ao atualizar usuario');
 
-        return true;
+            return true;
+        }catch (Exception $e){
+            return $e;
+        }
+
     }
 
     public function getAnuncioPorId($id) {
@@ -47,12 +52,12 @@ class AnuncioDAO extends Conn {
 
             $select = new Select();
             $dadosAnuncio = $select->ExeRead('anuncio', "WHERE idAnuncio=:id", "id={$id}");
-            if(is_string($dadosAnuncio) && !empty($dadosAnuncio)) throw new Exception($dadosAnuncio);
+            if($dadosAnuncio instanceof Exception) throw $dadosAnuncio;
             if(empty($dadosAnuncio)) throw new Exception('Não achou nada nesse trem!');
 
             return $dadosAnuncio;
         }catch(Exeption $e){
-            return $e->getMessage;
+            return $e;
         }
     }
 
@@ -63,14 +68,14 @@ class AnuncioDAO extends Conn {
 
             $select = new Select();
             $dadosAnuncio = $select->ExeRead('anuncio', "WHERE slugAnuncio=:slugAnuncio", "slugAnuncio={$slugAnuncio}");
-            if(!is_array($dadosAnuncio) && !empty($dadosAnuncio)) throw new Exception($dadosAnuncio);
+            if($dadosAnuncio instanceof Exception) throw $dadosAnuncio;
             if(!empty($dadosAnuncio)):
                 return true;
             else:
                 return false;
             endif;
         }catch(Exeption $e){
-            return $e->getMessage;
+            return $e;
         }
 
     }
@@ -82,14 +87,14 @@ class AnuncioDAO extends Conn {
 
             $select = new Select();
             $dadosAnuncio = $select->ExeRead('anuncio', "WHERE idUsuario=:idUsuario", "idUsuario={$idUsuario}");
-            if(!is_array($dadosAnuncio) && !empty($dadosAnuncio)) throw new Exception($dadosAnuncio);
+            if($dadosAnuncio instanceof Exception) throw $dadosAnuncio;
             if(!empty($dadosAnuncio)):
                 return true;
             else:
                 return false;
             endif;
         }catch(Exeption $e){
-            return $e->getMessage;
+            return $e;
         }
     }
 

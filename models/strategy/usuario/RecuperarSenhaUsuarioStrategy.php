@@ -54,7 +54,7 @@ class RecuperarSenhaUsuarioStrategy extends UsuarioFactory {
 
             return (int) 1;
         }catch (Exception $e){
-            return $e->getMessage();
+            return $e;
         }
     }
 

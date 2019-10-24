@@ -26,11 +26,10 @@ class UsuarioModel extends UsuarioFactory {
             $post["idPerfil"] = 6;
 
             $insertResp = (new NovoUsuarioStrategy)->novoUsuario($post);
-            if(!empty($insertResp) && !is_int($insertResp))  throw new Exception($insertResp);
-
+            if($insertResp instanceof Exception) throw  $insertResp;
             return $insertResp;
         }catch (Exception $e){
-            return $e->getMessage();
+            return $e;
         }
     }
 
@@ -44,11 +43,11 @@ class UsuarioModel extends UsuarioFactory {
             if(!Util::Email($email) || empty($email)) throw new Exception('Error em processar dados');
 
             $returnUsuario = (new RecuperarSenhaUsuarioStrategy)->recuperarSenhaDoUsuario($email);
-            if(!empty($returnUsuario) && !is_int($returnUsuario))  throw new Exception($returnUsuario);
-
+            if($returnUsuario instanceof Exception)  throw $returnUsuario;
+            if(empty($returnUsuario)) throw new Exception('Erro grave nesse trem!');
             return (int) $returnUsuario;
         }catch (Exception $e){
-            return $e->getMessage();
+            return $e;
         }
     }
 
@@ -58,10 +57,10 @@ class UsuarioModel extends UsuarioFactory {
     public function getListaDeUsuarios() {
         try{
             $listaUsuarios = (new listaUsuarioStrategy)->listaUsuario();
-            if(!empty($listaUsuarios) && is_string($listaUsuarios)) throw new Exception($listaUsuarios);
+            if($listaUsuarios instanceof Exception) throw $listaUsuarios;
             return $listaUsuarios;
         }catch (Exception $e){
-            return $e->getMessage();
+            return $e;
         }
     }
 
@@ -73,21 +72,21 @@ class UsuarioModel extends UsuarioFactory {
             if(empty($id)) throw new Exception('Erro identificador do usuario não enviado');
 
             $dadosUsuario = (new getUsuarioStrategy)->getUsuario($id);
-            if(!empty($dadosUsuario) && is_string($dadosUsuario)) throw new Exception($dadosUsuario);
+            if($dadosUsuario instanceof Exception) throw $dadosUsuario;
             return $dadosUsuario;
         }catch (Exception $e){
-            return $e->getMessage();
+            return $e;
         }
     }
 
     public function editarUsuario($post){
         try{
             $updateUsuario = (new  editarUsuarioStrategy)->editarUsuario($post);
-            if(is_string($updateUsuario) && !empty($updateUsuario)) throw new Exception($updateUsuario);
+            if($updateUsuario instanceof Exception) throw $updateUsuario;
 
             return $updateUsuario;
         }catch (Exception $e){
-            return $e->getMessage();
+            return $e;
         }
     }
 

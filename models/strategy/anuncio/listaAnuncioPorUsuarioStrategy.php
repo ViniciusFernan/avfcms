@@ -17,10 +17,10 @@ class listaAnuncioPorUsuarioStrategy extends AnuncioFactory {
     public function listaAnuncio() {
         try{
             $listaAnuncioUsuarios = (new AnuncioDAO)->listarAnuncioPorUsuario();
-            if(!empty($listaAnuncioUsuarios) && is_string($listaAnuncioUsuarios)) throw new Exception($listaAnuncioUsuarios);
+            if($listaAnuncioUsuarios instanceof Exception) throw $listaAnuncioUsuarios;
             return $listaAnuncioUsuarios;
         }catch (Exception $e){
-            return $e->getMessage();
+            return $e;
         }
     }
 

@@ -138,7 +138,7 @@ class Select extends Conn {
 
             return $select;
         }catch (Exception $e){
-            return $e->getMessage();
+            return $e;
         }
 
     }
@@ -176,7 +176,7 @@ class Select extends Conn {
 
             return $fullSelect;
         }catch (Exception $e){
-            return $e->getMessage();
+            return $e;
         }
 
 
@@ -192,11 +192,10 @@ class Select extends Conn {
         try{
             parse_str($ParseString, $this->Places);
             $setPlaces = $this->Execute();
-            if(is_string($setPlaces) && !empty($setPlaces)) throw new Exception($setPlaces);
-
+            if($setPlaces instanceof Exception) throw $setPlaces;
             return $setPlaces;
         }catch (Exception $e){
-            return $e->getMessage();
+            return $e;
         }
 
     }
@@ -235,7 +234,7 @@ class Select extends Conn {
 
             return $this->Read->fetchAll( PDO::FETCH_OBJ); //return array objects
         } catch (PDOException $e) {
-           return $e->getMessage();
+           return $e;
         }
     }
 
@@ -265,7 +264,7 @@ class Select extends Conn {
             $this->offset = ($this->paginaAtual * $this->limit) - $this->limit;
 
         } catch (PDOException $e) {
-            return $e->getMessage();
+            return $e;
         }
 
     }
