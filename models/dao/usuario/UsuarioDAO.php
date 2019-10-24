@@ -35,6 +35,7 @@ class UsuarioDAO extends Conn {
             $select = new Select();
             $listaUsuarios = $select->FullSelect($sql, "email={$email}&senha={$senha}");
             if($listaUsuarios instanceof Exception) throw  $listaUsuarios;
+                if(empty($listaUsuarios)) throw new Exception('Nenhum Usuario encontrado nesse trem!');
             return $listaUsuarios;
         }catch (Exception $e){
             return $e;

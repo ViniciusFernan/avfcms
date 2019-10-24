@@ -172,7 +172,7 @@ class Select extends Conn {
                 parse_str($ParseString, $this->Places);
             endif;
             $fullSelect = $this->Execute();
-            if(is_string($fullSelect) && !empty($fullSelect)) throw new Exception($fullSelect);
+            if($fullSelect instanceof Exception) throw $fullSelect;
 
             return $fullSelect;
         }catch (Exception $e){

@@ -25,24 +25,19 @@ class RecuperarSenhaController extends MainController {
     }
 
     public function criarNovaSenhaAction(){
+        try{
+            $post = (!empty($this->parametrosPost) ? $this->parametrosPost : false);
+            $user = (new AnuncioModel)->recuperarSenhaDoUsuario($post['email']);
+            if($user instanceof Exception) throw $user;
+            if(empty($user)) throw new Exception('Erro ao enviar email');
 
-        $post = (!empty($this->parametrosPost) ? $this->parametrosPost : false);
-
-        $user = (new AnuncioModel)->recuperarSenhaDoUsuario($post['email']);
-
-        if(empty($user)){
-            $this->retorno['msg'] = 'Erro ao enviar email';
-            $this->retorno['tipo'] = 'danger';
-        }else if(!empty($user) && $user !=1 ){
-            $this->retorno['msg'] = $user;
-            $this->retorno['tipo'] = 'danger';
-        }else{
-            $this->retorno['msg'] = 'Foi enviado para seu email os passos para recuperar sua senha';
-            $this->retorno['tipo'] = 'success';
+            $this->retorno['boxMsg'] = ['msg'=>'Foi enviado para seu email os passos para recuperar sua senha', 'tipo'=>'success'];
+        }catch (Exception $e){
+            $this->retorno['boxMsg'] = ['msg'=>$e->getMessage(), 'tipo'=>'danger'];
         }
 
         $View = new View('cadastro/novasenha.view.php');
-        $View->addParams('boxMsg', $this->retorno);
+        $View->setParams($this->retorno);
         $View->showContents();
 
     }

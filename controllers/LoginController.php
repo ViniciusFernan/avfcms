@@ -29,26 +29,26 @@ class LoginController extends MainController {
      * é referenciado
      */
     public function indexAction() {
-        if (isset($_SESSION['usuario']) && !empty($_SESSION['usuario'])):
-            Util::redirect(HOME_URI);
-            exit;
-        endif;
-
-
-        $logar = new LoginModel();
-        if (!empty($this->parametrosPost['email']) && !empty($this->parametrosPost['senha']) ) {
-            $logado = $logar->logar($this->parametrosPost['email'], $this->parametrosPost['senha']);
-
-            if (is_string($logado) && !empty($logado)) {
-                $this->retorno['email'] = $this->parametrosPost['email'];
-                $this->retorno['senha'] = $this->parametrosPost['senha'];
-                $this->retorno['boxMsg'] = ['msg'=>$logado, 'tipo'=>'danger'];
-            }else{
+        try{
+            if (isset($_SESSION['usuario']) && !empty($_SESSION['usuario'])):
                 Util::redirect(HOME_URI);
+                exit;
+            endif;
+
+            $logar = new LoginModel();
+            if (!empty($this->parametrosPost['email']) && !empty($this->parametrosPost['senha']) ) {
+                $logado = $logar->logar($this->parametrosPost['email'], $this->parametrosPost['senha']);
+                if($logado instanceof Exception) throw $logado;
+
+                Util::redirect(HOME_URI);
+            }else{
+                $this->retorno['email'] = !(empty($this->parametrosPost['email'])) ? $this->parametrosPost['email'] : '';
+                $this->retorno['senha'] = !(empty($this->parametrosPost['senha'])) ? $this->parametrosPost['senha'] : '';
             }
-        }else{
-            $this->retorno['email'] = !(empty($this->parametrosPost['email'])) ? $this->parametrosPost['email'] : '';
-            $this->retorno['senha'] = !(empty($this->parametrosPost['senha'])) ? $this->parametrosPost['senha'] : '';
+        }catch (Exception $e){
+            $this->retorno['email'] = $this->parametrosPost['email'];
+            $this->retorno['senha'] = $this->parametrosPost['senha'];
+            $this->retorno['boxMsg'] = ['msg'=>$e->getMessage(), 'tipo'=>'danger'];
         }
 
         //acesso a view;

@@ -31,10 +31,16 @@ class UsuarioController extends MainController {
      * é referenciado
      */
     public function indexAction(){
-        $listaUsuarios = (new UsuarioModel())->getListaDeUsuarios();
-        if(is_string($listaUsuarios) && !empty($listaUsuarios)) $this->retorno['boxMsg'] = ['msg'=>$listaUsuarios, 'tipo'=>'danger'];
-        else if(empty($listaUsuarios)) $this->retorno['boxMsg'] = ['msg'=>'Nenhum Usuário Encontrado', 'tipo'=>'danger'];
-        else $this->retorno['usuarios'] = $listaUsuarios;
+        try{
+            $listaUsuarios = (new UsuarioModel())->getListaDeUsuarios();
+            if($listaUsuarios instanceof  Exception) throw $listaUsuarios;
+            if(empty($listaUsuarios)) throw new Exception('Nenhum Usuário Encontrado');
+
+            $this->retorno['usuarios'] = $listaUsuarios;
+        }catch (Exception $e){
+            $this->retorno['boxMsg'] = ['msg'=>$e->getMessage(), 'tipo'=>'danger'];
+        }
+
 
         $View = new View('usuario/default.view.php');
         $View->setParams($this->retorno);
@@ -43,15 +49,17 @@ class UsuarioController extends MainController {
 
 
     public function viewUsuarioEditAction(){
+        try{
+            $id = ($_SESSION['usuario']->idPerfil==1) ? $this->parametros[0] : $_SESSION['usuario']->idUsuario;
+            $dadosUsuario = (new UsuarioModel())->getUsuarioPorId($id);
+            if($dadosUsuario instanceof $dadosUsuario)throw $dadosUsuario;
+            if(empty($dadosUsuario)) throw new Exception('Nenhum Usuário Encontrado');
 
+            $this->retorno['usuario'] = $dadosUsuario[0];
+        }catch (Exception $e){
+            $this->retorno['boxMsg'] = ['msg'=>$e->getMessage(), 'tipo'=>'danger'];
+        }
         if(!empty($this->parametrosPost) && !empty($_SESSION['usuario']) ) $this->editarUsuarioAction();
-
-        $id = ($_SESSION['usuario']->idPerfil==1) ? $this->parametros[0] : $_SESSION['usuario']->idUsuario;
-        $dadosUsuario = (new UsuarioModel())->getUsuarioPorId($id);
-        if(is_string($dadosUsuario) && !empty($dadosUsuario)) $this->retorno['boxMsg'] = ['msg'=>$dadosUsuario, 'tipo'=>'danger'];
-        else if(empty($dadosUsuario)) $this->retorno['boxMsg'] = ['msg'=>'Nenhum Usuário Encontrado', 'tipo'=>'danger'];
-        else $this->retorno['usuario'] = $dadosUsuario[0];
-
 
         $View = new View('usuario/edit.usuario.view.php');
         $View->setParams($this->retorno);
@@ -59,21 +67,22 @@ class UsuarioController extends MainController {
     }
 
     public function editarUsuarioAction(){
-
-        if(empty($this->parametrosPost)){
-            $this->retorno['boxMsg'] = ['msg'=>'Nenhum Dado Encontrado', 'tipo'=>'danger'];
-        }else{
+        try{
+            if(empty($this->parametrosPost)) throw new Exception('Nenhum Dado Encontrado');
 
             $dadosUsuario = (new UsuarioModel())->editarUsuario($this->parametrosPost);
-            if(is_string($dadosUsuario) && !empty($dadosUsuario)) $this->retorno['boxMsg'] = ['msg'=>$dadosUsuario, 'tipo'=>'danger'];;
-            if(empty($dadosUsuario)) $this->retorno['boxMsg'] = ['msg'=>'Nenhum Usuário Encontrado', 'tipo'=>'danger'];
-            else $this->retorno['boxMsg'] = ['msg'=>'Usuário Editado com sucesso', 'tipo'=>'success'];
+            if($dadosUsuario instanceof Exception) throw $dadosUsuario;
+            if(empty($dadosUsuario)) throw new Exception('Nenhum Usuário Encontrado');
+            $this->retorno['boxMsg'] = ['msg'=>'Usuário Editado com sucesso', 'tipo'=>'success'];
 
             //listar usuario
             $dadosUsuario = (new UsuarioModel())->getUsuarioPorId($this->parametrosPost['idUsuario']);
-            if(is_string($dadosUsuario) && !empty($dadosUsuario)) $this->retorno['boxMsg'] = ['msg'=>$dadosUsuario, 'tipo'=>'danger'];;
-            if(empty($dadosUsuario)) $this->retorno['boxMsg'] = ['msg'=>'Nenhum Usuário Encontrado', 'tipo'=>'danger'];
-            else $this->retorno['usuario'] = $dadosUsuario[0];
+            if($dadosUsuario instanceof Exception) throw $dadosUsuario;
+            if(empty($dadosUsuario)) throw new Exception('Nenhum Usuário Listado');
+            $this->retorno['usuario'] = $dadosUsuario[0];
+
+        }catch (Exception $e){
+            $this->retorno['boxMsg'] = ['msg'=>$e->getMessage(), 'tipo'=>'danger'];
         }
 
         $View = new View('usuario/edit.usuario.view.php');
@@ -82,17 +91,18 @@ class UsuarioController extends MainController {
     }
 
     public function deletarUsuarioAction(){
+        try{
+            if(empty($this->parametrosPost)) throw new Exception('Nenhum Dado Encontrado');
 
-        if(empty($this->parametros)){
-            $this->retorno['boxMsg'] = ['msg'=>'Nenhum Dado Encontrado', 'tipo'=>'danger'];
-        }else{
             $dataSet['idUsuario'] = $this->parametros[0];
             $dataSet['status'] = '0';
 
             $dadosUsuario = (new UsuarioModel())->editarUsuario($dataSet);
-            if(is_string($dadosUsuario) && !empty($dadosUsuario)) $this->retorno['boxMsg'] = ['msg'=>$dadosUsuario, 'tipo'=>'danger'];;
-            if(empty($dadosUsuario)) $this->retorno['boxMsg'] = ['msg'=>'Nenhum Usuário Encontrado', 'tipo'=>'danger'];
-            else $this->retorno['boxMsg'] = ['msg'=>'Usuário deletado com sucesso', 'tipo'=>'success'];
+            if($dadosUsuario instanceof Exception) throw $dadosUsuario;
+            $this->retorno['boxMsg'] = ['msg'=>'Usuário deletado com sucesso', 'tipo'=>'success'];
+
+        }catch (Exception $e){
+            $this->retorno['boxMsg'] = ['msg'=>$e->getMessage(), 'tipo'=>'danger'];
         }
 
         $View = new View('usuario/default.view.php');
@@ -101,39 +111,42 @@ class UsuarioController extends MainController {
     }
 
     public function UploadImagemPerfilAction(){
+        try{
+            $this->checkLogado();
+            if (empty($_FILES)) throw new Exception('Arquivo Defeituoso!');
 
-        $this->checkLogado();
-        if (empty($_FILES)) exit;
+            $optionsImagens['dir'] = UP_ABSPATH."/usuario/{$_SESSION['usuario']->idUsuario}/perfil/";
+            $optionsImagens['newName'] = 'img_prefil';
+            $optionsImagens['tipoImage'] = 'jpg';
 
-        $optionsImagens['dir'] = UP_ABSPATH."/usuario/{$_SESSION['usuario']->idUsuario}/perfil/";
-        $optionsImagens['newName'] = 'img_prefil';
-        $optionsImagens['tipoImage'] = 'jpg';
+            $optionsImagens['size_x']=300;
+            $optionsImagens['size_y']=300;
 
-        $optionsImagens['size_x']=300;
-        $optionsImagens['size_y']=300;
+            $uploadprocessed = Util::cropImagem($optionsImagens, $_FILES['file']);
 
-        $uploadprocessed = Util::cropImagem($optionsImagens, $_FILES['file']);
+            if ($uploadprocessed['success']==true){
 
-        if ($uploadprocessed['success']==true){
+                $data['idUsuario'] = $_SESSION['usuario']->idUsuario;
+                $data['imgPerfil'] = $uploadprocessed['imgName'];
 
-            $data['idUsuario'] = $_SESSION['usuario']->idUsuario;
-            $data['imgPerfil'] = $uploadprocessed['imgName'];
+                $userEdit = (new UsuarioModel)->editarUsuario($data);
+                if($userEdit instanceof Exception) throw $userEdit;
 
-            $userEdit = (new UsuarioModel)->editarUsuario($data);
+                $this->retorno = array(
+                    "status" => 'success',
+                    "url" => UP_URI."/usuario/{$_SESSION['usuario']->idUsuario}/perfil/".$uploadprocessed['imgName']
+                );
 
-            if(empty($userEdit)) $this->retorno = array( "status"=> "error", "url"=>"");
-            if(!empty($userEdit) && $userEdit!=true) $this->retorno = array( "status"=> "error", "url"=>"");
-            else $this->retorno = array(
-                "status" => 'success',
-                "url" => UP_URI."/usuario/{$_SESSION['usuario']->idUsuario}/perfil/".$uploadprocessed['imgName']
-            );
+            }else{
+                throw new Exception('Erro ao processar a imagem');
+            }
 
-        } else {
-            $this->retorno['error'] = array(
-                "status" => 'error',
-                "url" =>''
-            );
+        }catch (Exception $e){
+            $this->retorno['error'] = array( "status" => 'error', "msg" => $e->getMessage(), "url" =>'');
         }
+
+
+
 
         echo json_encode($this->retorno);
     }
