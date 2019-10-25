@@ -30,7 +30,8 @@ class AnuncioController extends MainController {
      * é referenciado
      */
     public function indexAction() {
-        echo 'Anuncios';
+        $this->meusAnunciosAction();
+        //echo 'Anuncios';
     }
 
     public function meusAnunciosAction(){
@@ -43,7 +44,7 @@ class AnuncioController extends MainController {
             if($dadosAnuncios instanceof Exception) throw $dadosAnuncios;
             if(empty($dadosAnuncios)) throw new Exception('Nenhum anuncio encontrado!');
 
-            $this->retorno['anuncio'] = $dadosAnuncios;
+            $this->retorno['anuncios'] = $dadosAnuncios;
         }catch (Exception $e){
             $this->retorno['boxMsg'] = ['msg'=> $e->getMessage(), 'tipo'=>'danger'];
         }
@@ -53,7 +54,7 @@ class AnuncioController extends MainController {
         $View->showContents();
     }
 
-    public function criarAnunciosAction(){
+    public function criarAnuncioAction(){
         try{
             $this->checkLogado();
             if(empty($_SESSION['usuario']->idUsuario))  $this->page404();

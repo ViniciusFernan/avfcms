@@ -3,7 +3,7 @@ if (!defined('ABSPATH'))
     exit;
 $Param = $this->getParams();
 $boxMsg = (!empty($Param['boxMsg']) ? $Param['boxMsg'] : NULL);
-$usuarios = (!empty($Param['usuarios']) ? $Param['usuarios'] : NULL);
+$anuncios = (!empty($Param['anuncios']) ? $Param['anuncios'] : NULL);
 $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
 ?>
 <!DOCTYPE html>
@@ -39,7 +39,9 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
     <div class="main-panel">
         <div class="content">
             <div class="container-fluid">
-                <h4 class="page-title">Meus Anuncios</h4>
+                <h4 class="page-title">Meus Anuncios
+                    <a class="btn btn-success btn-sm pull-right" href="<?=HOME_URI?>/anuncio/criaranuncio/">Add Anuncio</a>
+                </h4>
                 <div class="card">
                     <div class="card-body">
                         <tr class="table-responsive">
@@ -47,36 +49,28 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
                                 <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>NOME</th>
-                                    <th>EMAIL</th>
-                                    <th>TELEFONE</th>
-                                    <th>PERFIL</th>
+                                    <th>SLUG</th>
+                                    <th>TITULO</th>
                                     <th>STATUS</th>
                                     <th>AÇÕES</th>
                                 </tr>
                                 </thead>
                                 <tbody>
 
-                                <?php if(!empty($usuarios)): ?>
-                                    <?php foreach($usuarios as $key => $usuario): ?>
-                                        <tr data-id="<?=$usuario->idUsuario ?>" >
-                                            <td><?=$usuario->idUsuario ?></td>
-                                            <td><?=$usuario->nome?>  <?=$usuario->sobreNome?></td>
-                                            <td><?=$usuario->email ?></td>
-                                            <td><?=$usuario->telefone ?></td>
-                                            <td>
-                                                 <span class="p-1 <?=(( $usuario->idPerfil=='1' ) ? "btn-success" : ""  )?> ">
-                                                 <?=$usuario->nomePerfil ?>
-                                                </span>
-                                            </td>
+                                <?php if(!empty($anuncios)): ?>
+                                    <?php foreach($anuncios as $key => $anuncio): ?>
+                                        <tr data-id="<?=$usuario->idAnuncio ?>" >
+                                            <td><?=$anuncio->idAnuncio ?></td>
+                                            <td><?=$anuncio->SlugAnuncio?> </td>
+                                            <td><?=$anuncio->titulo ?></td>
                                             <td class="align-center">
-                                            <span class="p-1 <?=(( $usuario->status=='0' ) ? "btn-danger" : (($usuario->status=='1') ? "btn-success" : "btn-primary" ) )?> ">
-                                                <?=(( $usuario->status=='0' ) ? "DELETADO" : (($usuario->status=='1') ? "ATIVO" : "INATIVO" ) )?>
+                                            <span class="p-1 <?=(( $anuncio->status=='0' ) ? "btn-danger" : (($anuncio->status=='1') ? "btn-success" : "btn-primary" ) )?> ">
+                                                <?=(( $anuncio->status=='0' ) ? "DELETADO" : (($anuncio->status=='1') ? "ATIVO" : "INATIVO" ) )?>
                                             </span>
                                             </td>
                                             <td>
-                                                <a href="<?=HOME_URI?>/usuario/viewUsuarioEdit/<?=$usuario->idUsuario?>" class="btn btn-primary btn-sm">EDITAR</a>
-                                                <a href="<?=HOME_URI?>/usuario/inativarUsuario/<?=$usuario->idUsuario?>"  class="btn btn-danger btn-sm">INATIVAR</a>
+                                                <a href="<?=HOME_URI?>/usuario/viewUsuarioEdit/<?=$anuncio->idAnuncio?>" class="btn btn-primary btn-sm">EDITAR</a>
+                                                <a href="<?=HOME_URI?>/usuario/inativarUsuario/<?=$anuncio->idAnuncio?>"  class="btn btn-danger btn-sm">INATIVAR</a>
                                             </td>
                                         </tr>
                                     <?php endforeach;?>
