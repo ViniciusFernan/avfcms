@@ -8,9 +8,10 @@
 require_once ABSPATH . "/models/factory/anuncio/AnuncioFactory.php";
 require_once ABSPATH . "/models/dao/anuncio/AnuncioDAO.php";
 require_once ABSPATH . "/models/strategy/anuncio/NovoAnuncioStrategy.php";
+require_once ABSPATH . "/models/strategy/anuncio/listaAnuncioPorUsuarioStrategy.php";
 
 
-class AnuncioModel extends UsuarioFactory {
+class AnuncioModel extends AnuncioFactory {
     
     /** cadastro de novo anuncio */
     public function novoAnuncio($post) {
@@ -25,13 +26,12 @@ class AnuncioModel extends UsuarioFactory {
         }
     }
 
-
     /**
      * Retorna lista de anuncios do usuario logado
      */
     public function getListaAnunciosUsuario($idUsuario) {
         try{
-            $listaUsuarios = (new listaAnuncioPorUsuarioStrategy)->listaAnuncio();
+            $listaUsuarios = (new listaAnuncioPorUsuarioStrategy)->listarAnuncioPorUsuario($idUsuario);
             if($listaUsuarios instanceof  Exception) throw $listaUsuarios;
             return $listaUsuarios;
         }catch (Exception $e){

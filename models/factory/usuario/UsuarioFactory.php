@@ -6,6 +6,7 @@
 * */
 
 Abstract class UsuarioFactory{
+    private $idUsuario;
     private $nome;
     private $sobreNome;
     private $email;
@@ -19,93 +20,198 @@ Abstract class UsuarioFactory{
     private $imgPerfil;
     private $chaveDeRecuperacao;
 
-    public function setNome($nome){
+    /**
+     * @return mixed
+     */
+    public function getIdUsuario()
+    {
+        return $this->idUsuario;
+    }
+
+    /**
+     * @param mixed $idUsuario
+     */
+    public function setIdUsuario($idUsuario)
+    {
+        $this->idUsuario = $idUsuario;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNome()
+    {
+        return $this->nome;
+    }
+
+    /**
+     * @param mixed $nome
+     */
+    public function setNome($nome)
+    {
         $this->nome = $nome;
     }
 
-    public function getNome($nome){
-        return $nome;
+    /**
+     * @return mixed
+     */
+    public function getSobreNome()
+    {
+        return $this->sobreNome;
     }
 
-    public function setSobreNome($sobreNome){
+    /**
+     * @param mixed $sobreNome
+     */
+    public function setSobreNome($sobreNome)
+    {
         $this->sobreNome = $sobreNome;
     }
 
-    public function getSobreNome($sobreNome){
-        return $sobreNome;
+    /**
+     * @return mixed
+     */
+    public function getEmail()
+    {
+        return $this->email;
     }
 
-    public function setEmail($email){
+    /**
+     * @param mixed $email
+     */
+    public function setEmail($email)
+    {
         $this->email = $email;
     }
 
-    public function getEmail($email){
-        return $email;
+    /**
+     * @return mixed
+     */
+    public function getTelefone()
+    {
+        return $this->telefone;
     }
 
-    public function setTelefone($telefone){
+    /**
+     * @param mixed $telefone
+     */
+    public function setTelefone($telefone)
+    {
         $this->telefone = $telefone;
     }
 
-    public function getTelefone($telefone){
-        return $telefone;
+    /**
+     * @return mixed
+     */
+    public function getCPF()
+    {
+        return $this->CPF;
     }
 
-
-    public function setCpf($CPF){
+    /**
+     * @param mixed $CPF
+     */
+    public function setCPF($CPF)
+    {
         $this->CPF = $CPF;
     }
 
-    public function getCpf($CPF){
-        return $CPF;
+    /**
+     * @return mixed
+     */
+    public function getDataNascimento()
+    {
+        return $this->dataNascimento;
     }
 
-    public function setDataNascimento($dataNascimento){
+    /**
+     * @param mixed $dataNascimento
+     */
+    public function setDataNascimento($dataNascimento)
+    {
         $this->dataNascimento = $dataNascimento;
     }
 
-    public function getDataNascimento($dataNascimento){
-        return $dataNascimento;
+    /**
+     * @return mixed
+     */
+    public function getSexo()
+    {
+        return $this->sexo;
     }
 
-    public function setSexo($sexo){
+    /**
+     * @param mixed $sexo
+     */
+    public function setSexo($sexo)
+    {
         $this->sexo = $sexo;
     }
 
-    public function getSexo($sexo){
-        return $sexo;
+    /**
+     * @return mixed
+     */
+    public function getStatus()
+    {
+        return $this->status;
     }
 
-    public function setStatus($status){
+    /**
+     * @param mixed $status
+     */
+    public function setStatus($status)
+    {
         $this->status = $status;
     }
 
-    public function getStatus($status){
-        return $status;
+    /**
+     * @return mixed
+     */
+    public function getDetalhes()
+    {
+        return $this->detalhes;
     }
 
-    public function setDetalhes($detalhes){
+    /**
+     * @param mixed $detalhes
+     */
+    public function setDetalhes($detalhes)
+    {
         $this->detalhes = $detalhes;
     }
-    public function getDetalhes($detalhes){
-        return $detalhes;
+
+    /**
+     * @return mixed
+     */
+    public function getImgPerfil()
+    {
+        return $this->imgPerfil;
     }
 
-    public function getSuperAdmin($superAdmin){
-        return $superAdmin;
-    }
-
-    public function setImgPerfil($imgPerfil){
+    /**
+     * @param mixed $imgPerfil
+     */
+    public function setImgPerfil($imgPerfil)
+    {
         $this->imgPerfil = $imgPerfil;
     }
 
-    public function getImgPerfil($imgPerfil){
-        return $imgPerfil;
+    /**
+     * @return mixed
+     */
+    public function getChaveDeRecuperacao()
+    {
+        return $this->chaveDeRecuperacao;
     }
 
-    public function getChaveDeRecuperacao($chaveDeRecuperacao){
-        return $chaveDeRecuperacao;
+    /**
+     * @param mixed $chaveDeRecuperacao
+     */
+    public function setChaveDeRecuperacao($chaveDeRecuperacao)
+    {
+        $this->chaveDeRecuperacao = $chaveDeRecuperacao;
     }
+
 
 
 }

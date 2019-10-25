@@ -14,9 +14,9 @@ class listaAnuncioPorUsuarioStrategy extends AnuncioFactory {
      * lista de usuario
      * @author Antonio Vinicius Fernandes
      */
-    public function listaAnuncio() {
+    public function listarAnuncioPorUsuario($idUsuario) {
         try{
-            $listaAnuncioUsuarios = (new AnuncioDAO)->listarAnuncioPorUsuario();
+            $listaAnuncioUsuarios = (new AnuncioDAO)->listarAnuncioPorUsuario($idUsuario);
             if($listaAnuncioUsuarios instanceof Exception) throw $listaAnuncioUsuarios;
             return $listaAnuncioUsuarios;
         }catch (Exception $e){
