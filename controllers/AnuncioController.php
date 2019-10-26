@@ -58,18 +58,20 @@ class AnuncioController extends MainController {
         try{
             $this->checkLogado();
             if(empty($_SESSION['usuario']->idUsuario))  $this->page404();
-            $id =  $_SESSION['usuario']->idUsuario;
 
-            $dadosAnuncios = (new AnuncioModel())->criarAnuncios($id);
-            if($dadosAnuncios instanceof Exception) throw $dadosAnuncios;
-            if(empty($dadosAnuncios)) throw new Exception('Erro ao criar anuncio!');
+            if(!empty($this->parametrosPost) && !empty($_SESSION['usuario']) ) {
+                $dadosAnuncios = (new AnuncioModel())->newAnuncio($this->parametrosPost);
+                if($dadosAnuncios instanceof Exception) throw $dadosAnuncios;
+                if(empty($dadosAnuncios)) throw new Exception('Erro ao criar anuncio!');
 
-            $this->retorno['boxMsg'] = ['msg'=>'Anuncio criado com sucesso', 'tipo'=>'success'];
+                $this->retorno['boxMsg'] = ['msg'=>'Anuncio criado com sucesso', 'tipo'=>'success'];
+            }
+
         }catch (Exception $e){
             $this->retorno['boxMsg'] = ['msg'=> $e->getMessage(), 'tipo'=>'danger'];
         }
 
-        $View = new View('usuario/edit.usuario.view.php');
+        $View = new View('anuncio/edit.anuncio.view.php');
         $View->setParams( $this->retorno);
         $View->showContents();
     }

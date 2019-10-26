@@ -22,6 +22,13 @@
         </a>
     </li>
     <li class="nav-item">
+        <a href="<?=HOME_URI?>/anuncio">
+            <i class="far fa-newspaper"></i>
+            <p>Meus Anuncios</p>
+            <span class="badge badge-count">novo</span>
+        </a>
+    </li>
+    <li class="nav-item">
         <a href="forms.html">
             <i class="la la-keyboard-o"></i>
             <p>Forms</p>

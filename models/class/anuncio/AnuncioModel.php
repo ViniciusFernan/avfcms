@@ -14,7 +14,7 @@ require_once ABSPATH . "/models/strategy/anuncio/listaAnuncioPorUsuarioStrategy.
 class AnuncioModel extends AnuncioFactory {
     
     /** cadastro de novo anuncio */
-    public function novoAnuncio($post) {
+    public function newAnuncio($post) {
         try{
             if(!is_array($post) || empty($post)) throw new Exception('Preencha o formulário!');
 
@@ -57,7 +57,7 @@ class AnuncioModel extends AnuncioFactory {
      * @param $post
      * @return bool|string
      */
-    public function editarAnuncio($post){
+    public function editAnuncio($post){
         try{
             $updateUsuario = (new  editarAnuncioStrategy)->editarUsuario($post);
             if($updateUsuario instanceof Exception) throw $updateUsuario;
