@@ -220,7 +220,7 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
         });
 
 
-        $('.foto-perfil-up').on('click', function(){
+        $('.foto-galeria-up').on('click', function(){
             var input = $(this).attr('data-up');
             var file_data = $('[name="'+input+'"]').prop('files')[0];
             var form_data = new FormData();
@@ -248,15 +248,25 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
         });
 
 
-        $('#showPassword').on('click', function(){
-            var passwordField = $('.password');
-            var passwordFieldType = passwordField.attr('type');
-            if(passwordFieldType == 'password') {
-                passwordField.attr('type', 'text');
-                $(this).removeClass('fa-eye').addClass('fa-eye-slash');
-            }else{
-                passwordField.attr('type', 'password');
-                $(this).removeClass('fa-eye-slash').addClass('fa-eye');
+        $('[name="cep"]').on('blur', function(){
+            var cep = $(this).val().replace(/[^0-9]/, '');
+            if(cep != ""){
+                $.ajax({
+                    url: '<?=HOME_URI?>/usuario/UploadImagemPerfil',
+                    dataType: 'text',
+                    method: 'POST',
+                    beforeSend: function (xhr) {
+                        loading();
+                    },
+                    success : function(resp){
+                        if(resp.logradouro){
+                            $("input[name=rua]").val(resp.logradouro);
+                            $("input[name=bairro]").val(resp.bairro);
+                            $("input[name=cidade]").val(resp.cidade);
+                            $("input[name=uf]").val(resp.estado);
+                        }
+                    }
+                });
             }
         });
 

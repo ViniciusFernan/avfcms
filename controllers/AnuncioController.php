@@ -65,10 +65,12 @@ class AnuncioController extends MainController {
                 if(empty($dadosAnuncios)) throw new Exception('Erro ao criar anuncio!');
 
                 $this->retorno['boxMsg'] = ['msg'=>'Anuncio criado com sucesso', 'tipo'=>'success'];
+                $this->retorno['anuncio'] = $this->parametrosPost;
             }
 
         }catch (Exception $e){
             $this->retorno['boxMsg'] = ['msg'=> $e->getMessage(), 'tipo'=>'danger'];
+            $this->retorno['anuncio'] = (object)$this->parametrosPost;
         }
 
         $View = new View('anuncio/edit.anuncio.view.php');

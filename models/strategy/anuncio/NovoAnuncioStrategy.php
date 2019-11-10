@@ -20,6 +20,7 @@ class NovoAnuncioStrategy extends AnuncioFactory {
             if(!is_array($post) || empty($post))
                 throw new Exception('Preencha o formulário!');
 
+            if(@empty($post['slugAnuncio'])) throw new exception('Erro em processar dados ');
 
             $checkSlug = (new ChecaCadastroAnuncioStrategy)->checaCadastradoUsuario( $post['slugAnuncio']);
             if(!empty($checkSlug))

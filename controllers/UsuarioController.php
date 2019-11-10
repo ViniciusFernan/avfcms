@@ -84,6 +84,7 @@ class UsuarioController extends MainController {
 
         }catch (Exception $e){
             $this->retorno['boxMsg'] = ['msg'=>$e->getMessage(), 'tipo'=>'danger'];
+            $this->retorno['usuario'] = (object)$this->parametrosPost;
         }
 
         $View = new View('usuario/edit.usuario.view.php');
