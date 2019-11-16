@@ -252,19 +252,22 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
             var cep = $(this).val().replace(/[^0-9]/, '');
             if(cep != ""){
                 $.ajax({
-                    url: '<?=HOME_URI?>/usuario/UploadImagemPerfil',
+                    url: '<?=HOME_URI?>/anuncio/consultaCep',
                     dataType: 'text',
                     method: 'POST',
+                    data: { cep : cep },
                     beforeSend: function (xhr) {
                         loading();
                     },
                     success : function(resp){
-                        if(resp.logradouro){
-                            $("input[name=rua]").val(resp.logradouro);
-                            $("input[name=bairro]").val(resp.bairro);
-                            $("input[name=cidade]").val(resp.cidade);
-                            $("input[name=uf]").val(resp.estado);
+                        var resp = JSON.parse(resp);
+                        if(resp.type =='success'){
+                            $("input[name=rua]").val(resp.cep.logradouro).addClass('inputSelect');
+                            $("input[name=bairro]").val(resp.cep.bairro).addClass('inputSelect');
+                            $("input[name=cidade]").val(resp.cep.localidade).addClass('inputSelect');
+                            $("input[name=uf]").val(resp.cep.uf).addClass('inputSelect');
                         }
+                        $(".loading").remove();  //location.reload(true);
                     }
                 });
             }

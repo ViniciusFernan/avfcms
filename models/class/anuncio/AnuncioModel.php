@@ -9,6 +9,7 @@ require_once ABSPATH . "/models/factory/anuncio/AnuncioFactory.php";
 require_once ABSPATH . "/models/dao/anuncio/AnuncioDAO.php";
 require_once ABSPATH . "/models/strategy/anuncio/NovoAnuncioStrategy.php";
 require_once ABSPATH . "/models/strategy/anuncio/listaAnuncioPorUsuarioStrategy.php";
+require_once ABSPATH . "/models/strategy/anuncio/ChecaCadastroAnuncioStrategy.php";
 
 
 class AnuncioModel extends AnuncioFactory {
@@ -68,5 +69,26 @@ class AnuncioModel extends AnuncioFactory {
         }
     }
 
+    public function checarCriarSlugValido($slug, $idAnuncio=null){
+        try{
+            $idAnuncio = (!empty($idAnuncio) ? $idAnuncio : null);
+            $i = '';
+
+            $checaCadastroAnuncioStrategy = new ChecaCadastroAnuncioStrategy();
+
+            $slug = $checaCadastroAnuncioStrategy->checaCadastradoUsuario($slug);
+            if($slug instanceof Exception ) throw $slug;
+
+            while($slug == false){
+                $slug = (empty($i)? $slug : $slug.'-'.$i);
+                $i++;
+                if($i==10){ break;}
+            }
+            return $slug;
+        }catch (Exception $e){
+            return $e;
+        }
+
+    }
 
 }

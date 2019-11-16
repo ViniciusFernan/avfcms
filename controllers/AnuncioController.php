@@ -59,7 +59,16 @@ class AnuncioController extends MainController {
             $this->checkLogado();
             if(empty($_SESSION['usuario']->idUsuario))  $this->page404();
 
-            if(!empty($this->parametrosPost) && !empty($_SESSION['usuario']) ) {
+            if(!empty($this->parametrosPost)){
+
+                if(empty($this->parametrosPost['slugAnuncio'])){
+                    $this->parametrosPost['slugAnuncio'] = Util::removeAcentos(str_replace(' ', '-', $this->parametrosPost['tituloAnuncio']));
+                }
+
+                //validar Slug valido
+                $this->parametrosPost['slugAnuncio'] = (new AnuncioModel())->checarCriarSlugValido($this->parametrosPost['slugAnuncio']);
+
+
                 $dadosAnuncios = (new AnuncioModel())->newAnuncio($this->parametrosPost);
                 if($dadosAnuncios instanceof Exception) throw $dadosAnuncios;
                 if(empty($dadosAnuncios)) throw new Exception('Erro ao criar anuncio!');
@@ -77,5 +86,39 @@ class AnuncioController extends MainController {
         $View->setParams( $this->retorno);
         $View->showContents();
     }
+
+
+    /*******************************************************************************************************************
+     *                                  Functions return AJAX
+     *******************************************************************************************************************
+     * @author  Vinicius Fernandes (AVFWEB.COM.BR)
+     * @since  16/11/2019
+     * @version 1.0
+     ******************************************************************************************************************/
+
+
+    /**
+     * Function consultaCepAction
+     * @author  Vinicius Fernandes (AVFWEB.COM.BR)
+     * @since  16/11/2019
+     * @version 1.0
+     */
+    public function consultaCepAction(){
+        try{
+            $this->checkLogado();
+            if(empty($_SESSION['usuario']->idUsuario))  $this->page404();
+
+            if(empty($this->parametrosPost) || empty($_SESSION['usuario']) ) throw new Exception('Erro ao criar anuncio!');
+
+            $dadosCep = Util::getEnderecoPorCep($this->parametrosPost['cep']);
+            if($dadosCep instanceof Exception) throw $dadosCep;
+            if(empty($dadosCep)) throw new Exception('Erro ao buscar Cep!');
+
+            echo json_encode([ 'type' => 'success', 'cep' => $dadosCep ]);
+        } catch (Exception $e){
+            echo json_encode(['type' => 'error',  'cep' => '' ]);
+        }
+    }
+
 
 }

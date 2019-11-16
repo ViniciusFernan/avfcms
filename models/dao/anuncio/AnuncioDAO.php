@@ -70,7 +70,7 @@ class AnuncioDAO extends Conn {
             $dadosAnuncio = $select->ExeRead('anuncio', "WHERE slugAnuncio=:slugAnuncio", "slugAnuncio={$slugAnuncio}");
             if($dadosAnuncio instanceof Exception) throw $dadosAnuncio;
             if(!empty($dadosAnuncio)):
-                return true;
+                return $dadosAnuncio['slugAnuncio'];
             else:
                 return false;
             endif;
@@ -97,7 +97,5 @@ class AnuncioDAO extends Conn {
             return $e;
         }
     }
-
-
 
 }
