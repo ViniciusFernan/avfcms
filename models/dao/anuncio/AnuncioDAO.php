@@ -61,18 +61,24 @@ class AnuncioDAO extends Conn {
         }
     }
 
-    public function checarAnuncioSlugCadastrado($slugAnuncio){
+    public function checarAnuncioSlugCadastrado($slugAnuncio, $idAnuncio){
         try{
-            if(empty($slugAnuncio) )
-                throw new Exception('Error grave nesse trem');
+            if(empty($slugAnuncio) )  throw new Exception('Error grave nesse trem');
+
+            $where='';
+            $parse='';
+            if(!empty($idAnuncio) ) {
+                $where=" AND idAnuncio !=:idAnuncio";
+                $parse=" & idAnuncio={$idAnuncio}";
+            }
 
             $select = new Select();
-            $dadosAnuncio = $select->ExeRead('anuncio', "WHERE slugAnuncio=:slugAnuncio", "slugAnuncio={$slugAnuncio}");
+            $dadosAnuncio = $select->ExeRead('anuncio', "WHERE slugAnuncio=:slugAnuncio {$where}", "slugAnuncio={$slugAnuncio}{$parse}");
             if($dadosAnuncio instanceof Exception) throw $dadosAnuncio;
             if(!empty($dadosAnuncio)):
-                return $dadosAnuncio['slugAnuncio'];
-            else:
                 return false;
+            else:
+                return true;
             endif;
         }catch(Exeption $e){
             return $e;

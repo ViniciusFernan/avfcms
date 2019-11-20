@@ -97,7 +97,7 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
                                     <input type="text" name="email" class="form-control" placeholder="Email" tabindex="2"  value="<?=(!empty($anuncio->telefone ) ? $anuncio->telefone  : '')?>">
                                     <div class="form-check">
                                         <label class="form-check-label">
-                                            <input type="checkbox" name="telAltWhatsApp" class="form-control" <?=(!empty($anuncio->naoReceberEmail ) ? 'checked' : '')?> value="1">
+                                            <input type="checkbox" name="naoReceberEmail" class="form-control" <?=(!empty($anuncio->naoReceberEmail ) ? 'checked' : '')?> value="1">
                                             <span class="form-check-sign font-small">Não Exibir Email</span>
                                         </label>
                                     </div>

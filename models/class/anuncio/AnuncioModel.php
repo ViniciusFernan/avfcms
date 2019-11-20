@@ -71,17 +71,22 @@ class AnuncioModel extends AnuncioFactory {
 
     public function checarCriarSlugValido($slug, $idAnuncio=null){
         try{
+            if(empty($slug)) throw new Exception('Erro ao gerar slug valido, tentar novamente.');
             $idAnuncio = (!empty($idAnuncio) ? $idAnuncio : null);
             $i = '';
 
             $checaCadastroAnuncioStrategy = new ChecaCadastroAnuncioStrategy();
 
-            $slug = $checaCadastroAnuncioStrategy->checaCadastradoUsuario($slug);
-            if($slug instanceof Exception ) throw $slug;
+            $slugRetorno = false;
+            while($slugRetorno == false){
+                $slugRetorno = $checaCadastroAnuncioStrategy->checaCadastradoUsuario($slug, $idAnuncio);
+                if($slugRetorno instanceof Exception ) throw $slugRetorno;
 
-            while($slug == false){
-                $slug = (empty($i)? $slug : $slug.'-'.$i);
-                $i++;
+                if($slugRetorno == true){
+                    $slug = (empty($i)? $slug : $slug.'-'.$i);
+                    $i++;
+                }
+
                 if($i==10){ break;}
             }
             return $slug;

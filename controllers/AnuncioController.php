@@ -59,7 +59,11 @@ class AnuncioController extends MainController {
             $this->checkLogado();
             if(empty($_SESSION['usuario']->idUsuario))  $this->page404();
 
-            if(!empty($this->parametrosPost)){
+            if(!empty($this->parametrosPost) && array_filter($this->parametrosPost)>0){
+                if( empty(@$this->parametrosPost['tituloAnuncio']) ||
+                    empty(@$this->parametrosPost['telefone']) ||
+                    empty(@$this->parametrosPost['email']) ||
+                    empty(@$this->parametrosPost['cep'])) throw new Exception('Dados Obrigatórios não enviado');
 
                 if(empty($this->parametrosPost['slugAnuncio'])){
                     $this->parametrosPost['slugAnuncio'] = Util::removeAcentos(str_replace(' ', '-', $this->parametrosPost['tituloAnuncio']));

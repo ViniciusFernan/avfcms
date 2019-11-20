@@ -14,12 +14,13 @@ class ChecaCadastroAnuncioStrategy extends AnuncioFactory {
      * checar se existe usuario com esse email
      * @author Antonio Vinicius Fernandes
      */
-    public function checaCadastradoUsuario($slugAnuncio) {
+    public function checaCadastradoUsuario($slugAnuncio, $idAnuncio=null) {
         try{
             if(empty($slugAnuncio)) throw new Exception('Error em processar dados');
 
-            $returnAnuncio = (new AnuncioDAO)->checarAnuncioSlugCadastrado($slugAnuncio);
-            if(!empty($returnAnuncio) && is_string($returnAnuncio)) throw new Exception($returnAnuncio);
+            $returnAnuncio = (new AnuncioDAO)->checarAnuncioSlugCadastrado($slugAnuncio, $idAnuncio);
+            if($returnAnuncio instanceof Exception) throw $returnAnuncio;
+
             return $returnAnuncio;
         }catch (Exception $e){
             return $e;
