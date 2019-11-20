@@ -77,17 +77,14 @@ class AnuncioModel extends AnuncioFactory {
 
             $checaCadastroAnuncioStrategy = new ChecaCadastroAnuncioStrategy();
 
-            $slugRetorno = false;
-            while($slugRetorno == false){
+            $slugRetorno='';
+            for( $i=1; $i<=10 ; $i++){
                 $slugRetorno = $checaCadastroAnuncioStrategy->checaCadastradoUsuario($slug, $idAnuncio);
                 if($slugRetorno instanceof Exception ) throw $slugRetorno;
 
-                if($slugRetorno == true){
-                    $slug = (empty($i)? $slug : $slug.'-'.$i);
-                    $i++;
-                }
+                if($slugRetorno == false) { break; }
 
-                if($i==10){ break;}
+                $slug = (empty($i) ? $slug : $slug . '-' . $i);
             }
             return $slug;
         }catch (Exception $e){
