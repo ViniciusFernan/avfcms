@@ -59,17 +59,17 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
 
                                 <?php if(!empty($anuncios)): ?>
                                     <?php foreach($anuncios as $key => $anuncio): ?>
-                                        <tr data-id="<?=$usuario->idAnuncio ?>" >
+                                        <tr data-id="<?=$anuncio->idAnuncio ?>" >
                                             <td><?=$anuncio->idAnuncio ?></td>
-                                            <td><?=$anuncio->SlugAnuncio?> </td>
-                                            <td><?=$anuncio->titulo ?></td>
+                                            <td><?=$anuncio->slugAnuncio?> </td>
+                                            <td><?=$anuncio->tituloAnuncio ?></td>
                                             <td class="align-center">
                                             <span class="p-1 <?=(( $anuncio->status=='0' ) ? "btn-danger" : (($anuncio->status=='1') ? "btn-success" : "btn-primary" ) )?> ">
                                                 <?=(( $anuncio->status=='0' ) ? "DELETADO" : (($anuncio->status=='1') ? "ATIVO" : "INATIVO" ) )?>
                                             </span>
                                             </td>
                                             <td>
-                                                <a href="<?=HOME_URI?>/usuario/viewUsuarioEdit/<?=$anuncio->idAnuncio?>" class="btn btn-primary btn-sm">EDITAR</a>
+                                                <a href="<?=HOME_URI?>/usuario/viewAnuncioEdit/<?=$anuncio->idAnuncio?>" class="btn btn-primary btn-sm">EDITAR</a>
                                                 <a href="<?=HOME_URI?>/usuario/inativarUsuario/<?=$anuncio->idAnuncio?>"  class="btn btn-danger btn-sm">INATIVAR</a>
                                             </td>
                                         </tr>
