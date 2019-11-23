@@ -16,7 +16,7 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Usuarios</title>
+    <title>Anuncio</title>
 
     <?php include THEME_DIR . "/_include/head.php"; ?>
 
@@ -185,17 +185,37 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Galeria</h5>
+                <h3 class="modal-title" id="exampleModalLabel">Galeria</h3>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                ...
+                <form>
+                    <input type="file">
+                    <button type="button" class="btn btn-primary">Upload imagens</button>
+                </form>
+
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="img-capa">
+                                <img src="" />
+                            </div>
+                        </div>
+                        <div class="row col-md-8">
+                            <div class=" col-md-4 img-galeria"> <img src="" /></div>
+                            <div class=" col-md-4 img-galeria"> <img src="" /></div>
+                            <div class=" col-md-4 img-galeria"> <img src="" /></div>
+                            <div class=" col-md-4 img-galeria"> <img src="" /></div>
+                            <div class=" col-md-4 img-galeria"> <img src="" /></div>
+
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
             </div>
         </div>
     </div>
