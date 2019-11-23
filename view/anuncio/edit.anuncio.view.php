@@ -45,17 +45,17 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
         <div class="content">
             <div class="container-fluid">
                 <div class="msg-box"><?php if(!empty($boxMsg)): echo Util::getAlert($boxMsg['msg'], $boxMsg['tipo']); endif; ?></div>
-                <form action="<?=HOME_URI?>/anuncio/criaranuncio/<?=(!empty($anuncio->idAnuncio ) ? $anuncio->idAnuncio  : '')?>" method="post"  enctype="multipart/form-data" >
+                <form action="<?=HOME_URI?>/anuncio/viewAnuncioEdit<?=(!empty($anuncio->idAnuncio ) ? '/'.$anuncio->idAnuncio  : '')?>" method="post"  enctype="multipart/form-data" >
                     <div class="previl"></div>
 
                 <div class="card">
                     <div class="card-header">
                         <div class="card-title">Meu Anuncio
-                            <a class="btn btn-success btn-sm pull-right" data-toggle="modal" data-target="#galeriaAnuncio" <?=(empty($anuncio->idAnuncio ) ?'disabled="disabled" ' : '')?> href="#">Galeria Anuncios</a>
+                            <a class="btn btn-success btn-sm pull-right" data-toggle="modal" data-target="#galeriaAnuncio" <?=(empty($anuncio->idAnuncio ) ?'disabled="disabled" ' : '')?> href="#">Fotos do Anuncio</a>
                         </div>
                     </div>
                     <div class="card-body">
-                        <input type="hidden" name="idAnuncio" value="<?=(!empty($anuncio->idAnuncio ) ?' $anuncio->idAnuncio ' : '')?>">
+                        <input type="hidden" name="idAnuncio" value="<?=(!empty($anuncio->idAnuncio ) ? $anuncio->idAnuncio  : '')?>">
                         <div class="col-md-12">
                             <div class="row">
                                 <div class="form-group mb-1 col-md-6">

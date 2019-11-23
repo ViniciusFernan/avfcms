@@ -857,4 +857,11 @@ class Util{
         return $retorno;
     }
 
+    public static function limparTelefone($telefone){
+        $seach=['(', ')',' ', '-'];
+        $replace=[''];
+        $telefone = str_replace($seach, $replace,  $telefone );
+        return $telefone;
+    }
+
 }

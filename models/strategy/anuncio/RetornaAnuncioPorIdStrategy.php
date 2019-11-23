@@ -8,7 +8,7 @@
 require_once ABSPATH . "/models/factory/anuncio/AnuncioFactory.php";
 require_once ABSPATH . "/models/dao/anuncio/AnuncioDAO.php";
 
-class getAnuncioStrategy extends AnuncioFactory {
+class RetornaAnuncioPorIdStrategy extends AnuncioFactory {
 
     /**
      * Retorna lista de usuarios

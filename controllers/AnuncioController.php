@@ -54,6 +54,31 @@ class AnuncioController extends MainController {
         $View->showContents();
     }
 
+    public function viewAnuncioEditAction(){
+        try{
+            $this->checkLogado();
+            if(empty($_SESSION['usuario']->idUsuario))  $this->page404();
+            if(!empty($this->parametrosPost) && empty(@$this->parametrosPost['idAnuncio'] )&& !empty($_SESSION['usuario']) ) $this->criarAnuncioAction();
+            if(!empty($this->parametrosPost) && !empty(@$this->parametrosPost['idAnuncio'] )&& !empty($_SESSION['usuario']) ) $this->editarAnuncioAction();
+
+            if(!empty($this->parametros[0])){
+                $dadosAnuncio = (new AnuncioModel())->getAnuncioPorId($this->parametros[0]);
+                if($dadosAnuncio instanceof Exception ) throw $dadosAnuncio;
+                if(empty($dadosAnuncio)) throw new Exception('Nenhum Anuncio Encontrado');
+                $this->retorno['anuncio'] = $dadosAnuncio[0];
+            }else{
+                $this->page404();
+            }
+        }catch (Exception $e){
+            $this->retorno['boxMsg'] = ['msg'=> $e->getMessage(), 'tipo'=>'danger'];
+            $this->retorno['anuncio'] = '';
+        }
+
+        $View = new View('anuncio/edit.anuncio.view.php');
+        $View->setParams( $this->retorno);
+        $View->showContents();
+    }
+
     public function criarAnuncioAction(){
         try{
             $this->checkLogado();
@@ -72,17 +97,47 @@ class AnuncioController extends MainController {
                 //validar Slug valido
                 $this->parametrosPost['slugAnuncio'] = (new AnuncioModel())->checarCriarSlugValido($this->parametrosPost['slugAnuncio']);
 
+                $this->parametrosPost['idUsuario']=$_SESSION['usuario']->idUsuario;
+
+                $this->parametrosPost['telefone'] = Util::limparTelefone($this->parametrosPost['telefone']);
+                $this->parametrosPost['telefoneAlt'] = Util::limparTelefone($this->parametrosPost['telefoneAlt']);
 
                 $dadosAnuncios = (new AnuncioModel())->newAnuncio($this->parametrosPost);
                 if($dadosAnuncios instanceof Exception) throw $dadosAnuncios;
                 if(empty($dadosAnuncios)) throw new Exception('Erro ao criar anuncio!');
 
                 $this->retorno['boxMsg'] = ['msg'=>'Anuncio criado com sucesso', 'tipo'=>'success'];
-                $this->retorno['anuncio'] = $this->parametrosPost;
+                $this->retorno['anuncio'] = (object)$this->parametrosPost;
             }
 
         }catch (Exception $e){
             $this->retorno['boxMsg'] = ['msg'=> $e->getMessage(), 'tipo'=>'danger'];
+            $this->retorno['anuncio'] = (object)$this->parametrosPost;
+        }
+
+        $View = new View('anuncio/edit.anuncio.view.php');
+        $View->setParams( $this->retorno);
+        $View->showContents();
+    }
+
+    public function editarAnuncioAction(){
+        try{
+            if(empty($this->parametrosPost)) throw new Exception('Nenhum Dado Encontrado');
+
+            $dadosAnuncio = (new AnuncioModel())->editAnuncio($this->parametrosPost);
+            if($dadosAnuncio instanceof Exception) throw $dadosAnuncio;
+            if(empty($dadosAnuncio)) throw new Exception('Nenhum Anuncio Encontrado');
+            $this->retorno['boxMsg'] = ['msg'=>'Anuncio Editado com sucesso', 'tipo'=>'success'];
+
+            //get anuncio
+            $dadosAnuncio=null;
+            $dadosAnuncio = (new AnuncioModel())->getAnuncioPorId($this->parametrosPost['idAnuncio']);
+            if($dadosAnuncio instanceof Exception) throw $dadosAnuncio;
+            if(empty($dadosAnuncio)) throw new Exception('Nenhum Usuário Listado');
+            $this->retorno['anuncio'] = $dadosAnuncio[0];
+
+        }catch (Exception $e){
+            $this->retorno['boxMsg'] = ['msg'=>$e->getMessage(), 'tipo'=>'danger'];
             $this->retorno['anuncio'] = (object)$this->parametrosPost;
         }
 

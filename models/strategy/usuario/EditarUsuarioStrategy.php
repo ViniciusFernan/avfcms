@@ -8,7 +8,7 @@
 require_once ABSPATH . "/models/factory/usuario/UsuarioFactory.php";
 require_once ABSPATH . "/models/dao/usuario/UsuarioDAO.php";
 
-class editarUsuarioStrategy extends UsuarioFactory {
+class EditarUsuarioStrategy extends UsuarioFactory {
 
     /**
      * Edite usuario

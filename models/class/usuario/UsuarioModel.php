@@ -9,9 +9,9 @@ require_once ABSPATH . "/models/factory/usuario/UsuarioFactory.php";
 require_once ABSPATH . "/models/dao/usuario/UsuarioDAO.php";
 require_once ABSPATH . "/models/strategy/usuario/NovoUsuarioStrategy.php";
 require_once ABSPATH . "/models/strategy/usuario/RecuperarSenhaUsuarioStrategy.php";
-require_once ABSPATH . "/models/strategy/usuario/listaUsuarioStrategy.php";
-require_once ABSPATH . "/models/strategy/usuario/editarUsuarioStrategy.php";
-require_once ABSPATH . "/models/strategy/usuario/getUsuarioStrategy.php";
+require_once ABSPATH . "/models/strategy/usuario/ListaUsuarioStrategy.php";
+require_once ABSPATH . "/models/strategy/usuario/EditarUsuarioStrategy.php";
+require_once ABSPATH . "/models/strategy/usuario/RetornaUsuarioPorIdStrategy.php";
 
 
 class UsuarioModel extends UsuarioFactory {
@@ -56,7 +56,7 @@ class UsuarioModel extends UsuarioFactory {
      */
     public function getListaDeUsuarios() {
         try{
-            $listaUsuarios = (new listaUsuarioStrategy)->listaUsuario();
+            $listaUsuarios = (new ListaUsuarioStrategy)->listaUsuario();
             if($listaUsuarios instanceof Exception) throw $listaUsuarios;
             return $listaUsuarios;
         }catch (Exception $e){
@@ -71,7 +71,7 @@ class UsuarioModel extends UsuarioFactory {
         try{
             if(empty($id)) throw new Exception('Erro identificador do usuario não enviado');
 
-            $dadosUsuario = (new getUsuarioStrategy)->getUsuario($id);
+            $dadosUsuario = (new RetornaUsuarioPorIdStrategy)->getUsuario($id);
             if($dadosUsuario instanceof Exception) throw $dadosUsuario;
             return $dadosUsuario;
         }catch (Exception $e){
@@ -81,7 +81,7 @@ class UsuarioModel extends UsuarioFactory {
 
     public function editarUsuario($post){
         try{
-            $updateUsuario = (new  editarUsuarioStrategy)->editarUsuario($post);
+            $updateUsuario = (new  EditarUsuarioStrategy)->editarUsuario($post);
             if($updateUsuario instanceof Exception) throw $updateUsuario;
 
             return $updateUsuario;

@@ -26,7 +26,7 @@ class NovoAnuncioStrategy extends AnuncioFactory {
             if(!empty($checkSlug))
                 throw new Exception("Já existe um cadastro com o Slug {$post['slugAnuncio']} no sistema");
 
-            $post["dataCadastro"] = date('Y-m-d H:i:s');
+            unset($post["idAnuncio"]);
             $post["status"] = 1 ;
 
             $insertResp = (new AnuncioDAO)->inserirNovoAnuncio($post);

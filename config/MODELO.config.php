@@ -6,6 +6,8 @@
  * @author Inaweb
  * @version 1.0
  */
+
+date_default_timezone_set('America/Sao_Paulo'); // Seta a timezone
 /** URL da home */
 $url = ($_SERVER['SERVER_NAME'] == 'localhost' ? 'http://localhost' : 'http://avfweb.com.br');
 

@@ -95,7 +95,7 @@ class AnuncioDAO extends Conn {
             $dadosAnuncio = $select->ExeRead('anuncio', "WHERE idUsuario=:idUsuario", "idUsuario={$idUsuario}");
             if($dadosAnuncio instanceof Exception) throw $dadosAnuncio;
             if(!empty($dadosAnuncio)):
-                return true;
+                return $dadosAnuncio;
             else:
                 return false;
             endif;

@@ -8,8 +8,10 @@
 require_once ABSPATH . "/models/factory/anuncio/AnuncioFactory.php";
 require_once ABSPATH . "/models/dao/anuncio/AnuncioDAO.php";
 require_once ABSPATH . "/models/strategy/anuncio/NovoAnuncioStrategy.php";
-require_once ABSPATH . "/models/strategy/anuncio/listaAnuncioPorUsuarioStrategy.php";
+require_once ABSPATH . "/models/strategy/anuncio/ListaAnuncioPorUsuarioStrategy.php";
 require_once ABSPATH . "/models/strategy/anuncio/ChecaCadastroAnuncioStrategy.php";
+require_once ABSPATH . "/models/strategy/anuncio/RetornaAnuncioPorIdStrategy.php";
+require_once ABSPATH . "/models/strategy/anuncio/EditarAnuncioStrategy.php";
 
 
 class AnuncioModel extends AnuncioFactory {
@@ -32,7 +34,7 @@ class AnuncioModel extends AnuncioFactory {
      */
     public function getListaAnunciosUsuario($idUsuario) {
         try{
-            $listaUsuarios = (new listaAnuncioPorUsuarioStrategy)->listarAnuncioPorUsuario($idUsuario);
+            $listaUsuarios = (new ListaAnuncioPorUsuarioStrategy)->listarAnuncioPorUsuario($idUsuario);
             if($listaUsuarios instanceof  Exception) throw $listaUsuarios;
             return $listaUsuarios;
         }catch (Exception $e){
@@ -45,7 +47,7 @@ class AnuncioModel extends AnuncioFactory {
         try{
             if(empty($id)) throw new Exception('Erro identificador do usuario não enviado');
 
-            $dadosUsuario = (new getAnuncioStrategy)->getAnuncio($id);
+            $dadosUsuario = (new RetornaAnuncioPorIdStrategy)->getAnuncio($id);
             if($dadosUsuario instanceof Exception) throw $dadosUsuario;
             return $dadosUsuario;
         }catch (Exception $e){
@@ -60,10 +62,10 @@ class AnuncioModel extends AnuncioFactory {
      */
     public function editAnuncio($post){
         try{
-            $updateUsuario = (new  editarAnuncioStrategy)->editarUsuario($post);
-            if($updateUsuario instanceof Exception) throw $updateUsuario;
+            $updateAnuncio = (new  EditarAnuncioStrategy)->editarAnuncio($post);
+            if($updateAnuncio instanceof Exception) throw $updateAnuncio;
 
-            return $updateUsuario;
+            return $updateAnuncio;
         }catch (Exception $e){
             return $e;
         }
