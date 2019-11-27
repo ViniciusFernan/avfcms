@@ -179,5 +179,43 @@ class AnuncioController extends MainController {
         }
     }
 
+    public function salvarImagemGaleriaAction(){
+        try{
+            $this->checkLogado();
+            if (empty($_FILES)) throw new Exception('Arquivo Defeituoso!');
+
+            $optionsImagens['dir'] = UP_ABSPATH."/anuncio/{$_SESSION['usuario']->idUsuario}/";
+            $optionsImagens['newName'] = 'img_capa';
+            $optionsImagens['tipoImage'] = 'jpg';
+
+            $optionsImagens['size_x']=300;
+            $optionsImagens['size_y']=300;
+
+            $uploadprocessed = Util::cropImagem($optionsImagens, $_FILES['file']);
+
+            if ($uploadprocessed['success']==true){
+
+                $data['idAnuncio'] = $this->parametrosPost['idAnuncio'];
+                $data['imgPerfil'] = $uploadprocessed['imgName'];
+
+                $anuncioEdit = (new AnuncioModel())->editarAnuncioImagem($data);
+                if($anuncioEdit instanceof Exception) throw $anuncioEdit;
+
+                $this->retorno = array(
+                    "status" => 'success',
+                    "url" => UP_URI."/anuncio/{$_SESSION['usuario']->idUsuario}/".$uploadprocessed['imgName']
+                );
+
+            }else{
+                throw new Exception('Erro ao processar a imagem');
+            }
+
+        }catch (Exception $e){
+            $this->retorno['error'] = array( "status" => 'error', "msg" => $e->getMessage(), "url" =>'');
+        }
+
+        echo json_encode($this->retorno);
+    }
+
 
 }

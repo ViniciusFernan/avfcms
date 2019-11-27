@@ -147,9 +147,6 @@ class UsuarioController extends MainController {
             $this->retorno['error'] = array( "status" => 'error', "msg" => $e->getMessage(), "url" =>'');
         }
 
-
-
-
         echo json_encode($this->retorno);
     }
 

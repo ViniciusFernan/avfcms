@@ -185,16 +185,18 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="modal-title" id="exampleModalLabel">Galeria</h3>
+                <h2 class="modal-title pull-left" id="exampleModalLabel">Galeria</h2>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form>
-                    <input type="file">
-                    <button type="button" class="btn btn-primary">Upload imagens</button>
+                <form  method="post" enctype="multipart/form-data" class="uploadFile" style="display: none">
+                    <input type="file" name="addFotoAlbum" class="custom-file-input">
                 </form>
+                <button type="button" class="btn btn-primary add-foto">
+                    <i class="fas fa-camera"></i> <span> Add Fotos</span>
+                </button>
 
                 <div class="container">
                     <div class="row">
@@ -222,50 +224,50 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
 </div>
 
 <script>
+
     $(function () {
 
-        $('.foto-perfil').on('click', function(){
-            $('[name="imgPerfil"]').trigger('click');
+        $('.add-foto').on('click', function(){
+            $('[name="addFotoAlbum"]').trigger('click');
         });
 
-        $('input[name="imgPerfil"]').on("change", function(){
-            $('input[name="imgPerfil"]').each(function(index){
-                if ($('input[name="imgPerfil"]').eq(index).val() != ""){
-
-                    $('html, body').animate({scrollTop: $('.timelineProfilePic').offset().top-80 }, 'slow');
-
-                    $('.timelineProfilePic').find('.upload').fadeIn();
-                }
-            });
-        });
-
-
-        $('.foto-galeria-up').on('click', function(){
-            var input = $(this).attr('data-up');
-            var file_data = $('[name="'+input+'"]').prop('files')[0];
+        $('[name="addFotoAlbum"]').on('change', function(){
+            var file_data = $(this).prop('files')[0];
             var form_data = new FormData();
             form_data.append('file', file_data);
 
-            $.ajax({
-                url: '<?=HOME_URI?>/usuario/UploadImagemPerfil',
-                dataType: 'text',
-                method: 'POST',
+            if($(this).val().length > 0){
+                $.ajax({
+                    url: '<?=HOME_URI?>/anuncio/salvarImagemGaleriaAction',
+                    dataType: 'text',
+                    method: 'POST',
 
-                cache: false,
-                contentType: false,
-                processData: false,
-                data: form_data,
-                beforeSend: function (xhr) {
-                    loading();
-                },
-                success: function (x) {
-                    var resp = JSON.parse(x);
-                    $('.upload').fadeOut();
-                    $(".loading").remove();  //location.reload(true);
-                    $('.imgPerfil').attr({ 'src': resp.url+'?v-'+Math.floor((Math.random() * 1000) + 1) });
-                }
-            });
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    data: form_data,
+                    beforeSend: function (xhr) {
+                        loading();
+                    },
+                    success: function (x) {
+                        var resp = JSON.parse(x);
+                        $('[name="addFotoAlbum"]').val('');
+                        $('.progress .progress-bar').animate({width: '100%'});
+                        $('.progress').fadeOut(300).remove();
+                        var html ='<a href="'+resp.url+'" class="thumbnail col-xs-6 col-md-3 item-G"><img src="'+resp.url+'" class="img-responsive"></a>';
+                        $('.box-galeria').prepend(html);
+                        $galery.data('lightGallery').destroy(true);
+                        $galery = $('.box-galeria').lightGallery({
+                            thumbnail: true,
+                            selector: '.item-G',
+                            download: false
+                        });
+                    }
+                });
+            }
         });
+
+
 
 
         $('[name="cep"]').on('blur', function(){
