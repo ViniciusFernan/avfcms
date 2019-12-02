@@ -26,6 +26,9 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
     <!-- Custom styling plus plugins -->
     <link href="<?= THEME_URI; ?>/_assets/css/myperfil.css" rel="stylesheet">
 
+
+    <link href="<?= THEME_URI; ?>/_assets/plugins/lightGallery/dist/css/lightgallery.css" rel="stylesheet">
+
     <style>
         a[disabled] {
             pointer-events: none;
@@ -51,7 +54,7 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
                 <div class="card">
                     <div class="card-header">
                         <div class="card-title">Meu Anuncio
-                            <a class="btn btn-success btn-sm pull-right" data-toggle="modal" data-target="#galeriaAnuncio" <?=(empty($anuncio->idAnuncio ) ?'disabled="disabled" ' : '')?> href="#">Fotos do Anuncio</a>
+                            <a class="btn btn-success btn-sm pull-right" data-toggle="modal" data-target="#galeriaAnuncio" <?=(empty($anuncio->idAnuncio ) ?'disabled="disabled" ' : '')?> href="#">Galeria de Imagens</a>
                         </div>
                     </div>
                     <div class="card-body">
@@ -180,6 +183,10 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
 
 <?php include THEME_DIR . "/_include/after-footer.php"; ?>
 
+<script src="https://cdn.jsdelivr.net/picturefill/2.3.1/picturefill.min.js"></script>
+<script src="<?= THEME_URI; ?>/_assets/plugins/lightGallery/dist/js/lightgallery-all.min.js"></script>
+<script src="<?= THEME_URI; ?>/_assets/plugins/lightGallery/lib/jquery.mousewheel.min.js"></script>
+
 <!-- Modal -->
 <div class="modal fade" id="galeriaAnuncio" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-lg" role="document">
@@ -194,29 +201,33 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
                 <form  method="post" enctype="multipart/form-data" class="uploadFile" style="display: none">
                     <input type="file" name="addFotoAlbum" class="custom-file-input">
                 </form>
-                <button type="button" class="btn btn-primary add-foto">
-                    <i class="fas fa-camera"></i> <span> Add Fotos</span>
-                </button>
+
 
                 <div class="container">
                     <div class="row">
-                        <div class="col-md-4">
-                            <div class="img-capa">
-                                <img src="" />
+                        <div class="demo-gallery">
+                            <div id="lightgallery" class="list-unstyled row">
+                                <a class="col-xs-6 col-sm-4 col-md-3" data-responsive="img/1-375.jpg 375, img/1-480.jpg 480, img/1.jpg 800" data-src="img/1-1600.jpg" data-sub-html="<h4>Fading Light</h4><p>Classic view from Rigwood Jetty on Coniston Water an old archive shot similar to an old post but a little later on.</p>">
+                                    <img class="img-responsive" src="img/thumb-1.jpg">
+                                </a>
+                                <a class="col-xs-6 col-sm-4 col-md-3" data-responsive="img/2-375.jpg 375, img/2-480.jpg 480, img/2.jpg 800" data-src="img/2-1600.jpg" data-sub-html="<h4>Bowness Bay</h4><p>A beautiful Sunrise this morning taken En-route to Keswick not one as planned but I'm extremely happy I was passing the right place at the right time....</p>">
+                                    <img class="img-responsive" src="img/thumb-2.jpg">
+                                </a>
+                                <a class="col-xs-6 col-sm-4 col-md-3" data-responsive="img/13-375.jpg 375, img/13-480.jpg 480, img/13.jpg 800" data-src="img/13-1600.jpg" data-sub-html="<h4>Bowness Bay</h4><p>A beautiful Sunrise this morning taken En-route to Keswick not one as planned but I'm extremely happy I was passing the right place at the right time....</p>">
+                                    <img class="img-responsive" src="img/thumb-13.jpg">
+                                </a>
+                                <a class="col-xs-6 col-sm-4 col-md-3" data-responsive="img/4-375.jpg 375, img/4-480.jpg 480, img/4.jpg 800" data-src="img/4-1600.jpg" data-sub-html="<h4>Bowness Bay</h4><p>A beautiful Sunrise this morning taken En-route to Keswick not one as planned but I'm extremely happy I was passing the right place at the right time....</p>">
+                                    <img class="img-responsive" src="img/thumb-4.jpg">
+                                </a>
                             </div>
-                        </div>
-                        <div class="row col-md-8">
-                            <div class=" col-md-4 img-galeria"> <img src="" /></div>
-                            <div class=" col-md-4 img-galeria"> <img src="" /></div>
-                            <div class=" col-md-4 img-galeria"> <img src="" /></div>
-                            <div class=" col-md-4 img-galeria"> <img src="" /></div>
-                            <div class=" col-md-4 img-galeria"> <img src="" /></div>
-
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-primary add-foto bottom-left">
+                    <i class="fas fa-camera"></i> <span> Add Fotos</span>
+                </button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>
@@ -235,10 +246,11 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
             var file_data = $(this).prop('files')[0];
             var form_data = new FormData();
             form_data.append('file', file_data);
+            form_data.append('idAnuncio', $('[name="idAnuncio"]').val());
 
             if($(this).val().length > 0){
                 $.ajax({
-                    url: '<?=HOME_URI?>/anuncio/salvarImagemGaleriaAction',
+                    url: '<?=HOME_URI?>/anuncio/salvarImagemGaleria',
                     dataType: 'text',
                     method: 'POST',
 
@@ -262,6 +274,11 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
                             selector: '.item-G',
                             download: false
                         });
+                    },
+                    error: function (xhr, status, errorThrown) {
+                        $(".loading").remove();  //location.reload(true);
+                        console.log(xhr.status);
+                        console.log(xhr.responseText);
                     }
                 });
             }
@@ -294,6 +311,10 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
                 });
             }
         });
+
+
+        $('#lightgallery').lightGallery();
+
 
 
     });

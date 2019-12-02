@@ -28,7 +28,7 @@
             </ul>
         </nav>
         <div class="copyright ml-auto">
-            2018, made with <i class="la la-heart heart text-danger"></i> by <a href="http://www.avfweb.com.br">avf</a>
+            <?=date('Y')?>, made with <i class="la la-heart heart text-danger"></i> by <a href="http://www.avfweb.com.br">avf</a>
         </div>
     </div>
 </footer>

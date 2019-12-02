@@ -196,9 +196,9 @@ class AnuncioController extends MainController {
             if ($uploadprocessed['success']==true){
 
                 $data['idAnuncio'] = $this->parametrosPost['idAnuncio'];
-                $data['imgPerfil'] = $uploadprocessed['imgName'];
+                $data['imgCapa'] = $uploadprocessed['imgName'];
 
-                $anuncioEdit = (new AnuncioModel())->editarAnuncioImagem($data);
+                $anuncioEdit = (new AnuncioModel())->editAnuncio($data);
                 if($anuncioEdit instanceof Exception) throw $anuncioEdit;
 
                 $this->retorno = array(
