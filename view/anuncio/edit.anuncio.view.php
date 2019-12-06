@@ -34,6 +34,22 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
             pointer-events: none;
             opacity: .5;
         }
+
+        fieldset{
+            border: 1px solid #ced4da !important;
+            padding: 0 1.4em 1.4em 1.4em !important;
+            margin: 0 0 1.5em 0 !important;
+            border-radius: 4px;
+        }
+
+        legend{
+            font-size: 1.2em !important;
+            font-weight: bold !important;
+            text-align: left !important;
+            width:auto;
+            padding:0 10px;
+            border-bottom:none;
+        }
     </style>
 
 </head>
@@ -54,7 +70,7 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
                 <div class="card">
                     <div class="card-header">
                         <div class="card-title">Meu Anuncio
-                            <a class="btn btn-success btn-sm pull-right" data-toggle="modal" data-target="#galeriaAnuncio" <?=(empty($anuncio->idAnuncio ) ?'disabled="disabled" ' : '')?> href="#">Galeria de Imagens</a>
+<!--                            <a class="btn btn-success btn-sm pull-right" data-toggle="modal" data-target="#galeriaAnuncio" --><?//=(empty($anuncio->idAnuncio ) ?'disabled="disabled" ' : '')?><!-- href="#">Galeria de Imagens</a>-->
                         </div>
                     </div>
                     <div class="card-body">
@@ -142,10 +158,6 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
                             </div>
                         </div>
 
-
-
-
-
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
@@ -166,6 +178,41 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
                             </div>
                         </div>
                     </div>
+
+
+                    <div class="container">
+                        <div class="col-md-12">
+                            <h4  class="sub-title">Galeria</h4>
+                            <hr/>
+                            <div class="card">
+                                <form  method="post" enctype="multipart/form-data" class="uploadFile" style="display: none">
+                                    <input type="file" name="addFotoAlbum" class="custom-file-input">
+                                </form>
+
+
+                                <div class="card-body">
+                                    <div class="container">
+                                        <div class="demo-gallery">
+                                            <div id="lightgallery" class="list-unstyled row">
+                                                <a class="col-xs-6 col-sm-4 col-md-3"  data-src="img/1-1600.jpg" data-sub-html="<h4>Fading Light</h4><p>Classic view from Rigwood Jetty on Coniston Water an old archive shot similar to an old post but a little later on.</p>">
+                                                    <img class="img-responsive" src="img/thumb-1.jpg">
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card-footer justify-content-between">
+                                    <button type="button" class="btn btn-primary add-foto bottom-left">
+                                        <i class="fas fa-camera"></i> <span> Add Fotos</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
 
                     <div class="card-action">
                         <button class="btn btn-success">Submit</button>
