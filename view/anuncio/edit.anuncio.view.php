@@ -70,7 +70,8 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
                 <div class="card">
                     <div class="card-header">
                         <div class="card-title">Meu Anuncio
-<!--                            <a class="btn btn-success btn-sm pull-right" data-toggle="modal" data-target="#galeriaAnuncio" --><?//=(empty($anuncio->idAnuncio ) ?'disabled="disabled" ' : '')?><!-- href="#">Galeria de Imagens</a>-->
+                        <!--  <a class="btn btn-success btn-sm pull-right" data-toggle="modal" data-target="#galeriaAnuncio" -->
+                            <!-- <? /**=(empty($anuncio->idAnuncio ) ?'disabled="disabled" ' : '')**/?>  href="#">Galeria de Imagens</a>-->
                         </div>
                     </div>
                     <div class="card-body">
@@ -180,7 +181,8 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
                     </div>
 
 
-                    <div class="container">
+                    <div class="container container-relative">
+                        <?=(empty($anuncio->idAnuncio ) ? '<div class="maskSplash"><p class="msgText">Salvar para liberar ação</pcla></div> ' : '')?>
                         <div class="col-md-12">
                             <h4  class="sub-title">Galeria</h4>
                             <hr/>
@@ -194,8 +196,9 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
                                     <div class="container">
                                         <div class="demo-gallery">
                                             <div id="lightgallery" class="list-unstyled row">
-                                                <a class="col-xs-6 col-sm-4 col-md-3"  data-src="img/1-1600.jpg" data-sub-html="<h4>Fading Light</h4><p>Classic view from Rigwood Jetty on Coniston Water an old archive shot similar to an old post but a little later on.</p>">
-                                                    <img class="img-responsive" src="img/thumb-1.jpg">
+                                                <a class="col-xs-6 col-sm-4 col-md-3"  data-src="<?=THEME_URI ?>/_assets/images/sem_imagem.png"
+                                                   data-sub-html="<h4>Galeria Sem Imagem</h4><p>Sua Galeria ainda não possui imagens.</p>">
+                                                    <img class="img-responsive" src="<?=THEME_URI ?>/_assets/images/sem_imagem.png">
                                                 </a>
                                             </div>
                                         </div>

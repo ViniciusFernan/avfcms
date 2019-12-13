@@ -78,6 +78,29 @@ body{background: none; }
     background: #e8f0fe!important;
 }
 
+.container-relative{
+    position:relative;
+}
+.maskSplash{
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 97%;
+    height: 100%;
+    background: rgba(148, 145, 145, 0.92);
+    z-index: 999;
+    margin: 0 15px;
+    box-shadow: 0 0 11px #000;
+    text-align: center;
+}
+
+.maskSplash .msgText{
+    color: #fff;
+    font-size: 120%;
+    margin-top: 23%;
+    text-align: center;
+}
+
 
 
 
