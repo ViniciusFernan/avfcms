@@ -286,37 +286,41 @@ class Util{
      * @return boolean|string
      */
     public static function NumParaDiaSemana($intDiaSemana){
+        try{
+            if(empty($intDiaSemana)) throw new Exception("Necessário envio do parâmetro");
 
-        if (!is_numeric($intDiaSemana)) {
-            return false;
+            if (!is_numeric($intDiaSemana)) {
+                return false;
+            }
+
+            switch ($intDiaSemana) {
+                case '0':
+                    return "Domingo";
+                    break;
+                case '1':
+                    return "Segunda";
+                    break;
+                case '2':
+                    return "Terça";
+                    break;
+                case '3':
+                    return "Quarta";
+                    break;
+                case '4':
+                    return "Quinta";
+                    break;
+                case '5':
+                    return "Sexta";
+                    break;
+                case '6':
+                    return "Sábado";
+                    break;
+                default:
+                    break;
+            }
+        }catch (Exception $exception){
+            return $exception;
         }
-
-        switch ($intDiaSemana) {
-            case '0':
-                return "Domingo";
-                break;
-            case '1':
-                return "Segunda";
-                break;
-            case '2':
-                return "Terça";
-                break;
-            case '3':
-                return "Quarta";
-                break;
-            case '4':
-                return "Quinta";
-                break;
-            case '5':
-                return "Sexta";
-                break;
-            case '6':
-                return "Sábado";
-                break;
-            default:
-                break;
-        }
-
     }
 
     /*****
@@ -599,115 +603,119 @@ class Util{
     }
 
     public static function consultaCNPJ($cnpj){
-        if(empty($cnpj)) throw new Exception('Necessário envio do CNPJ');
-        //tokem acesso a API Comercial
-        $authorization = "Authorization: Bearer ".KEY_WS;
+        try{
+            if(empty($cnpj)) throw new Exception('Necessário envio do CNPJ');
+            //tokem acesso a API Comercial
+            $authorization = "Authorization: Bearer ".KEY_WS;
 
-        if(!empty($authorization)){
-            Curl::$httpHeader = array('Content-Type: application/json' , $authorization );
+            if(!empty($authorization)){
+                Curl::$httpHeader = array('Content-Type: application/json' , $authorization );
+            }
+
+            Curl::$url = 'https://www.receitaws.com.br/v1/cnpj/'. $cnpj.'/days/10';
+            Curl::$sslVerifyHost = 0;
+            Curl::$sslVerifyPeer = 0;
+
+            $resultado = Curl::init();
+
+            if(strpos($resultado['content'], "Gateway Time-out") !== false) throw new Exception('Serviço temporariamente indisponível!<br>Aguarde alguns minutos e tente novamente.');
+
+            $dados = json_decode($resultado['content'], true);
+
+            $dadosReceitaWS = array();
+
+            if($dados['status']==='ERROR') throw new Exception('CNPJ ' . $dados['cnpj'] . ' Rejeitado pela Receita Federal.');
+
+            if (empty($cnpjReceitaWS)) throw new Exception('CNPJ ' . $cnpj . ' não encontrado.');
+            $cnpjReceitaWS = str_replace('-', '', $cnpjReceitaWS);
+            $cnpjReceitaWS = str_replace('.', '', $cnpjReceitaWS);
+            $cnpjReceitaWS = str_replace('/', '', $cnpjReceitaWS);
+
+            $razaoSocialReceitaWS = (!empty($dados['nome']) ? $dados['nome'] : null);
+            if (empty($razaoSocialReceitaWS)) throw new Exception('Razão Social do CNPJ ' . $cnpj . ' não encontrado.');
+
+            $fantasiaReceitaWS = (!empty($dados['fantasia']) ? $dados['fantasia'] : null);
+            if (empty($razaoSocialReceitaWS)) throw new Exception('Nome Fantasia do CNPJ ' . $cnpj . ' não encontrado.');
+
+            $atividadeEconomicaReceitaWS = (!empty($dados['atividade_principal'][0]['code']) ? $dados['atividade_principal'][0]['code'] : null);
+            if (empty($atividadeEconomicaReceitaWS)) throw new Exception('Ramo de Atividade do CNPJ ' . $cnpj . ' não encontrado.');
+            $atividadeEconomicaReceitaWS = str_replace('-', '', $atividadeEconomicaReceitaWS);
+            $atividadeEconomicaReceitaWS = str_replace('.', '', $atividadeEconomicaReceitaWS);
+
+            $logradouroReceitaWS = (!empty($dados['logradouro']) ? $dados['logradouro'] : null);
+
+            $numeroReceitaWS = (!empty($dados['numero']) ? $dados['numero'] : null);
+
+            $complementoReceitaWS = (!empty($dados['complemento']) ? $dados['complemento'] : '');
+
+            $CEPLogradouroReceitaWS = (!empty($dados['cep']) ? $dados['cep'] : null);
+            if (empty($CEPLogradouroReceitaWS)) throw new Exception('CEP do CNPJ ' . $cnpj . ' não encontrado.');
+
+            $CEPLogradouroReceitaWS = str_replace('-', '', $CEPLogradouroReceitaWS);
+            $CEPLogradouroReceitaWS = str_replace('.', '', $CEPLogradouroReceitaWS);
+
+            $bairroReceitaWS = (!empty($dados['bairro']) ? $dados['bairro'] : null);
+
+            $municipioReceitaWS = (!empty($dados['municipio']) ? $dados['municipio'] : null);
+
+            $ufReceitaWS = (!empty($dados['uf']) ? $dados['uf'] : null);
+
+
+            $emailReceitaWS = (!empty($dados['email']) ? $dados['email'] : '');
+
+
+            $telefoneReceitaWS = (!empty($dados['telefone']) ? $dados['telefone'] : '');
+
+            $telefoneReceitaWS = str_replace(' ', '', $telefoneReceitaWS);
+            $telefoneReceitaWS = str_replace('-', '', $telefoneReceitaWS);
+
+            if(empty($logradouroReceitaWS) || empty($bairroReceitaWS) || empty($municipioReceitaWS) || empty($ufReceitaWS)) {
+
+                $recuperaCep = self::getEnderecoPorCep($CEPLogradouroReceitaWS);
+                if (empty($logradouroReceitaWS)) {
+                    $logradouroReceitaWS = $recuperaCep['logradouro'];
+                }
+
+                if (!empty($bairroReceitaWS)) {
+                    $bairroReceitaWS = $recuperaCep['bairro'];
+                }
+
+                if (!empty($municipioReceitaWS)) {
+                    $municipioReceitaWS = $recuperaCep['cidade'];
+                }
+
+                if (!empty($ufReceitaWS)) {
+                    $ufReceitaWS = $recuperaCep['estado'];
+                }
+            }
+
+            $situacaoCadastralReceitaWS = (!empty($dados['situacao']) ? $dados['situacao'] : null);
+            if (empty($situacaoCadastralReceitaWS)) throw new Exception('Situação cadastral do CNPJ ' . $cnpj . ' não encontrado.');
+
+            $dataSituacaoCadastralReceitaWS = (!empty($dados['data_situacao']) ? $dados['data_situacao'] : null);
+            if (empty($dataSituacaoCadastralReceitaWS)) throw new Exception('Data situação cadastral do CNPJ ' . $cnpj . ' não encontrado.');
+
+            $dadosReceitaWS['CNPJ']                     = $cnpjReceitaWS;
+            $dadosReceitaWS['RAZAOSOCIAL']              = $razaoSocialReceitaWS;
+            $dadosReceitaWS['NOMEFANTASIA']             = $fantasiaReceitaWS;
+            $dadosReceitaWS['RAMOATIVIDADE']            = $atividadeEconomicaReceitaWS;
+            $dadosReceitaWS['LOGRADOURO']               = $logradouroReceitaWS;
+            $dadosReceitaWS['NLOGRADOURO']              = $numeroReceitaWS;
+            $dadosReceitaWS['COMPLEMENTO']              = $complementoReceitaWS;
+            $dadosReceitaWS['CEP']                      = $CEPLogradouroReceitaWS;
+            $dadosReceitaWS['BAIRRO']                   = $bairroReceitaWS;
+            $dadosReceitaWS['MUNICIPIO']                = $municipioReceitaWS;
+            $dadosReceitaWS['UF']                       = $ufReceitaWS;
+            $dadosReceitaWS['EMAIL']                    = $emailReceitaWS;
+            $dadosReceitaWS['TELEFONE']                 = $telefoneReceitaWS;
+            $dadosReceitaWS['SITUACAOCADASTRAL']        = $situacaoCadastralReceitaWS;
+            $dadosReceitaWS['DATASITUACAOCADASTRAL']    = $dataSituacaoCadastralReceitaWS;
+
+            return (array) $dadosReceitaWS;
+
+        }catch (Exception $exception){
+            return $exception;
         }
-
-        Curl::$url = 'https://www.receitaws.com.br/v1/cnpj/'. $cnpj.'/days/10';
-        Curl::$sslVerifyHost = 0;
-        Curl::$sslVerifyPeer = 0;
-
-        $resultado = Curl::init();
-
-        if(strpos($resultado['content'], "Gateway Time-out") !== false) throw new Exception('Serviço temporariamente indisponível!<br>Aguarde alguns minutos e tente novamente.');
-
-        $dados = json_decode($resultado['content'], true);
-
-        $dadosReceitaWS = array();
-
-        if($dados['status']==='ERROR') throw new Exception('CNPJ ' . $dados['cnpj'] . ' Rejeitado pela Receita Federal.');
-
-        if (empty($cnpjReceitaWS)) throw new Exception('CNPJ ' . $cnpj . ' não encontrado.');
-        $cnpjReceitaWS = str_replace('-', '', $cnpjReceitaWS);
-        $cnpjReceitaWS = str_replace('.', '', $cnpjReceitaWS);
-        $cnpjReceitaWS = str_replace('/', '', $cnpjReceitaWS);
-
-        $razaoSocialReceitaWS = (!empty($dados['nome']) ? $dados['nome'] : null);
-        if (empty($razaoSocialReceitaWS)) throw new Exception('Razão Social do CNPJ ' . $cnpj . ' não encontrado.');
-
-        $fantasiaReceitaWS = (!empty($dados['fantasia']) ? $dados['fantasia'] : null);
-        if (empty($razaoSocialReceitaWS)) throw new Exception('Nome Fantasia do CNPJ ' . $cnpj . ' não encontrado.');
-
-        $atividadeEconomicaReceitaWS = (!empty($dados['atividade_principal'][0]['code']) ? $dados['atividade_principal'][0]['code'] : null);
-        if (empty($atividadeEconomicaReceitaWS)) throw new Exception('Ramo de Atividade do CNPJ ' . $cnpj . ' não encontrado.');
-        $atividadeEconomicaReceitaWS = str_replace('-', '', $atividadeEconomicaReceitaWS);
-        $atividadeEconomicaReceitaWS = str_replace('.', '', $atividadeEconomicaReceitaWS);
-
-        $logradouroReceitaWS = (!empty($dados['logradouro']) ? $dados['logradouro'] : null);
-
-        $numeroReceitaWS = (!empty($dados['numero']) ? $dados['numero'] : null);
-
-        $complementoReceitaWS = (!empty($dados['complemento']) ? $dados['complemento'] : '');
-
-        $CEPLogradouroReceitaWS = (!empty($dados['cep']) ? $dados['cep'] : null);
-        if (empty($CEPLogradouroReceitaWS)) throw new Exception('CEP do CNPJ ' . $cnpj . ' não encontrado.');
-
-        $CEPLogradouroReceitaWS = str_replace('-', '', $CEPLogradouroReceitaWS);
-        $CEPLogradouroReceitaWS = str_replace('.', '', $CEPLogradouroReceitaWS);
-
-        $bairroReceitaWS = (!empty($dados['bairro']) ? $dados['bairro'] : null);
-
-        $municipioReceitaWS = (!empty($dados['municipio']) ? $dados['municipio'] : null);
-
-        $ufReceitaWS = (!empty($dados['uf']) ? $dados['uf'] : null);
-
-
-        $emailReceitaWS = (!empty($dados['email']) ? $dados['email'] : '');
-
-
-        $telefoneReceitaWS = (!empty($dados['telefone']) ? $dados['telefone'] : '');
-
-        $telefoneReceitaWS = str_replace(' ', '', $telefoneReceitaWS);
-        $telefoneReceitaWS = str_replace('-', '', $telefoneReceitaWS);
-
-        if(empty($logradouroReceitaWS) || empty($bairroReceitaWS) || empty($municipioReceitaWS) || empty($ufReceitaWS)) {
-
-            $recuperaCep = self::getEnderecoPorCep($CEPLogradouroReceitaWS);
-            if (empty($logradouroReceitaWS)) {
-                $logradouroReceitaWS = $recuperaCep['logradouro'];
-            }
-
-            if (!empty($bairroReceitaWS)) {
-                $bairroReceitaWS = $recuperaCep['bairro'];
-            }
-
-            if (!empty($municipioReceitaWS)) {
-                $municipioReceitaWS = $recuperaCep['cidade'];
-            }
-
-            if (!empty($ufReceitaWS)) {
-                $ufReceitaWS = $recuperaCep['estado'];
-            }
-        }
-
-        $situacaoCadastralReceitaWS = (!empty($dados['situacao']) ? $dados['situacao'] : null);
-        if (empty($situacaoCadastralReceitaWS)) throw new Exception('Situação cadastral do CNPJ ' . $cnpj . ' não encontrado.');
-
-        $dataSituacaoCadastralReceitaWS = (!empty($dados['data_situacao']) ? $dados['data_situacao'] : null);
-        if (empty($dataSituacaoCadastralReceitaWS)) throw new Exception('Data situação cadastral do CNPJ ' . $cnpj . ' não encontrado.');
-
-        $dadosReceitaWS['CNPJ']                     = $cnpjReceitaWS;
-        $dadosReceitaWS['RAZAOSOCIAL']              = $razaoSocialReceitaWS;
-        $dadosReceitaWS['NOMEFANTASIA']             = $fantasiaReceitaWS;
-        $dadosReceitaWS['RAMOATIVIDADE']            = $atividadeEconomicaReceitaWS;
-        $dadosReceitaWS['LOGRADOURO']               = $logradouroReceitaWS;
-        $dadosReceitaWS['NLOGRADOURO']              = $numeroReceitaWS;
-        $dadosReceitaWS['COMPLEMENTO']              = $complementoReceitaWS;
-        $dadosReceitaWS['CEP']                      = $CEPLogradouroReceitaWS;
-        $dadosReceitaWS['BAIRRO']                   = $bairroReceitaWS;
-        $dadosReceitaWS['MUNICIPIO']                = $municipioReceitaWS;
-        $dadosReceitaWS['UF']                       = $ufReceitaWS;
-        $dadosReceitaWS['EMAIL']                    = $emailReceitaWS;
-        $dadosReceitaWS['TELEFONE']                 = $telefoneReceitaWS;
-        $dadosReceitaWS['SITUACAOCADASTRAL']        = $situacaoCadastralReceitaWS;
-        $dadosReceitaWS['DATASITUACAOCADASTRAL']    = $dataSituacaoCadastralReceitaWS;
-
-        return (array) $dadosReceitaWS;
-
     }
 
     public static function  templateEmail($template){
@@ -805,63 +813,87 @@ class Util{
 
     /** base de envio de email **/
     public static function enviarEmail($assunto, $email, $nome, $msg){
+        try{
+            if(empty($assunto)) throw new exception("Necessário enviar paramêtro assunto");
+            if(empty($email)) throw new exception("Necessário enviar paramêtro  email");
+            if(empty($nome)) throw new exception("Necessário enviar paramêtro nome");
+            if(empty($msg)) throw new exception("Necessário enviar paramêtro msg");
 
-        $mail = new Mailer;
-        $mail->setAssunto($assunto);
-        $mail->setDestinatario($email, $nome);
-        $mail->setNomeDe(PROJECT_NAME);
-        $mail->setMensagem($msg);
-        $resp = $mail->Enviar();
-        return $resp;
+            $mail = new Mailer;
+            $mail->setAssunto($assunto);
+            $mail->setDestinatario($email, $nome);
+            $mail->setNomeDe(PROJECT_NAME);
+            $mail->setMensagem($msg);
+            $resp = $mail->Enviar();
+            if($resp instanceof Exception) throw $resp;
+
+            return $resp;
+        }catch (Exception $exception){
+            return $exception;
+        }
     }
 
     /** get endereço com cep == return object**/
     public static function getEnderecoPorCep($cep){
-        $cepLimpo = str_replace(array('.', '-'), '', $cep);
-        $resp = json_decode( file_get_contents("http://viacep.com.br/ws/".$cepLimpo."/json/ ") );
-        return $resp;
+        try{
+            if(empty($cep)) throw new exception("Necessário enviar paramêtro");
+            $cepLimpo = str_replace(array('.', '-'), '', $cep);
+            $resp = json_decode( file_get_contents("http://viacep.com.br/ws/".$cepLimpo."/json/ ") );
+            return $resp;
+        }catch (Exception $exception){
+            return $exception;
+        }
     }
 
     /** get endereço com cep == return object**/
     public static function cropImagem($optionsImagem, $file){
+        try{
+            if(!is_array($optionsImagem)) throw new exception("Necessário enviar paramêtro");
 
-        if(!is_array($optionsImagem)) return false;
+            $handle = new upload($file);
 
-        $handle = new upload($file);
+            $handle->file_new_name_body  = $optionsImagem['newName'];
+            $handle->image_convert       = $optionsImagem['tipoImage'];
+            $handle->image_resize        = true;
+            $handle->image_ratio_fill    = true;
+            $handle->image_ratio_crop    = true;
+            $handle->image_x             = $optionsImagem['size_x'];
+            $handle->image_y             = $optionsImagem['size_y'];
+            $handle->file_overwrite      = true;
+            $handle->file_auto_rename    = false;
+            $handle->allowed             = array('image/jpeg','image/jpg','image/gif','image/png');
+            $handle->process($optionsImagem['dir']);
+            $newImage = $handle->file_dst_name;
 
-        $handle->file_new_name_body  = $optionsImagem['newName'];
-        $handle->image_convert       = $optionsImagem['tipoImage'];
-        $handle->image_resize        = true;
-        $handle->image_ratio_fill    = true;
-        $handle->image_ratio_crop    = true;
-        $handle->image_x             = $optionsImagem['size_x'];
-        $handle->image_y             = $optionsImagem['size_y'];
-        $handle->file_overwrite      = true;
-        $handle->file_auto_rename    = false;
-        $handle->allowed             = array('image/jpeg','image/jpg','image/gif','image/png');
-        $handle->process($optionsImagem['dir']);
-        $newImage = $handle->file_dst_name;
-
-        $retorno=[];
-        if($handle->processed) {
-            $handle->clean();
-            $retorno['success'] = true;
-            $retorno['imgName'] = $newImage;
-            $retorno['msg'] = '';
+            $retorno=[];
+            if($handle->processed) {
+                $handle->clean();
+                $retorno['success'] = true;
+                $retorno['imgName'] = $newImage;
+                $retorno['msg'] = '';
+            }
+            else {
+                $retorno['success'] = false;
+                $retorno['imgName'] = '';
+                $retorno['msg'] = $handle->error;
+            }
+            return $retorno;
+        }catch (Exception $exception){
+            return $exception;
         }
-        else {
-            $retorno['success'] = false;
-            $retorno['imgName'] = '';
-            $retorno['msg'] = $handle->error;
-        }
-        return $retorno;
     }
 
     public static function limparTelefone($telefone){
-        $seach=['(', ')',' ', '-'];
-        $replace=[''];
-        $telefone = str_replace($seach, $replace,  $telefone );
-        return $telefone;
+        try{
+            if(empty($telefone)) throw new exception("Necessário enviar paramêtro");
+
+            $seach=['(', ')',' ', '-'];
+            $replace=[''];
+            $telefone = str_replace($seach, $replace,  $telefone );
+            return $telefone;
+        }catch (Exception $exception) {
+            return $exception;
+        }
     }
 
 }

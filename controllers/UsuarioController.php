@@ -134,20 +134,18 @@ class UsuarioController extends MainController {
                 $userEdit = (new UsuarioModel)->editarUsuario($data);
                 if($userEdit instanceof Exception) throw $userEdit;
 
-                $this->retorno = array(
+                echo json_encode([
                     "status" => 'success',
                     "url" => UP_URI."/usuario/{$_SESSION['usuario']->idUsuario}/perfil/".$uploadprocessed['imgName']
-                );
+                ]);
 
             }else{
                 throw new Exception('Erro ao processar a imagem');
             }
 
         }catch (Exception $e){
-            $this->retorno['error'] = array( "status" => 'error', "msg" => $e->getMessage(), "url" =>'');
+            echo json_encode(["status" => 'error', "msg" => $e->getMessage(), "url" =>'']);
         }
-
-        echo json_encode($this->retorno);
     }
 
 }

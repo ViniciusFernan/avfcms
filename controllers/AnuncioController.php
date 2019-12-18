@@ -193,28 +193,24 @@ class AnuncioController extends MainController {
 
             $uploadprocessed = Util::cropImagem($optionsImagens, $_FILES['file']);
 
-            if ($uploadprocessed['success']==true){
-
-                $data['idAnuncio'] = $this->parametrosPost['idAnuncio'];
-                $data['imgCapa'] = $uploadprocessed['imgName'];
-
-                $anuncioEdit = (new AnuncioModel())->editAnuncio($data);
-                if($anuncioEdit instanceof Exception) throw $anuncioEdit;
-
-                $this->retorno = array(
-                    "status" => 'success',
-                    "url" => UP_URI."/anuncio/{$_SESSION['usuario']->idUsuario}/".$uploadprocessed['imgName']
-                );
-
-            }else{
+            if ($uploadprocessed['success']==false)
                 throw new Exception('Erro ao processar a imagem');
-            }
+
+            $data['idAnuncio'] = $this->parametrosPost['idAnuncio'];
+            $data['imgCapa'] = $uploadprocessed['imgName'];
+
+            $anuncioEdit = (new AnuncioModel())->editAnuncio($data);
+            if($anuncioEdit instanceof Exception) throw $anuncioEdit;
+
+            echo json_encode([
+                "status" => 'success',
+                "url" => UP_URI."/anuncio/{$_SESSION['usuario']->idUsuario}/".$uploadprocessed['imgName']
+            ]);
+
 
         }catch (Exception $e){
-            $this->retorno['error'] = array( "status" => 'error', "msg" => $e->getMessage(), "url" =>'');
+            echo json_encode( [ "status" => 'error', "msg" => $e->getMessage(), "url" =>''] );
         }
-
-        echo json_encode($this->retorno);
     }
 
 
