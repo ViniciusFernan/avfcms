@@ -313,17 +313,27 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
                     },
                     success: function (x) {
                         var resp = JSON.parse(x);
-                        $('[name="addFotoAlbum"]').val('');
-                        $('.progress .progress-bar').animate({width: '100%'});
-                        $('.progress').fadeOut(300).remove();
-                        var html ='<a href="'+resp.url+'" class="thumbnail col-xs-6 col-md-3 item-G"><img src="'+resp.url+'" class="img-responsive"></a>';
-                        $('.box-galeria').prepend(html);
-                        $galery.data('lightGallery').destroy(true);
-                        $galery = $('.box-galeria').lightGallery({
-                            thumbnail: true,
-                            selector: '.item-G',
-                            download: false
-                        });
+                        $(".loading").remove();  //location.reload(true);
+                        if(resp.status=='error'){
+                            showNotify(
+                                'Erro ao processar',
+                                'Houve um erro não foi possivel processar a imagem',
+                                'error',
+                            )
+                        }else{
+                            $('[name="addFotoAlbum"]').val('');
+                            $('.progress .progress-bar').animate({width: '100%'});
+                            $('.progress').fadeOut(300).remove();
+                            var html ='<a href="'+resp.url+'" class="thumbnail col-xs-6 col-md-3 item-G"><img src="'+resp.url+'" class="img-responsive"></a>';
+                            $('.box-galeria').prepend(html);
+                            $galery.data('lightGallery').destroy(true);
+                            $galery = $('.box-galeria').lightGallery({
+                                thumbnail: true,
+                                selector: '.item-G',
+                                download: false
+                            });
+                        }
+
                     },
                     error: function (xhr, status, errorThrown) {
                         $(".loading").remove();  //location.reload(true);
