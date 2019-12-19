@@ -41,7 +41,6 @@ class UsuarioController extends MainController {
             $this->retorno['boxMsg'] = ['msg'=>$e->getMessage(), 'tipo'=>'danger'];
         }
 
-
         $View = new View('usuario/default.view.php');
         $View->setParams($this->retorno);
         $View->showContents();

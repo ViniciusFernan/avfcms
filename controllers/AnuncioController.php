@@ -207,7 +207,6 @@ class AnuncioController extends MainController {
                 "url" => UP_URI."/anuncio/{$_SESSION['usuario']->idUsuario}/".$uploadprocessed['imgName']
             ]);
 
-
         }catch (Exception $e){
             echo json_encode( [ "status" => 'error', "msg" => $e->getMessage(), "url" =>''] );
         }

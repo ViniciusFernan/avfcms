@@ -16,7 +16,9 @@ require_once ABSPATH . "/models/strategy/anuncio/EditarAnuncioStrategy.php";
 
 class AnuncioModel extends AnuncioFactory {
     
-    /** cadastro de novo anuncio */
+    /**
+     * cadastro de novo anuncio
+     */
     public function newAnuncio($post) {
         try{
             if(!is_array($post) || empty($post)) throw new Exception('Preencha o formulário!');
@@ -42,7 +44,9 @@ class AnuncioModel extends AnuncioFactory {
         }
     }
 
-    /** Retorna anuncio  */
+    /**
+     * Retorna anuncio
+     */
     public function getAnuncioPorId($id){
         try{
             if(empty($id)) throw new Exception('Erro identificador do usuario não enviado');
@@ -71,6 +75,13 @@ class AnuncioModel extends AnuncioFactory {
         }
     }
 
+    /**
+     * @param $slug
+     * @param null $idAnuncio
+     * @return Exception|string
+     * @since 19/12/2019
+     * @author Antonio Vinicius Fernandes
+     */
     public function checarCriarSlugValido($slug, $idAnuncio=null){
         try{
             if(empty($slug)) throw new Exception('Erro ao gerar slug valido, tentar novamente.');

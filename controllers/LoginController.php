@@ -19,7 +19,6 @@ class LoginController extends MainController {
         $this->isLogin= false;
         //Classe de manipulação do login
         $this->Login = new LoginModel;
-
     }
 
     /**
