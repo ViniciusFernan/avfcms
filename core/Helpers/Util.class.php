@@ -896,4 +896,131 @@ class Util{
         }
     }
 
+    /**********************************
+     *                 CALCULOS
+     **********************************/
+    public static function somar($fatores = [0, 0], $precisao, $round)
+    {
+        $_precisao = (int) self::$precisao;
+
+        $resultado = 0;
+
+        foreach (self::$fatores as $key => $value)
+        {
+            $fator = (float) $value;
+
+            if ($resultado == 0 && $key == 0)
+            {
+                $resultado = $fator;
+            }
+            else
+            {
+                $_resultado = (float) bcadd($resultado, $fator, $_precisao);
+                $resultado = (float) $_resultado;
+            }
+        }
+
+        $resultado = (float) (self::$round == 1 ? round($resultado, 2) : $resultado);
+
+        self::__destruct();
+        return (float) $resultado;
+    }
+
+    public static function subtrair($fatores = [0, 0], $precisao, $round)
+    {
+        $_precisao = (int) self::$precisao;
+
+        $resultado = 0;
+
+        foreach (self::$fatores as $key => $value)
+        {
+            $fator = (float) $value;
+
+            if ($resultado == 0 && $key == 0)
+            {
+                $resultado = $fator;
+            }
+            else
+            {
+                $_resultado = (float) bcsub($resultado, $fator, $_precisao);
+                $resultado = (float) $_resultado;
+            }
+        }
+
+        $resultado = (float) (self::$round == 1 ? round($resultado, 2) : $resultado);
+
+        self::__destruct();
+        return (float) $resultado;
+    }
+
+    public static function dividir($fatores = [0, 0], $precisao, $round)
+    {
+        $_precisao = (int) self::$precisao;
+
+        $resultado = 0;
+
+        foreach (self::$fatores as $key => $value)
+        {
+            $fator = (float) $value;
+
+            if ($resultado == 0 && $key == 0)
+            {
+                $resultado = $fator;
+            }
+            else
+            {
+                $_resultado = (float) bcdiv($resultado, $fator, $_precisao);
+                $resultado = (float) $_resultado;
+            }
+        }
+
+        $resultado = (float) (self::$round == 1 ? round($resultado, 2) : $resultado);
+
+        self::__destruct();
+        return (float) $resultado;
+    }
+
+    public static function multiplicar($fatores = [0, 0], $precisao, $round)
+    {
+        $_precisao = (int) self::$precisao;
+
+        $resultado = 0;
+
+        foreach (self::$fatores as $key => $value)
+        {
+            $fator = (float) $value;
+
+            if ($resultado == 0 && $key == 0)
+            {
+                $resultado = $fator;
+            }
+            else
+            {
+                $_resultado = (float) bcmul($resultado, $fator, $_precisao);
+                $resultado = (float) $_resultado;
+            }
+        }
+
+        $resultado = (float) (self::$round == 1 ? round($resultado, 2) : $resultado);
+
+        self::__destruct();
+        return (float) $resultado;
+    }
+
+    public static function modular($fatores = [0, 0], $precisao, $round)
+    {
+        $resultado = 0;
+
+        if (count(self::$fatores) == 2)
+        {
+            $numero = (float) self::$fatores[0];
+            $fator = (int) self::$fatores[1];
+
+            $resultado = ($numero % $fator);
+        }
+
+        self::__destruct();
+        return (int) $resultado;
+    }
+
 }
