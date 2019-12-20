@@ -27,13 +27,15 @@ class Select extends Conn {
     /** @var PDO */
     private $Conn;
     /** @var PDOStatement */
-    private $Read;
+    private $ReadPDO;
 
     private $Select;
     private $Colunms;
-    private $Places;
-    private $Where = [];
-    private $join=[];
+    private $Tabela;
+    private $Where;
+    private $Join;
+    private $Group;
+    private $Having;
 
 
 
@@ -127,21 +129,23 @@ class Select extends Conn {
      * @param array $Colunms = colunas pesonalizadas
      * @param STRING $Tabela = Nome da tabela
      * @param array $Where = WHERE [$key => value] bind para
-     * @param array $ParseString = link={$link}
-     * &link2={$link2}
-     * @param array $join
-     * @param null $limit
-     * @return array|Exception|PDOException
+     * @param array $Join
+     * @param array $Group
+     * @param array $Having
+     * @param null $Limit
      */
-    public function Select($Colunms = [], $Tabela, $Where = [], $ParseString = [], $join=[], $limit=null) {
+    public function Select($Colunms = [], $Tabela = null, $Where = [], $Join = [], $Group = [], $Having = [], $Limit = null) {
         try{
+            if (empty($Tabela) && !is_string($Tabela)) throw new Exception('Necessário envio de parametros tabela');
             if (empty($Where) && !is_array($Where)) throw new Exception('Necessário envio de parametros para filtro');
 
-            $this->buildSyntax();
+            $this->buildColunas($Colunms);
+            $this->buildWhere($Where);
+            $this->buildJoin($Join);
+            $this->buildHaving($Having);
+            $this->buildGroup($Group);
+            $this->getSyntax();
 
-
-            $sql = "SELECT {$this->Colunms} FROM {$this->Tabela} WHERE {$this->Where} {$this->join} {$this->limit}";
-            $this->Select = $sql;
             $select = $this->Execute();
             if(is_string($select) && !empty($select)) throw new Exception($select);
 
@@ -161,7 +165,7 @@ class Select extends Conn {
         if (!empty($this->rowCount))
             return $this->rowCount;
         else
-            return $this->Read->rowCount();
+            return $this->ReadPDO->rowCount();
     }
 
     /**
@@ -192,24 +196,6 @@ class Select extends Conn {
     }
 
     /**
-     * <b>Full Read:</b> Executa leitura de dados via query que deve ser montada manualmente para possibilitar
-     * seleção de multiplas tabelas em uma única query!
-     * @param STRING $Query = Query Select Syntax
-     * @param STRING $ParseString = link={$link}&link2={$link2}
-     */
-    public function setPlaces($ParseString) {
-        try{
-            parse_str($ParseString, $this->Places);
-            $setPlaces = $this->Execute();
-            if($setPlaces instanceof Exception) throw $setPlaces;
-            return $setPlaces;
-        }catch (Exception $e){
-            return $e;
-        }
-
-    }
-
-    /**
      * ****************************************
      * *********** PRIVATE METHODS ************
      * ****************************************
@@ -217,43 +203,37 @@ class Select extends Conn {
     //Obtém o PDO e Prepara a query
     private function Connect() {
         $this->Conn = parent::getConn();
-        $this->Read = $this->Conn->prepare($this->Select);
-        $this->Read->setFetchMode(PDO::FETCH_ASSOC);
+        $this->ReadPDO = $this->Conn->prepare($this->Select);
+        $this->ReadPDO->setFetchMode(PDO::FETCH_ASSOC);
     }
 
     //Cria a sintaxe da query para Prepared Statements
-    private function getSyntax() {
+    private function buildSyntax() {
         if ($this->Places):
             foreach ($this->Places as $Vinculo => $Valor):
-                if ($Vinculo == 'limit' || $Vinculo == 'offset'):
-                    $Valor = (int) $Valor;
-                endif;
                 $Valor = str_replace("^", "%", $Valor);
-                $this->Read->bindValue(":{$Vinculo}", $Valor, ( is_int($Valor) ? PDO::PARAM_INT : PDO::PARAM_STR));
+                $this->ReadPDO->bindValue(":{$Vinculo}", $Valor, ( is_int($Valor) ? PDO::PARAM_INT : PDO::PARAM_STR));
             endforeach;
         endif;
     }
 
-    private function buildSyntax() {
-        if ($this->Places):
-            foreach ($this->Places as $Vinculo => $Valor):
-                if ($Vinculo == 'limit' || $Vinculo == 'offset'):
-                    $Valor = (int) $Valor;
-                endif;
-                $Valor = str_replace("^", "%", $Valor);
-                $this->Read->bindValue(":{$Vinculo}", $Valor, ( is_int($Valor) ? PDO::PARAM_INT : PDO::PARAM_STR));
-            endforeach;
-        endif;
+    private function getSyntax() {
+        $this->Select="SELECT SQL_CALC_FOUND_ROWS 
+                            {$this->Colunms}    
+                       FROM {$this->Tabela}     
+                       WHERE {$this->Where}    
+                       {$this->Join}     
+                       {$this->Limit}";
     }
 
     //Obtém a Conexão e a Syntax, executa a query!
     private function Execute() {
         try {
             $this->Connect();
-            $this->getSyntax();
-            $this->Read->execute();
+            $this->setBindValues();
+            $this->ReadPDO->execute();
 
-            return $this->Read->fetchAll( PDO::FETCH_OBJ); //return array objects
+            return $this->ReadPDO->fetchAll( PDO::FETCH_OBJ); //return array objects
         } catch (PDOException $e) {
            return $e;
         }
@@ -274,8 +254,8 @@ class Select extends Conn {
             $this->Connect();
 
             $this->getSyntax();
-            $this->Read->execute();
-            $this->rowCount = $this->Read->rowCount();
+            $this->ReadPDO->execute();
+            $this->rowCount = $this->ReadPDO->rowCount();
 
             //Seta a quantidade de itens encontrado na tabela
             $this->rowCount = $this->getRowCount();
@@ -303,55 +283,73 @@ class Select extends Conn {
         }
     }
 
+    private function buildWhere($where)
+    {
+        try {
+            if(!empty($where) && !is_array($where)) throw new Exception('Erro em dado enviado WHERE ');
+            if(empty($join)) throw new Exception('Sem parametros de busca');
+
+            $partQuery = '';
+            $operator = '=';
+
+            foreach ($where as $key => $value):
+                $value['type'] = (!empty(@$value['type']) ? $value['type']  : " AND ");
+                $value['comparator'] = (!empty(@$value['comparator']) ? $value['comparator']  : $operator);
+
+                $partQuery .= ($key == 0 ? ' ' : $value['type'] ) . $value['field'] . $value['comparator'] .': '. $value['field'];
+            endforeach;
+
+            $this->Where = $partQuery;
+        } catch (Exception $exception) {
+            return $exception;
+        }
+    }
 
     private function buildJoin($join)
     {
         try {
-            if(!empty($join) && !is_array($join)) throw new Exception('Erro em dado enviado ');
+            if(!empty($join) && !is_array($join)) throw new Exception('Erro em dado enviado JOIN ');
 
             if(empty($join)) return null;
 
             $partQuery = '';
             $operator = '=';
 
-            foreach ($join as $key => $item)
-            {
+            foreach ($join as $key => $item):
+
                 if(empty(@$item['relacao'])) throw new Exception('Necessário envio do tipo de relação');
                 if(empty(@$item['tabela'])) throw new Exception('Necessário envio da tabela do tipo de relação');
 
                 $partQuery .= $item['relacao'] . ' '. $item['tabela'] . ' ON ';
 
-                if (isset($item['data']))
-                {
-                    foreach ($item['data'] as $_key => $_dataItem)
-                    {
+                if (isset($item['data'])) :
+                    foreach ($item['data'] as $_key => $_dataItem) :
                         if (isset($_dataItem['comparator']) && !empty($_dataItem['comparator'])) $operator = $_dataItem['comparator'];
 
-                        if ($operator == 'OR') {
+                        if ($operator == 'OR') :
                             $partQuery .= ($_key > 0 ? ' AND ' : ' ') . $_dataItem['value'];
-                        }
-                        else if ($operator == 'IS' || $operator == 'IS NOT')
-                        {
+
+                        elseif ($operator == 'IS' || $operator == 'IS NOT') :
                             $partQuery .= ($key > 0 ? ' AND ' : ' ') . $_dataItem['field'] . ' ' . $operator . ' ' . $_dataItem['value'];
-                        }
-                        else if ( $operator == 'LIKE')
-                        {
+
+                        elseif ( $operator == 'LIKE') :
                             $partQuery .= ($key > 0 ? ' AND ' : ' ') . $_dataItem['field'] . ' LIKE '. addslashes($_dataItem['value']) ;
-                        }
 
-                        if ($operator == 'IN' || $operator == 'NOT IN')
-                        {
+                        endif;
+
+                        if ($operator == 'IN' || $operator == 'NOT IN') :
                             $partQuery .= ($key > 0 ? ' AND ' : ' ') . $_dataItem['field'] . ' '. $operator .'(' . $_dataItem['value'] . ')';
-                        }
-                        else
-                        {
-                            $partQuery .= ($key > 1 ? ' AND ' : ' ') . $_dataItem['field'] . ' ' . $operator . ' ' . $_dataItem['value'] . ' ';
-                        }
-                    }
-                }
-            }
 
-            return $partQuery;
+                        else:
+                            $partQuery .= ($key > 1 ? ' AND ' : ' ') . $_dataItem['field'] . ' ' . $operator . ' ' . $_dataItem['value'] . ' ';
+
+                        endif;
+
+                    endforeach;
+                endif;
+            endforeach;
+
+            $this->Join = $partQuery;
         } catch (Exception $exception) {
             return $exception;
         }
