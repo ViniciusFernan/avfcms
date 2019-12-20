@@ -25,6 +25,7 @@
 class Select extends Conn {
 
     private $Select;
+    private $Colunms;
     private $Places;
     /** @var PDOStatement */
     private $Read;
@@ -117,21 +118,26 @@ class Select extends Conn {
     /**
      * <b>Exe Read:</b> Executa uma leitura simplificada com Prepared Statments. Basta informar o nome da tabela,
      * os termos da seleção e uma analize em cadeia (ParseString) para executar.
+     * @param array $Colunms = colunas pesonalizadas
      * @param STRING $Tabela = Nome da tabela
-     * @param STRING $Termos = WHERE | ORDER | LIMIT :limit | OFFSET :offset
-     * @param STRING $ParseString = link={$link}&link2={$link2}
+     * @param array $Termos = WHERE | ORDER | LIMIT :limit | OFFSET :offset
+     * @param array $ParseString = link={$link}
+     * &link2={$link2}
+     * @param array $join
+     * @param null $limit
+     * @return array|Exception|PDOException
      */
-    public function ExeRead($Tabela, $Termos = null, $ParseString = null) {
+    public function ExeRead($Colunms = [], $Tabela, $Termos = [], $ParseString = [], $join=[], $limit=null) {
         try{
             if ($ParseString)
                 $ParseString = str_replace("%", "^", $ParseString);
 
-            $limit = "";
+
             if (!empty($ParseString)):
                 parse_str($ParseString, $this->Places);
             endif;
 
-            $sql = "SELECT * FROM {$Tabela} {$Termos} {$limit}";
+            $sql = "SELECT {$Colunms} FROM {$Tabela} {$Termos} {$join} {$limit}";
             $this->Select = $sql;
             $select = $this->Execute();
             if(is_string($select) && !empty($select)) throw new Exception($select);
@@ -265,6 +271,93 @@ class Select extends Conn {
 
         } catch (PDOException $e) {
             return $e;
+        }
+
+    }
+
+    private function buildColunas($colunas)
+    {
+        try {
+            if (!empty($colunas)) :
+                $this->Colunms = implode(',', $colunas);
+            else :
+                $this->Colunms = '*';
+            endif;
+        } catch (Exception $exception) {
+            return $exception;
+        }
+    }
+
+
+    private function buildJoin($join)
+    {
+        try {
+            if(!empty($join) && !is_array($join)) throw new Exception('Erro em dado enviado ');
+
+            if(empty($join)) return null;
+
+            $partQuery = '';
+            $operator = '=';
+
+            foreach ($join as $key => $item)
+            {
+                if(empty(@$item['relacao'])) throw new Exception('Necessário envio do tipo de relação');
+                if(empty(@$item['tabela'])) throw new Exception('Necessário envio da tabela do tipo de relação');
+
+                $partQuery .= $item['relacao'] . ' '. $item['tabela'] . ' ON ';
+
+                if (isset($item['data']))
+                {
+                    foreach ($item['data'] as $_key => $_dataItem)
+                    {
+                        if (isset($_dataItem['comparator']) && !empty($_dataItem['comparator'])) $operator = $_dataItem['comparator'];
+
+                        if ($operator == 'OR') {
+                            $partQuery .= ($_key > 0 ? ' AND ' : ' ') . $_dataItem['value'];
+                        }
+                        else if ($operator == 'IS' || $operator == 'IS NOT')
+                        {
+                            $partQuery .= ($key > 0 ? ' AND ' : ' ') . $_dataItem['field'] . ' ' . $operator . ' ' . $_dataItem['value'];
+                        }
+                        else if ( $operator == 'LIKE')
+                        {
+                            $partQuery .= ($key > 0 ? ' AND ' : ' ') . $_dataItem['field'] . ' LIKE '. addslashes($_dataItem['value']) ;
+                        }
+
+                        if ($operator == 'IN' || $operator == 'NOT IN')
+                        {
+                            $partQuery .= ($key > 0 ? ' AND ' : ' ') . $_dataItem['field'] . ' '. $operator .'(' . $_dataItem['value'] . ')';
+                        }
+                        else
+                        {
+                            $partQuery .= ($key > 1 ? ' AND ' : ' ') . $_dataItem['field'] . ' ' . $operator . ' ' . $_dataItem['value'] . ' ';
+                        }
+                    }
+                }
+            }
+
+            return $partQuery;
+        } catch (Exception $exception) {
+            return $exception;
+        }
+    }
+
+    private function setGroup($group)
+    {
+        try {
+
+        } catch (Exception $exception) {
+            return $exception;
+        }
+
+    }
+
+    private function buildHaving($having)
+    {
+        try {
+
+        } catch (Exception $exception) {
+            return $exception;
         }
 
     }

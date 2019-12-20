@@ -51,7 +51,7 @@ class AnuncioDAO extends Conn {
             if(empty($id)) throw new Exception('Erro identificador do anuncio não enviado');
 
             $select = new Select();
-            $dadosAnuncio = $select->ExeRead('anuncio', "WHERE idAnuncio=:id", "id={$id}");
+            $dadosAnuncio = $select->ExeRead('*', 'anuncio', "WHERE idAnuncio=:id", "id={$id}");
             if($dadosAnuncio instanceof Exception) throw $dadosAnuncio;
             if(empty($dadosAnuncio)) throw new Exception('Não achou nada nesse trem!');
 
@@ -73,7 +73,7 @@ class AnuncioDAO extends Conn {
             }
 
             $select = new Select();
-            $dadosAnuncio = $select->ExeRead('anuncio', "WHERE slugAnuncio=:slugAnuncio {$where}", "slugAnuncio={$slugAnuncio}{$parse}");
+            $dadosAnuncio = $select->ExeRead('*', 'anuncio', "WHERE slugAnuncio=:slugAnuncio {$where}", "slugAnuncio={$slugAnuncio}{$parse}");
             if($dadosAnuncio instanceof Exception) throw $dadosAnuncio;
             if(!empty($dadosAnuncio)):
                 return true;
@@ -92,7 +92,7 @@ class AnuncioDAO extends Conn {
                 throw new Exception('Error grave nesse trem');
 
             $select = new Select();
-            $dadosAnuncio = $select->ExeRead('anuncio', "WHERE idUsuario=:idUsuario", "idUsuario={$idUsuario}");
+            $dadosAnuncio = $select->ExeRead('*', 'anuncio', "WHERE idUsuario=:idUsuario", "idUsuario={$idUsuario}");
             if($dadosAnuncio instanceof Exception) throw $dadosAnuncio;
             if(!empty($dadosAnuncio)):
                 return $dadosAnuncio;
