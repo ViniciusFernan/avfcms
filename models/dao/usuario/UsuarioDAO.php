@@ -85,7 +85,7 @@ class UsuarioDAO extends Conn {
             if(!is_array($post) || empty($post)) throw new Exception('Tem um trem errado aqui!');
 
             $select = new Select();
-            $dadosUsuario = $select->ExeRead('*', 'usuario', "WHERE email=:email AND status=:status", "email={$post['email']}&status=1");
+            $dadosUsuario = $select->Select('*', 'usuario', "email=:email AND status=:status", "email={$post['email']}&status=1");
             if($dadosUsuario instanceof Exception) throw $dadosUsuario;
             if(!empty($dadosUsuario)):
                 return true;
@@ -105,7 +105,7 @@ class UsuarioDAO extends Conn {
                 throw new Exception('Error grave nesse trem');
 
             $select = new Select();
-            $dadosUsuario = $select->ExeRead('*', 'usuario', "WHERE CPF=:CPF AND status=:status", "CPF={$post['CPF']}&status=1");
+            $dadosUsuario = $select->Select('*', 'usuario', "CPF=:CPF AND status=:status", "CPF={$post['CPF']}&status=1");
             if($dadosUsuario instanceof Exception) throw $dadosUsuario;
             if(!empty($dadosUsuario)):
                 return true;
@@ -124,7 +124,7 @@ class UsuarioDAO extends Conn {
                 throw new Exception('Error grave nesse trem');
 
             $select = new Select();
-            $dadosUsuario = $select->ExeRead('*', 'usuario', "WHERE {$key}=:{$key} AND status=:status", "{$key}={$valor}&status=1");
+            $dadosUsuario = $select->Select('*', 'usuario', "{$key}=:{$key} AND status=:status", "{$key}={$valor}&status=1");
             if($dadosUsuario instanceof Exception) throw $dadosUsuario;
             if(!empty($dadosUsuario)):
                 return true;
@@ -200,7 +200,7 @@ class UsuarioDAO extends Conn {
             if(empty($id)) throw new Exception('Erro identificador do usuario não enviado');
 
             $select = new Select();
-            $dadosUsuario = $select->ExeRead('*', 'usuario', "WHERE idUsuario=:id", "id={$id}");
+            $dadosUsuario = $select->Select('*', 'usuario', "idUsuario=:id", "id={$id}");
             if($dadosUsuario instanceof Exception) throw $dadosUsuario;
             if(empty($dadosUsuario)) throw new Exception('Não achou nada nesse trem!');
 

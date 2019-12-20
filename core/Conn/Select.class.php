@@ -24,14 +24,20 @@
  */
 class Select extends Conn {
 
-    private $Select;
-    private $Colunms;
-    private $Places;
+    /** @var PDO */
+    private $Conn;
     /** @var PDOStatement */
     private $Read;
 
-    /** @var PDO */
-    private $Conn;
+    private $Select;
+    private $Colunms;
+    private $Places;
+    private $Where = [];
+    private $join=[];
+
+
+
+
 
     /* PAGINACAO */
     private $limit;
@@ -116,28 +122,26 @@ class Select extends Conn {
     }
 
     /**
-     * <b>Exe Read:</b> Executa uma leitura simplificada com Prepared Statments. Basta informar o nome da tabela,
+     * <b>SELECT:</b> Executa uma leitura simplificada com Prepared Statments. Basta informar o nome da tabela,
      * os termos da seleção e uma analize em cadeia (ParseString) para executar.
      * @param array $Colunms = colunas pesonalizadas
      * @param STRING $Tabela = Nome da tabela
-     * @param array $Termos = WHERE | ORDER | LIMIT :limit | OFFSET :offset
+     * @param array $Where = WHERE [$key => value] bind para
      * @param array $ParseString = link={$link}
      * &link2={$link2}
      * @param array $join
      * @param null $limit
      * @return array|Exception|PDOException
      */
-    public function ExeRead($Colunms = [], $Tabela, $Termos = [], $ParseString = [], $join=[], $limit=null) {
+    public function Select($Colunms = [], $Tabela, $Where = [], $ParseString = [], $join=[], $limit=null) {
         try{
-            if ($ParseString)
-                $ParseString = str_replace("%", "^", $ParseString);
+            if (empty($Where) && !is_array($Where)) throw new Exception('Necessário envio de parametros para filtro');
+
+            $this->Where = $Where;
+            $this->join = $join;
 
 
-            if (!empty($ParseString)):
-                parse_str($ParseString, $this->Places);
-            endif;
-
-            $sql = "SELECT {$Colunms} FROM {$Tabela} {$Termos} {$join} {$limit}";
+            $sql = "SELECT {$Colunms} FROM {$Tabela} WHERE {$Where} {$join} {$limit}";
             $this->Select = $sql;
             $select = $this->Execute();
             if(is_string($select) && !empty($select)) throw new Exception($select);
