@@ -137,11 +137,10 @@ class Select extends Conn {
         try{
             if (empty($Where) && !is_array($Where)) throw new Exception('Necessário envio de parametros para filtro');
 
-            $this->Where = $Where;
-            $this->join = $join;
+            $this->buildSyntax();
 
 
-            $sql = "SELECT {$Colunms} FROM {$Tabela} WHERE {$Where} {$join} {$limit}";
+            $sql = "SELECT {$this->Colunms} FROM {$this->Tabela} WHERE {$this->Where} {$this->join} {$this->limit}";
             $this->Select = $sql;
             $select = $this->Execute();
             if(is_string($select) && !empty($select)) throw new Exception($select);
@@ -224,6 +223,18 @@ class Select extends Conn {
 
     //Cria a sintaxe da query para Prepared Statements
     private function getSyntax() {
+        if ($this->Places):
+            foreach ($this->Places as $Vinculo => $Valor):
+                if ($Vinculo == 'limit' || $Vinculo == 'offset'):
+                    $Valor = (int) $Valor;
+                endif;
+                $Valor = str_replace("^", "%", $Valor);
+                $this->Read->bindValue(":{$Vinculo}", $Valor, ( is_int($Valor) ? PDO::PARAM_INT : PDO::PARAM_STR));
+            endforeach;
+        endif;
+    }
+
+    private function buildSyntax() {
         if ($this->Places):
             foreach ($this->Places as $Vinculo => $Valor):
                 if ($Vinculo == 'limit' || $Vinculo == 'offset'):
