@@ -42,7 +42,7 @@ class Select extends Conn {
 
 
     /* PAGINACAO */
-    private $limit;
+    private $Limit;
     private $offset;
     private $paginaAtual;
     private $totalPaginas;
@@ -59,7 +59,7 @@ class Select extends Conn {
         $paginaAtual = (int) $paginaAtual;
         $limit = (int) $limit;
         $this->paginaAtual = ($paginaAtual ? $paginaAtual : 1);
-        $this->limit = ($limit ? $limit : 50);
+        $this->Limit = ($limit ? $limit : 50);
     }
 
     /**
@@ -124,40 +124,6 @@ class Select extends Conn {
     }
 
     /**
-     * <b>SELECT:</b> Executa uma leitura simplificada com Prepared Statments. Basta informar o nome da tabela,
-     * os termos da seleção e uma analize em cadeia (ParseString) para executar.
-     * @param array $Colunms = colunas pesonalizadas
-     * @param STRING $Tabela = Nome da tabela
-     * @param array $Where = WHERE [$key => value] bind para
-     * @param array $Join
-     * @param array $Group
-     * @param array $Having
-     * @param null $Limit
-     */
-    public function Select($Colunms = [], $Tabela = null, $Where = [], $Join = [], $Group = [], $Having = [], $Limit = null) {
-        try{
-            if (empty($Tabela) && !is_string($Tabela)) throw new Exception('Necessário envio de parametros tabela');
-            if (empty($Where) && !is_array($Where)) throw new Exception('Necessário envio de parametros para filtro');
-
-            $this->buildColunas($Colunms);
-            $this->buildWhere($Where);
-            $this->buildJoin($Join);
-            $this->buildHaving($Having);
-            $this->buildGroup($Group);
-            $this->getSyntax();
-
-            $select = $this->Execute();
-            if(is_string($select) && !empty($select)) throw new Exception($select);
-
-            return $select;
-        }catch (Exception $e){
-            return $e;
-        }
-
-    }
-
-
-    /**
      * <b>Contar Registros: </b> Retorna o número de registros encontrados pelo select!
      * @return INT $Var = Quantidade de registros encontrados
      */
@@ -166,77 +132,6 @@ class Select extends Conn {
             return $this->rowCount;
         else
             return $this->ReadPDO->rowCount();
-    }
-
-    /**
-     * <b>Full Select: Executa leitura com a sql completa montada da forma que for necessária</b>
-     * @param String $Query - A string Select com Prepared Statments
-     * @param String $ParseString - Passa os parametro em forma de url
-     */
-    public function FullSelect($Query, $ParseString = null) {
-
-        try{
-            if ($ParseString)
-                $ParseString = str_replace("%", "^", $ParseString);
-
-            $limit='';
-            $this->Select = (string) $Query . $limit;
-            if (!empty($ParseString)):
-                parse_str($ParseString, $this->Places);
-            endif;
-            $fullSelect = $this->Execute();
-            if($fullSelect instanceof Exception) throw $fullSelect;
-
-            return $fullSelect;
-        }catch (Exception $e){
-            return $e;
-        }
-
-
-    }
-
-    /**
-     * ****************************************
-     * *********** PRIVATE METHODS ************
-     * ****************************************
-     */
-    //Obtém o PDO e Prepara a query
-    private function Connect() {
-        $this->Conn = parent::getConn();
-        $this->ReadPDO = $this->Conn->prepare($this->Select);
-        $this->ReadPDO->setFetchMode(PDO::FETCH_ASSOC);
-    }
-
-    //Cria a sintaxe da query para Prepared Statements
-    private function buildSyntax() {
-        if ($this->Places):
-            foreach ($this->Places as $Vinculo => $Valor):
-                $Valor = str_replace("^", "%", $Valor);
-                $this->ReadPDO->bindValue(":{$Vinculo}", $Valor, ( is_int($Valor) ? PDO::PARAM_INT : PDO::PARAM_STR));
-            endforeach;
-        endif;
-    }
-
-    private function getSyntax() {
-        $this->Select="SELECT SQL_CALC_FOUND_ROWS 
-                            {$this->Colunms}    
-                       FROM {$this->Tabela}     
-                       WHERE {$this->Where}    
-                       {$this->Join}     
-                       {$this->Limit}";
-    }
-
-    //Obtém a Conexão e a Syntax, executa a query!
-    private function Execute() {
-        try {
-            $this->Connect();
-            $this->setBindValues();
-            $this->ReadPDO->execute();
-
-            return $this->ReadPDO->fetchAll( PDO::FETCH_OBJ); //return array objects
-        } catch (PDOException $e) {
-           return $e;
-        }
     }
 
     /**
@@ -270,14 +165,128 @@ class Select extends Conn {
 
     }
 
-    private function buildColunas($colunas)
+    /**
+     * <b>SELECT:</b> Executa uma leitura simplificada com Prepared Statments. Basta informar o nome da tabela,
+     * os termos da seleção e uma analize em cadeia (ParseString) para executar.
+     * @param array $Colunms = colunas pesonalizadas
+     * @param STRING $Tabela = Nome da tabela
+     * @param array $Where = WHERE [$key => value] bind para
+     * @param array $Join
+     * @param array $Group
+     * @param array $Having
+     * @param null $Limit
+     */
+    public function Select($Colunms = [], $Tabela = null, $Where = [], $Join = [], $Group = [], $Having = [], $Limit = null) {
+        try{
+            if (empty($Tabela) && !is_string($Tabela)) throw new Exception('Necessário envio de parametros tabela');
+            if (empty($Where) && !is_array($Where)) throw new Exception('Necessário envio de parametros para filtro');
+
+            if(!empty($Colunms))  $this->Colunms = $Colunms;
+            if(!empty($Tabela))  $this->Tabela = $Tabela;
+            if(!empty($Where))  $this->Where = $Where;
+            if(!empty($Join))  $this->Join = $Join;
+            if(!empty($Group))  $this->Group = $Group;
+            if(!empty($Having))  $this->Having = $Having;
+            if(!empty($Limit))  $this->Limit = $Limit;
+
+            $this->getSyntax(
+                $this->buildColunas($this->Colunms),
+                $this->Tabela,
+                $this->buildWhere($this->Where),
+                $this->buildJoin($this->Join),
+                $this->buildHaving($this->Having),
+                $this->Limit
+            );
+
+            $select = $this->Execute();
+            if(is_string($select) && !empty($select)) throw new Exception($select);
+
+            return $select;
+        }catch (Exception $e){
+            return $e;
+        }
+    }
+
+    /**
+     * <b>Full Select: Executa leitura com a sql completa montada da forma que for necessária</b>
+     * @param String $Query - A string Select com Prepared Statments
+     * @param String $ParseString - Passa os parametro em forma de url
+     */
+    public function FullSelect($Query, $ParseString = null) {
+
+        try{
+            if ($ParseString)
+                $ParseString = str_replace("%", "^", $ParseString);
+
+            $limit='';
+            $this->Select = (string) $Query . $limit;
+            if (!empty($ParseString)):
+                parse_str($ParseString, $this->Places);
+            endif;
+            $fullSelect = $this->Execute();
+            if($fullSelect instanceof Exception) throw $fullSelect;
+
+            return $fullSelect;
+        }catch (Exception $e){
+            return $e;
+        }
+
+
+    }
+
+
+    /**
+     * ********************************************************************************************************************************
+     * ***************************************************** PRIVATE METHODS **********************************************************
+     * ********************************************************************************************************************************
+     */
+    //Obtém o PDO e Prepara a query
+    private function Connect() {
+        $this->Conn = parent::getConn();
+        $this->ReadPDO = $this->Conn->prepare($this->Select);
+        $this->ReadPDO->setFetchMode(PDO::FETCH_ASSOC);
+    }
+
+    //Obtém a Conexão e a Syntax, executa a query!
+    private function Execute() {
+        try {
+            $this->Connect();
+            $this->setBindValues();
+            $this->ReadPDO->execute();
+
+            return $this->ReadPDO->fetchAll( PDO::FETCH_OBJ); //return array objects
+        } catch (PDOException $e) {
+            return $e;
+        }
+    }
+
+    private function getSyntax($colunas, $tabela, $where, $join, $having, $limit) {
+        $this->Select="SELECT SQL_CALC_FOUND_ROWS 
+                            {$this->Colunms}    
+                       FROM {$this->Tabela}     
+                       WHERE {$this->Where}    
+                       {$this->Join}     
+                       {$this->Limit}";
+    }
+
+    //Cria a sintaxe da query para Prepared Statements
+    private function setBindValues() {
+        if ($this->Where):
+            foreach ($this->Where as $Vinculo => $Valor):
+                $Valor = str_replace("^", "%", $Valor);
+                $this->ReadPDO->bindValue(":{$Vinculo}", $Valor, ( is_int($Valor) ? PDO::PARAM_INT : PDO::PARAM_STR));
+            endforeach;
+        endif;
+    }
+
+    private function buildColunas($columns)
     {
         try {
+            $colunas =  '*';
             if (!empty($colunas)) :
-                $this->Colunms = implode(',', $colunas);
-            else :
-                $this->Colunms = '*';
+                $colunas = implode(',', $columns);
             endif;
+            return $colunas;
         } catch (Exception $exception) {
             return $exception;
         }
@@ -355,10 +364,10 @@ class Select extends Conn {
         }
     }
 
-    private function setGroup($group)
+    private function buildGroup($group)
     {
         try {
-
+            return [];
         } catch (Exception $exception) {
             return $exception;
         }
