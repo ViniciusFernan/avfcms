@@ -6,6 +6,9 @@
 * */
 
 Abstract class UsuarioFactory{
+
+    protected $tabela = 'usuario';
+    protected $alias = 'u';
     private $idUsuario;
     private $nome;
     private $sobreNome;

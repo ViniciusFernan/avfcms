@@ -4,8 +4,8 @@
  * @author AVF-WEB
  * @version 1.0
  * */
-
-class UsuarioDAO extends Conn {
+require_once ABSPATH . "/models/factory/usuario/UsuarioFactory.php";
+class UsuarioDAO extends UsuarioFactory{
 
     /**
      * Verifica se o usuário existe no banco
@@ -14,26 +14,29 @@ class UsuarioDAO extends Conn {
      * @throws string
      */
     public function getUsuarioFromEmailSenha($email, $senha) {
-        $sql = "SELECT
-                    usuario.idUsuario,
-                    usuario.nome,
-                    usuario.sobreNome,
-                    usuario.email,
-                    usuario.idPerfil,
-                    usuario.superAdmin,
-                    usuario.status,
-                    perfil.idPerfil,
-                    perfil.nomePerfil
-                FROM usuario
-                INNER JOIN perfil ON usuario.idPerfil = perfil.idPerfil
-                WHERE  usuario.status = 1
-                AND usuario.email = :email
-                AND senha = BINARY :senha
-                LIMIT 1 ";
-
         try{
-            $select = new Select();
-            $listaUsuarios = $select->FullSelect($sql, "email={$email}&senha={$senha}");
+            $colunms = [
+                'u.idUsuario',
+                'u.nome',
+                'u.sobreNome',
+                'u.email',
+                'u.idPerfil',
+                'u.superAdmin',
+                'u.status',
+                //'p.idPerfil',
+                //'p.nomePerfil'
+            ];
+
+            $where[]=[ 'comparator'=> '=', 'field' => 'status', 'value' => '1'];
+            $where[]=[ 'comparator'=> '=', 'field' => 'email', 'value' => $email ];
+            $where[]=[ 'comparator'=> '=', 'field' => 'senha', 'value' => $senha ];
+
+//            $join[]=[ 'relacao'=> 'JOIN', 'tabela' => 'perfil',
+//                'data' =>[ ['comparator' => '=', 'field'=> 'idPerfil', 'value'=> 'idPerfil']]
+//            ];
+
+            $listaUsuarios = (new Select())->Select($colunms, $this->tabela, $where, [], [], [], '1');
+            //$listaUsuarios = $select->FullSelect($sql, "email={$email}&senha={$senha}");
             if($listaUsuarios instanceof Exception) throw  $listaUsuarios;
                 if(empty($listaUsuarios)) throw new Exception('Nenhum Usuario encontrado nesse trem!');
             return $listaUsuarios;

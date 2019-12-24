@@ -29,17 +29,13 @@ class Select extends Conn {
     /** @var PDOStatement */
     private $ReadPDO;
 
-    private $Select;
+    private $SelectSql;
     private $Colunms;
     private $Tabela;
     private $Where;
     private $Join;
     private $Group;
     private $Having;
-
-
-
-
 
     /* PAGINACAO */
     private $Limit;
@@ -48,6 +44,11 @@ class Select extends Conn {
     private $totalPaginas;
     private $rowCount;
     private $limitBtnPaginacao = 11;
+
+    public function __construct()
+    {
+    }
+
 
     /**
      * Este metodo dá o start na paginação. Só chamar caso queira paginar o resultado
@@ -165,6 +166,7 @@ class Select extends Conn {
 
     }
 
+
     /**
      * <b>SELECT:</b> Executa uma leitura simplificada com Prepared Statments. Basta informar o nome da tabela,
      * os termos da seleção e uma analize em cadeia (ParseString) para executar.
@@ -195,7 +197,7 @@ class Select extends Conn {
                 $this->buildWhere($this->Where),
                 $this->buildJoin($this->Join),
                 $this->buildHaving($this->Having),
-                $this->Limit
+                $this->buildLimit($this->Limit)
             );
 
             $select = $this->Execute();
@@ -240,14 +242,12 @@ class Select extends Conn {
      * ***************************************************** PRIVATE METHODS **********************************************************
      * ********************************************************************************************************************************
      */
-    //Obtém o PDO e Prepara a query
     private function Connect() {
         $this->Conn = parent::getConn();
         $this->ReadPDO = $this->Conn->prepare($this->Select);
         $this->ReadPDO->setFetchMode(PDO::FETCH_ASSOC);
     }
 
-    //Obtém a Conexão e a Syntax, executa a query!
     private function Execute() {
         try {
             $this->Connect();
@@ -261,15 +261,17 @@ class Select extends Conn {
     }
 
     private function getSyntax($colunas, $tabela, $where, $join, $having, $limit) {
-        $this->Select="SELECT SQL_CALC_FOUND_ROWS 
-                            {$this->Colunms}    
-                       FROM {$this->Tabela}     
-                       WHERE {$this->Where}    
-                       {$this->Join}     
-                       {$this->Limit}";
+        $reste = '';
+        $this->SelectSql = "SELECT SQL_CALC_FOUND_ROWS 
+                            {$colunas}    
+                       FROM {$tabela}     
+                       WHERE {$where}    
+                       {$join} 
+                     
+                       {$having}   
+                       {$limit}";
     }
 
-    //Cria a sintaxe da query para Prepared Statements
     private function setBindValues() {
         if ($this->Where):
             foreach ($this->Where as $Vinculo => $Valor):
@@ -284,7 +286,7 @@ class Select extends Conn {
         try {
             $colunas =  '*';
             if (!empty($colunas)) :
-                $colunas = implode(',', $columns);
+                $colunas = implode(', ', $columns);
             endif;
             return $colunas;
         } catch (Exception $exception) {
@@ -296,7 +298,7 @@ class Select extends Conn {
     {
         try {
             if(!empty($where) && !is_array($where)) throw new Exception('Erro em dado enviado WHERE ');
-            if(empty($join)) throw new Exception('Sem parametros de busca');
+            if(empty($where)) throw new Exception('Sem parametros de busca');
 
             $partQuery = '';
             $operator = '=';
@@ -308,7 +310,7 @@ class Select extends Conn {
                 $partQuery .= ($key == 0 ? ' ' : $value['type'] ) . $value['field'] . $value['comparator'] .': '. $value['field'];
             endforeach;
 
-            $this->Where = $partQuery;
+            return $partQuery;
         } catch (Exception $exception) {
             return $exception;
         }
@@ -329,11 +331,12 @@ class Select extends Conn {
                 if(empty(@$item['relacao'])) throw new Exception('Necessário envio do tipo de relação');
                 if(empty(@$item['tabela'])) throw new Exception('Necessário envio da tabela do tipo de relação');
 
-                $partQuery .= $item['relacao'] . ' '. $item['tabela'] . ' ON ';
+                $partQuery .= $item['relacao'] .' '. $item['tabela'] . ' ON ';
 
                 if (isset($item['data'])) :
                     foreach ($item['data'] as $_key => $_dataItem) :
                         if (isset($_dataItem['comparator']) && !empty($_dataItem['comparator'])) $operator = $_dataItem['comparator'];
+
 
                         if ($operator == 'OR') :
                             $partQuery .= ($_key > 0 ? ' AND ' : ' ') . $_dataItem['value'];
@@ -358,7 +361,7 @@ class Select extends Conn {
                 endif;
             endforeach;
 
-            $this->Join = $partQuery;
+            return $partQuery;
         } catch (Exception $exception) {
             return $exception;
         }
@@ -378,6 +381,17 @@ class Select extends Conn {
     {
         try {
 
+        } catch (Exception $exception) {
+            return $exception;
+        }
+
+    }
+
+    private function buildLimit($limit)
+    {
+        try {
+            if(!empty($limit)) return " LIMIT ". $limit;
+            else return '';
         } catch (Exception $exception) {
             return $exception;
         }
