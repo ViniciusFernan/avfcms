@@ -7,13 +7,33 @@
 require_once ABSPATH . "/models/factory/usuario/UsuarioFactory.php";
 class UsuarioDAO extends UsuarioFactory{
 
+    protected $tabela = 'usuario';
+    protected $alias = 'u';
+
+    public function __construct($dataBase = null)
+    {
+        if (empty($dataBase))
+        {
+            $this->dataBase = new AcessarDB();
+            $this->dataBase = $this->dataBase->acessarDB();
+            $this->destruirDB = 1;
+        }
+        else
+        {
+            $this->dataBase = $dataBase;
+        }
+
+        parent::__construct($this->_table, $this->dataBase);
+    }
+
     /**
      * Verifica se o usuário existe no banco
      * @author vinicius fernandes
      * @return array Usuario
      * @throws string
      */
-    public function getUsuarioFromEmailSenha($email, $senha) {
+    public function getUsuarioFromEmailSenha($email, $senha)
+    {
         try{
             $colunms = [
                 'u.idUsuario',
@@ -23,17 +43,17 @@ class UsuarioDAO extends UsuarioFactory{
                 'u.idPerfil',
                 'u.superAdmin',
                 'u.status',
-                //'p.idPerfil',
-                //'p.nomePerfil'
+                'p.idPerfil',
+                'p.nomePerfil'
             ];
 
-            $where[]=[ 'comparator'=> '=', 'field' => 'status', 'value' => '1'];
-            $where[]=[ 'comparator'=> '=', 'field' => 'email', 'value' => $email ];
-            $where[]=[ 'comparator'=> '=', 'field' => 'senha', 'value' => $senha ];
+            $where[]=[ 'comparator'=> '=', 'field' => 'u.status', 'value' => '1'];
+            $where[]=[ 'comparator'=> '=', 'field' => 'u.email', 'value' => $email ];
+            $where[]=[ 'comparator'=> '=', 'field' => 'u.senha', 'value' => $senha ];
 
-//            $join[]=[ 'relacao'=> 'JOIN', 'tabela' => 'perfil',
-//                'data' =>[ ['comparator' => '=', 'field'=> 'idPerfil', 'value'=> 'idPerfil']]
-//            ];
+            $join[]=[ 'relacao'=> 'JOIN', 'tabela' => 'perfil',
+                'data' =>[ ['comparator' => '=', 'field'=> 'p.idPerfil', 'value'=> 'u.idPerfil']]
+            ];
 
             $listaUsuarios = (new Select())->Select($colunms, $this->tabela, $where, [], [], [], '1');
             //$listaUsuarios = $select->FullSelect($sql, "email={$email}&senha={$senha}");

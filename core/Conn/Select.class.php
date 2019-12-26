@@ -23,15 +23,18 @@
  *
  */
 class Select extends Conn {
+    private $Table = null;
+    private $DataBase = null;
 
     /** @var PDO */
     private $Conn;
     /** @var PDOStatement */
     private $ReadPDO;
 
+
+
     private $SelectSql;
     private $Colunms;
-    private $Tabela;
     private $Where;
     private $Join;
     private $Group;
@@ -45,125 +48,14 @@ class Select extends Conn {
     private $rowCount;
     private $limitBtnPaginacao = 11;
 
-    public function __construct()
+    public function __construct($table)
     {
-    }
-
-
-    /**
-     * Este metodo dá o start na paginação. Só chamar caso queira paginar o resultado
-     * Chamar este metodo depois de instanciar a classe, e antes de efetuar o select
-     * @param Number $limit - Limite por Página
-     * @param Number $paginaAtual - Página Atual
-     */
-    public function ExePaginar($paginaAtual, $limit = 50) {
-        $paginaAtual = (int) $paginaAtual;
-        $limit = (int) $limit;
-        $this->paginaAtual = ($paginaAtual ? $paginaAtual : 1);
-        $this->Limit = ($limit ? $limit : 50);
-    }
-
-    /**
-     * Monta a estrutura da paginação em html
-     * @param String $linkBase - Ex: http://localhost/?page=
-     * @return Array - Estrutura da Paginacao em HTML
-     */
-    public function getPaginacao($linkBase = "") {
-        //valida se existe paginacao
-        if (!$this->totalPaginas || $this->totalPaginas == 0)
-            return false;
-
-        if ($this->paginaAtual < ceil($this->limitBtnPaginacao / 2))
-            $inicial = 1;
-        else
-            $inicial = $this->paginaAtual - floor($this->limitBtnPaginacao / 2);
-
-        //monta array das paginas e urls
-        $links = "";
-        $c = 0;
-        for ($i = $inicial; $i <= $this->totalPaginas; $i++) {
-            $links .= '<li ' . ($this->paginaAtual == $i ? 'class="active"' : "") . '><a href="' . $linkBase . $i . '" data-btn-paginacao="' . $i . '">' . $i . '</a></li>';
-            if (++$c >= $this->limitBtnPaginacao)
-                break;
-        }
-        $classLinkAnterior = ($this->paginaAtual == 1 ? "disabled" : NULL);
-        $linkPaginaAnterior = (!$classLinkAnterior ? ($this->paginaAtual - 1) : "#");
-        $classProximaPagina = ($this->paginaAtual == $this->totalPaginas ? "disabled" : NULL);
-        $linkProximaPagina = (!$classProximaPagina ? ($this->paginaAtual + 1) : "#");
-        $linkPrimeiraPagina = 1;
-        $linkUltimaPagina = $this->totalPaginas;
-
-        $pag = '<div class="text-center" id="paginacao">
-                    <nav>
-                        <ul class="pagination">
-                            <li class="' . $classLinkAnterior . '">
-                                <a href="' . $linkBase . $linkPrimeiraPagina . '" aria-label="Previous" data-btn-paginacao="' . $linkPrimeiraPagina . '">
-                                    <span aria-hidden="true"><i class="fa fa-fast-backward"></i></span>
-                                </a>
-                            </li>
-                            <li class="' . $classLinkAnterior . '">
-                                <a href="' . $linkBase . $linkPaginaAnterior . '" aria-label="Previous" data-btn-paginacao="' . $linkPaginaAnterior . '">
-                                    <span aria-hidden="true"><i class="fa fa-backward"></i></span>
-                                </a>
-                            </li>
-                            ' . $links . '
-                            <li class="' . $classProximaPagina . '">
-                                <a href="' . $linkBase . $linkProximaPagina . '" aria-label="Next" data-btn-paginacao="' . $linkProximaPagina . '">
-                                    <span aria-hidden="true"><i class="fa fa-forward"></i></span>
-                                </a>
-                            </li>
-                            <li class="' . $classProximaPagina . '">
-                                <a href="' . $linkBase . $linkUltimaPagina . '" aria-label="Next" data-btn-paginacao="' . $linkUltimaPagina . '">
-                                    <span aria-hidden="true"><i class="fa fa-fast-forward"></i></span>
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>';
-
-        return $pag;
-    }
-
-    /**
-     * <b>Contar Registros: </b> Retorna o número de registros encontrados pelo select!
-     * @return INT $Var = Quantidade de registros encontrados
-     */
-    public function getRowCount() {
-        if (!empty($this->rowCount))
-            return $this->rowCount;
-        else
-            return $this->ReadPDO->rowCount();
-    }
-
-    /**
-     * Paginacao
-     * @param String $Query SQL
-     * @param String $ParseString
-     */
-    private function pagination($Query, $ParseString = null) {
+        $this->Table = $table;
         try {
-            $this->Select = (string) $Query;
-            if (!empty($ParseString)):
-                parse_str($ParseString, $this->Places);
-            endif;
-
-            $this->Connect();
-
-            $this->getSyntax();
-            $this->ReadPDO->execute();
-            $this->rowCount = $this->ReadPDO->rowCount();
-
-            //Seta a quantidade de itens encontrado na tabela
-            $this->rowCount = $this->getRowCount();
-
-            //faz calculo da quantidade de pagina e offset
-            $this->totalPaginas = ceil($this->rowCount / $this->limit);
-            $this->offset = ($this->paginaAtual * $this->limit) - $this->limit;
-
-        } catch (PDOException $e) {
+            if (empty($this->table)) throw new Exception('É necessário informar o nome da tabela.');
+        } catch (Exception $e) {
             return $e;
         }
-
     }
 
 
@@ -178,13 +70,12 @@ class Select extends Conn {
      * @param array $Having
      * @param null $Limit
      */
-    public function Select($Colunms = [], $Tabela = null, $Where = [], $Join = [], $Group = [], $Having = [], $Limit = null) {
+    public function Select($Colunms = [], $Where = [], $Join = [], $Group = [], $Having = [], $Limit = null) {
         try{
-            if (empty($Tabela) && !is_string($Tabela)) throw new Exception('Necessário envio de parametros tabela');
+            if (empty($Tabela) && !is_string($this->Table )) throw new Exception('Necessário envio de parametros tabela');
             if (empty($Where) && !is_array($Where)) throw new Exception('Necessário envio de parametros para filtro');
 
             if(!empty($Colunms))  $this->Colunms = $Colunms;
-            if(!empty($Tabela))  $this->Tabela = $Tabela;
             if(!empty($Where))  $this->Where = $Where;
             if(!empty($Join))  $this->Join = $Join;
             if(!empty($Group))  $this->Group = $Group;
@@ -193,7 +84,7 @@ class Select extends Conn {
 
             $this->getSyntax(
                 $this->buildColunas($this->Colunms),
-                $this->Tabela,
+                $this->Table,
                 $this->buildWhere($this->Where),
                 $this->buildJoin($this->Join),
                 $this->buildHaving($this->Having),
@@ -307,7 +198,7 @@ class Select extends Conn {
                 $value['type'] = (!empty(@$value['type']) ? $value['type']  : " AND ");
                 $value['comparator'] = (!empty(@$value['comparator']) ? $value['comparator']  : $operator);
 
-                $partQuery .= ($key == 0 ? ' ' : $value['type'] ) . $value['field'] . $value['comparator'] .': '. $value['field'];
+                $partQuery .= ($key == 0 ? ' ' : $value['type'] ) . $value['field'] . $value['comparator'] .': '. end(explode('.', $value['field']));
             endforeach;
 
             return $partQuery;
@@ -396,6 +287,123 @@ class Select extends Conn {
             return $exception;
         }
 
+    }
+
+
+    /**
+     * <b>Contar Registros: </b> Retorna o número de registros encontrados pelo select!
+     * @return INT $Var = Quantidade de registros encontrados
+     */
+    public function getRowCount() {
+        if (!empty($this->rowCount))
+            return $this->rowCount;
+        else
+            return $this->ReadPDO->rowCount();
+    }
+
+    /**
+     * Paginacao
+     * @param String $Query SQL
+     * @param String $ParseString
+     */
+    private function pagination($Query, $ParseString = null) {
+        try {
+            $this->Select = (string) $Query;
+            if (!empty($ParseString)):
+                parse_str($ParseString, $this->Places);
+            endif;
+
+            $this->Connect();
+
+            $this->getSyntax();
+            $this->ReadPDO->execute();
+            $this->rowCount = $this->ReadPDO->rowCount();
+
+            //Seta a quantidade de itens encontrado na tabela
+            $this->rowCount = $this->getRowCount();
+
+            //faz calculo da quantidade de pagina e offset
+            $this->totalPaginas = ceil($this->rowCount / $this->limit);
+            $this->offset = ($this->paginaAtual * $this->limit) - $this->limit;
+
+        } catch (PDOException $e) {
+            return $e;
+        }
+
+    }
+
+    /**
+     * Este metodo dá o start na paginação. Só chamar caso queira paginar o resultado
+     * Chamar este metodo depois de instanciar a classe, e antes de efetuar o select
+     * @param Number $limit - Limite por Página
+     * @param Number $paginaAtual - Página Atual
+     */
+    public function ExePaginar($paginaAtual, $limit = 50) {
+        $paginaAtual = (int) $paginaAtual;
+        $limit = (int) $limit;
+        $this->paginaAtual = ($paginaAtual ? $paginaAtual : 1);
+        $this->Limit = ($limit ? $limit : 50);
+    }
+
+    /**
+     * Monta a estrutura da paginação em html
+     * @param String $linkBase - Ex: http://localhost/?page=
+     * @return Array - Estrutura da Paginacao em HTML
+     */
+    public function getPaginacao($linkBase = "") {
+        //valida se existe paginacao
+        if (!$this->totalPaginas || $this->totalPaginas == 0)
+            return false;
+
+        if ($this->paginaAtual < ceil($this->limitBtnPaginacao / 2))
+            $inicial = 1;
+        else
+            $inicial = $this->paginaAtual - floor($this->limitBtnPaginacao / 2);
+
+        //monta array das paginas e urls
+        $links = "";
+        $c = 0;
+        for ($i = $inicial; $i <= $this->totalPaginas; $i++) {
+            $links .= '<li ' . ($this->paginaAtual == $i ? 'class="active"' : "") . '><a href="' . $linkBase . $i . '" data-btn-paginacao="' . $i . '">' . $i . '</a></li>';
+            if (++$c >= $this->limitBtnPaginacao)
+                break;
+        }
+        $classLinkAnterior = ($this->paginaAtual == 1 ? "disabled" : NULL);
+        $linkPaginaAnterior = (!$classLinkAnterior ? ($this->paginaAtual - 1) : "#");
+        $classProximaPagina = ($this->paginaAtual == $this->totalPaginas ? "disabled" : NULL);
+        $linkProximaPagina = (!$classProximaPagina ? ($this->paginaAtual + 1) : "#");
+        $linkPrimeiraPagina = 1;
+        $linkUltimaPagina = $this->totalPaginas;
+
+        $pag = '<div class="text-center" id="paginacao">
+                    <nav>
+                        <ul class="pagination">
+                            <li class="' . $classLinkAnterior . '">
+                                <a href="' . $linkBase . $linkPrimeiraPagina . '" aria-label="Previous" data-btn-paginacao="' . $linkPrimeiraPagina . '">
+                                    <span aria-hidden="true"><i class="fa fa-fast-backward"></i></span>
+                                </a>
+                            </li>
+                            <li class="' . $classLinkAnterior . '">
+                                <a href="' . $linkBase . $linkPaginaAnterior . '" aria-label="Previous" data-btn-paginacao="' . $linkPaginaAnterior . '">
+                                    <span aria-hidden="true"><i class="fa fa-backward"></i></span>
+                                </a>
+                            </li>
+                            ' . $links . '
+                            <li class="' . $classProximaPagina . '">
+                                <a href="' . $linkBase . $linkProximaPagina . '" aria-label="Next" data-btn-paginacao="' . $linkProximaPagina . '">
+                                    <span aria-hidden="true"><i class="fa fa-forward"></i></span>
+                                </a>
+                            </li>
+                            <li class="' . $classProximaPagina . '">
+                                <a href="' . $linkBase . $linkUltimaPagina . '" aria-label="Next" data-btn-paginacao="' . $linkUltimaPagina . '">
+                                    <span aria-hidden="true"><i class="fa fa-fast-forward"></i></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>';
+
+        return $pag;
     }
 
 }
