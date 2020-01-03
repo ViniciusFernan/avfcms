@@ -32,39 +32,33 @@ class UsuarioDAO extends UsuarioFactory{
      * @return array Usuario
      * @throws string
      */
-    public function getUsuarioFromEmailSenha($email, $senha)
-    {
+    public function getUsuarioFromEmailSenha($email, $senha) {
         try{
-            $colunms = [
-                'u.idUsuario',
-                'u.nome',
-                'u.sobreNome',
-                'u.email',
-                'u.idPerfil',
-                'u.superAdmin',
-                'u.status',
-                'p.idPerfil',
-                'p.nomePerfil'
-            ];
+            $sql = "SELECT
+                        usuario.idUsuario,
+                        usuario.nome,
+                        usuario.sobreNome,
+                        usuario.email,
+                        usuario.idPerfil,
+                        usuario.superAdmin,
+                        usuario.status,
+                        perfil.idPerfil,
+                        perfil.nomePerfil
+                    FROM usuario
+                    INNER JOIN perfil ON usuario.idPerfil = perfil.idPerfil
+                    WHERE  usuario.status = 1
+                    AND usuario.email = :email
+                    AND senha = BINARY :senha
+                    LIMIT 1 ";
 
-            $where[]=[ 'comparator'=> '=', 'field' => 'u.status', 'value' => '1'];
-            $where[]=[ 'comparator'=> '=', 'field' => 'u.email', 'value' => $email ];
-            $where[]=[ 'comparator'=> '=', 'field' => 'u.senha', 'value' => $senha ];
-
-            $join[]=[ 'relacao'=> 'JOIN', 'tabela' => 'perfil',
-                'data' =>[ ['comparator' => '=', 'field'=> 'p.idPerfil', 'value'=> 'u.idPerfil']]
-            ];
-
-            $listaUsuarios = (new Select())->Select($colunms, $this->tabela, $where, [], [], [], '1');
-            //$listaUsuarios = $select->FullSelect($sql, "email={$email}&senha={$senha}");
+            $select = new Select();
+            $listaUsuarios = $select->FullSelect($sql, "email={$email}&senha={$senha}");
             if($listaUsuarios instanceof Exception) throw  $listaUsuarios;
                 if(empty($listaUsuarios)) throw new Exception('Nenhum Usuario encontrado nesse trem!');
             return $listaUsuarios;
         }catch (Exception $e){
             return $e;
         }
-
-
     }
 
     /**
@@ -108,7 +102,7 @@ class UsuarioDAO extends UsuarioFactory{
             if(!is_array($post) || empty($post)) throw new Exception('Tem um trem errado aqui!');
 
             $select = new Select();
-            $dadosUsuario = $select->Select('*', 'usuario', "email=:email AND status=:status", "email={$post['email']}&status=1");
+            $dadosUsuario = $select->Select(null, 'usuario', "WHERE email=:email AND status=:status", "email={$post['email']}&status=1");
             if($dadosUsuario instanceof Exception) throw $dadosUsuario;
             if(!empty($dadosUsuario)):
                 return true;
@@ -128,7 +122,7 @@ class UsuarioDAO extends UsuarioFactory{
                 throw new Exception('Error grave nesse trem');
 
             $select = new Select();
-            $dadosUsuario = $select->Select('*', 'usuario', "CPF=:CPF AND status=:status", "CPF={$post['CPF']}&status=1");
+            $dadosUsuario = $select->Select(null, 'usuario', "WHERE CPF=:CPF AND status=:status", "CPF={$post['CPF']}&status=1");
             if($dadosUsuario instanceof Exception) throw $dadosUsuario;
             if(!empty($dadosUsuario)):
                 return true;
@@ -147,7 +141,7 @@ class UsuarioDAO extends UsuarioFactory{
                 throw new Exception('Error grave nesse trem');
 
             $select = new Select();
-            $dadosUsuario = $select->Select('*', 'usuario', "{$key}=:{$key} AND status=:status", "{$key}={$valor}&status=1");
+            $dadosUsuario = $select->Select(null, 'usuario', "WHERE {$key}=:{$key} AND status=:status", "{$key}={$valor}&status=1");
             if($dadosUsuario instanceof Exception) throw $dadosUsuario;
             if(!empty($dadosUsuario)):
                 return true;
@@ -223,7 +217,7 @@ class UsuarioDAO extends UsuarioFactory{
             if(empty($id)) throw new Exception('Erro identificador do usuario não enviado');
 
             $select = new Select();
-            $dadosUsuario = $select->Select('*', 'usuario', "idUsuario=:id", "id={$id}");
+            $dadosUsuario = $select->Select(null, 'usuario', "WHERE idUsuario=:id", "id={$id}");
             if($dadosUsuario instanceof Exception) throw $dadosUsuario;
             if(empty($dadosUsuario)) throw new Exception('Não achou nada nesse trem!');
 
