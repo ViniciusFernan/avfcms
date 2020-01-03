@@ -140,8 +140,8 @@ class UsuarioDAO extends UsuarioFactory{
             if(empty($key) || empty($valor) )
                 throw new Exception('Error grave nesse trem');
 
-            $select = new Select();
-            $dadosUsuario = $select->Select(null, 'usuario', "WHERE {$key}=:{$key} AND status=:status", "{$key}={$valor}&status=1");
+
+            $dadosUsuario = (new Select($this->tabela))->Select(null, "WHERE {$key}=:{$key} AND status=:status", "{$key}={$valor}&status=1");
             if($dadosUsuario instanceof Exception) throw $dadosUsuario;
             if(!empty($dadosUsuario)):
                 return true;

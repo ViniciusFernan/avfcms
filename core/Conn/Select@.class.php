@@ -50,9 +50,9 @@ class Select extends Conn {
 
     public function __construct($table)
     {
-        $this->Table = $table;
         try {
-            if (empty($this->table)) throw new Exception('É necessário informar o nome da tabela.');
+            if (empty($table)) throw new Exception('É necessário informar o nome da tabela.');
+            $this->Table = $table;
         } catch (Exception $e) {
             return $e;
         }

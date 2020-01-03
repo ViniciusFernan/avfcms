@@ -28,6 +28,7 @@ class Select extends Conn {
     private $Places;
     /** @var PDOStatement */
     private $Read;
+    private $Table;
 
     /** @var PDO */
     private $Conn;
@@ -39,6 +40,16 @@ class Select extends Conn {
     private $totalPaginas;
     private $rowCount;
     private $limitBtnPaginacao = 11;
+
+    public function __construct($table)
+    {
+        try {
+            if (empty($table)) throw new Exception('É necessário informar o nome da tabela.');
+            $this->Table = $table;
+        } catch (Exception $e) {
+            return $e;
+        }
+    }
 
     /**
      * Este metodo dá o start na paginação. Só chamar caso queira paginar o resultado
@@ -122,7 +133,7 @@ class Select extends Conn {
      * @param STRING $Termos = WHERE | ORDER | LIMIT :limit | OFFSET :offset
      * @param STRING $ParseString = link={$link}&link2={$link2}
      */
-    public function Select($Colunas=null, $Tabela, $Termos = null, $ParseString = null) {
+    public function Select($Colunas=null, $Termos = null, $ParseString = null) {
         try{
             if ($ParseString)
                 $ParseString = str_replace("%", "^", $ParseString);
