@@ -129,7 +129,6 @@ class Select extends Conn {
      * <b>Exe Read:</b> Executa uma leitura simplificada com Prepared Statments. Basta informar o nome da tabela,
      * os termos da seleção e uma analize em cadeia (ParseString) para executar.
      * @param array $Colunas
-     * @param STRING $Tabela = Nome da tabela
      * @param STRING $Termos = WHERE | ORDER | LIMIT :limit | OFFSET :offset
      * @param STRING $ParseString = link={$link}&link2={$link2}
      */
@@ -146,7 +145,7 @@ class Select extends Conn {
                 parse_str($ParseString, $this->Places);
             endif;
 
-            $sql = "SELECT {$Colunas} FROM {$Tabela} {$Termos} {$limit}";
+            $sql = "SELECT SQL_CALC_FOUND_ROWS {$Colunas} FROM {$this->Table} {$Termos} {$limit}";
             $this->Select = $sql;
             $select = $this->Execute();
             if(is_string($select) && !empty($select)) throw new Exception($select);
