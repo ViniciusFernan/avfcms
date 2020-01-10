@@ -12,18 +12,18 @@ class UsuarioDAO extends UsuarioFactory{
 
     public function __construct($dataBase = null)
     {
-        if (empty($dataBase))
-        {
-            $this->dataBase = new AcessarDB();
-            $this->dataBase = $this->dataBase->acessarDB();
-            $this->destruirDB = 1;
-        }
-        else
-        {
-            $this->dataBase = $dataBase;
-        }
-
-        parent::__construct($this->_table, $this->dataBase);
+//        if (empty($dataBase))
+//        {
+//            $this->dataBase = new AcessarDB();
+//            $this->dataBase = $this->dataBase->acessarDB();
+//            $this->destruirDB = 1;
+//        }
+//        else
+//        {
+//            $this->dataBase = $dataBase;
+//        }
+//
+//        parent::__construct($this->_table, $this->dataBase);
     }
 
     /**
@@ -51,8 +51,7 @@ class UsuarioDAO extends UsuarioFactory{
                     AND senha = BINARY :senha
                     LIMIT 1 ";
 
-            $select = new Select();
-            $listaUsuarios = $select->FullSelect($sql, "email={$email}&senha={$senha}");
+            $listaUsuarios = (new Select($this->tabela))->FullSelect($sql, "email={$email}&senha={$senha}");
             if($listaUsuarios instanceof Exception) throw  $listaUsuarios;
                 if(empty($listaUsuarios)) throw new Exception('Nenhum Usuario encontrado nesse trem!');
             return $listaUsuarios;
