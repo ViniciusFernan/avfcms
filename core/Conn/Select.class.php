@@ -131,8 +131,10 @@ class Select extends Conn {
      * @param array $Colunas
      * @param STRING $Termos = WHERE | ORDER | LIMIT :limit | OFFSET :offset
      * @param STRING $ParseString = link={$link}&link2={$link2}
+     * @param array $Join
+     * @return array|string
      */
-    public function Select($Colunas=null, $Termos = null, $ParseString = null) {
+    public function Select($Colunas=null, $Termos = null, $ParseString = null, $Join = null) {
         try{
             if ($ParseString)
                 $ParseString = str_replace("%", "^", $ParseString);
@@ -140,12 +142,20 @@ class Select extends Conn {
             if(empty($Colunas)) $Colunas = '*';
             else $Colunas = implode(', ', $Colunas);
 
-            $limit = "";
             if (!empty($ParseString)):
                 parse_str($ParseString, $this->Places);
             endif;
 
-            $sql = "SELECT SQL_CALC_FOUND_ROWS {$Colunas} FROM {$this->Table} {$Termos} {$limit}";
+            $limit = "";
+
+            $strJoin = $this->buildJoin($Join);
+
+            $sql = "SELECT SQL_CALC_FOUND_ROWS 
+                    {$Colunas} 
+                    FROM {$this->Table}  
+                    {$strJoin}
+                    WHERE {$Termos} 
+                    {$limit}";
             $this->Select = $sql;
             $select = $this->Execute();
             if(is_string($select) && !empty($select)) throw new Exception($select);
@@ -281,6 +291,25 @@ class Select extends Conn {
             return $e->getMessage();
         }
 
+    }
+
+    private function buildJoin($joins)
+    {
+        try {
+            if(!empty($joins) && !is_array($joins)) throw new Exception('Erro em dado enviado JOIN ');
+
+            if(empty($joins)) return '';
+
+            $partQuery = '';
+
+            foreach ($joins as $key => $item):
+                $partQuery .= $item ."\n";
+            endforeach;
+
+            return $partQuery;
+        } catch (Exception $exception) {
+            return $exception;
+        }
     }
 
 }
