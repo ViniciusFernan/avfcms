@@ -100,8 +100,7 @@ class UsuarioDAO extends UsuarioFactory{
         try{
             if(!is_array($post) || empty($post)) throw new Exception('Tem um trem errado aqui!');
 
-            $select = new Select();
-            $dadosUsuario = $select->Select(null, "email=:email AND status=:status", "email={$post['email']}&status=1");
+            $dadosUsuario = (new Select($this->tabela))->Select(null, "email=:email AND status=:status", "email={$post['email']}&status=1");
             if($dadosUsuario instanceof Exception) throw $dadosUsuario;
             if(!empty($dadosUsuario)):
                 return true;
@@ -120,8 +119,7 @@ class UsuarioDAO extends UsuarioFactory{
             if(!is_array($post) || empty($post))
                 throw new Exception('Error grave nesse trem');
 
-            $select = new Select();
-            $dadosUsuario = $select->Select(null, "CPF=:CPF AND status=:status", "CPF={$post['CPF']}&status=1");
+            $dadosUsuario = (new Select($this->tabela))->Select(null, "CPF=:CPF AND status=:status", "CPF={$post['CPF']}&status=1");
             if($dadosUsuario instanceof Exception) throw $dadosUsuario;
             if(!empty($dadosUsuario)):
                 return true;
@@ -171,8 +169,7 @@ class UsuarioDAO extends UsuarioFactory{
                     AND usuario.email = :email
                     LIMIT 1 ";
 
-            $select = new Select();
-            $dadosUsuario = $select->FullSelect($sql, "email={$email}");
+            $dadosUsuario = (new Select($this->tabela))->FullSelect($sql, "email={$email}");
             if($dadosUsuario instanceof Exception) throw $dadosUsuario;
 
             if(empty($dadosUsuario)) throw new Exception('Não achou nada nesse trem!');
@@ -199,8 +196,7 @@ class UsuarioDAO extends UsuarioFactory{
                     FROM usuario
                     INNER JOIN perfil ON usuario.idPerfil = perfil.idPerfil ";
 
-            $select = new Select();
-            $listaUsuario = $select->FullSelect($sql);
+            $listaUsuario = (new Select($this->tabela))->FullSelect($sql);
             if($listaUsuario instanceof Exception) throw $listaUsuario;
 
             if(empty($listaUsuario)) throw new Exception('Não achou nada nesse trem!');
@@ -214,9 +210,8 @@ class UsuarioDAO extends UsuarioFactory{
     public function getUsuarioPorId($id) {
         try{
             if(empty($id)) throw new Exception('Erro identificador do usuario não enviado');
-
-            $select = new Select();
-            $dadosUsuario = $select->Select(null, "idUsuario=:id", "id={$id}");
+            
+            $dadosUsuario = (new Select($this->tabela))->Select(null, "idUsuario=:id", "id={$id}");
             if($dadosUsuario instanceof Exception) throw $dadosUsuario;
             if(empty($dadosUsuario)) throw new Exception('Não achou nada nesse trem!');
 
