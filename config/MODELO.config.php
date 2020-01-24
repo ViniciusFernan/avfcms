@@ -3,7 +3,7 @@
  * Arquivo de Configuração do Sistema.
  *
  * @package Sistema de Lead
- * @author Inaweb
+ * @author AVFWEB
  * @version 1.0
  */
 
