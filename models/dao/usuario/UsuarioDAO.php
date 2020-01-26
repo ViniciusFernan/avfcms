@@ -169,7 +169,20 @@ class UsuarioDAO extends UsuarioFactory{
                     AND usuario.email = :email
                     LIMIT 1 ";
 
-            $dadosUsuario = (new Select($this->tabela))->FullSelect($sql, "email={$email}");
+            $colunas = [
+                'usuario.idUsuario',
+                'usuario.nome',
+                'usuario.sobreNome',
+                'usuario.email',
+                'usuario.idPerfil',
+                'usuario.superAdmin',
+                'usuario.status',
+                'perfil.idPerfil',
+                'perfil.nomePerfil'
+            ];
+
+            $joins[] = 'INNER JOIN perfil ON usuario.idPerfil = perfil.idPerfil';
+            $dadosUsuario = (new Select($this->tabela))->Select($colunas, 'email=:email', "email={$email}", $joins);
             if($dadosUsuario instanceof Exception) throw $dadosUsuario;
 
             if(empty($dadosUsuario)) throw new Exception('Não achou nada nesse trem!');

@@ -139,8 +139,8 @@ class Select extends Conn {
             if ($ParseString)
                 $ParseString = str_replace("%", "^", $ParseString);
 
-            if(empty($Colunas)) $Colunas = '*';
-            else $Colunas = implode(', ', $Colunas);
+            if(!empty($Colunas) && is_array($Colunas)) $Colunas = implode(', ', $Colunas);
+            else $Colunas = '*' ;
 
             if (!empty($ParseString)):
                 parse_str($ParseString, $this->Places);

@@ -5,8 +5,9 @@
  * @version 1.0
  * */
 
-class AnuncioDAO extends Conn {
-
+class AnuncioDAO extends AnuncioFactory {
+    protected $tabela = 'anuncio';
+    protected $alias = 'a';
 
     /**
      * inserir novos anuncios
@@ -50,8 +51,7 @@ class AnuncioDAO extends Conn {
         try{
             if(empty($id)) throw new Exception('Erro identificador do anuncio não enviado');
 
-            $select = new Select();
-            $dadosAnuncio = $select->Select('*', "idAnuncio=:id", "id={$id}");
+            $dadosAnuncio = (new Select($this->tabela))->Select('*', "idAnuncio=:id", "id={$id}");
             if($dadosAnuncio instanceof Exception) throw $dadosAnuncio;
             if(empty($dadosAnuncio)) throw new Exception('Não achou nada nesse trem!');
 
@@ -72,8 +72,7 @@ class AnuncioDAO extends Conn {
                 $parse=" & idAnuncio={$idAnuncio}";
             }
 
-            $select = new Select();
-            $dadosAnuncio = $select->Select('*', "slugAnuncio=:slugAnuncio {$where}", "slugAnuncio={$slugAnuncio}{$parse}");
+            $dadosAnuncio = (new Select($this->tabela))->Select('*', "slugAnuncio=:slugAnuncio {$where}", "slugAnuncio={$slugAnuncio}{$parse}");
             if($dadosAnuncio instanceof Exception) throw $dadosAnuncio;
             if(!empty($dadosAnuncio)):
                 return true;
@@ -91,8 +90,7 @@ class AnuncioDAO extends Conn {
             if(empty($idUsuario) )
                 throw new Exception('Error grave nesse trem');
 
-            $select = new Select();
-            $dadosAnuncio = $select->Select('*', "idUsuario=:idUsuario", "idUsuario={$idUsuario}");
+            $dadosAnuncio = (new Select($this->tabela))->Select('*', "idUsuario=:idUsuario", "idUsuario={$idUsuario}");
             if($dadosAnuncio instanceof Exception) throw $dadosAnuncio;
             if(!empty($dadosAnuncio)):
                 return $dadosAnuncio;

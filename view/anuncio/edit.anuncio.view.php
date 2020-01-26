@@ -75,146 +75,163 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
                         </div>
                     </div>
                     <div class="card-body">
-                        <input type="hidden" name="idAnuncio" value="<?=(!empty($anuncio->idAnuncio ) ? $anuncio->idAnuncio  : '')?>">
-                        <div class="col-md-12">
-                            <div class="row">
-                                <div class="form-group mb-1 col-md-6">
-                                    <label for="tituloAnuncio">Titulo:</label>
-                                    <input type="text" name="tituloAnuncio" class="form-control" placeholder="Titulo" tabindex="0" value="<?=(!empty($anuncio->tituloAnuncio ) ? $anuncio->tituloAnuncio  : '')?>" >
-                                </div>
 
-                                <div class="form-group mb-1 col-md-6">
-                                    <label for="slugAnuncio">Slug:</label>
-                                    <input type="text" name="slugAnuncio" disabled="disabled" readonly="readonly" class="form-control" placeholder="meuanuncio.com" tabindex="1" value="<?=(!empty($anuncio->slugAnuncio ) ? $anuncio->slugAnuncio  : '')?>" >
-                                </div>
-                            </div>
-                        </div>
+                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="anuncio-tab" data-toggle="tab" href="#anuncio" role="tab" aria-controls="home" aria-selected="true">
+                                    Dados Anuncio
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link " id="galeria-tab" data-toggle="tab" href="#galeria" role="tab" aria-controls="galeria" aria-selected="false">
+                                    Fotos do anuncio
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="myTabContent">
+                            <div class="tab-pane fade show active" id="anuncio" role="tabpanel" aria-labelledby="anuncio-tab">
+                                <input type="hidden" name="idAnuncio" value="<?=(!empty($anuncio->idAnuncio ) ? $anuncio->idAnuncio  : '')?>">
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="form-group mb-1 col-md-6">
+                                            <label for="tituloAnuncio">Titulo:</label>
+                                            <input type="text" name="tituloAnuncio" class="form-control" placeholder="Titulo" tabindex="0" value="<?=(!empty($anuncio->tituloAnuncio ) ? $anuncio->tituloAnuncio  : '')?>" >
+                                        </div>
 
-                        <div class="col-md-12">
-                            <div class="row">
-                                <div class="form-group mb-1 col-md-3">
-                                    <label for="telefone">Telefone:</label>
-                                    <input type="text" name="telefone" class="form-control" placeholder="Telefone" tabindex="2"  value="<?=(!empty($anuncio->telefone ) ? $anuncio->telefone  : '')?>">
-                                    <div class="form-check">
-                                        <label class="form-check-label">
-                                            <input type="checkbox" name="telWhatsApp" class="form-control" <?=(!empty($anuncio->telWhatsApp ) ? 'checked' : '')?> value="1">
-                                            <span class="form-check-sign font-small">Este numero possui WhatsApp</span>
-                                        </label>
+                                        <div class="form-group mb-1 col-md-6">
+                                            <label for="slugAnuncio">Slug:</label>
+                                            <input type="text" name="slugAnuncio" disabled="disabled" readonly="readonly" class="form-control" placeholder="meuanuncio.com" tabindex="1" value="<?=(!empty($anuncio->slugAnuncio ) ? $anuncio->slugAnuncio  : '')?>" >
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="form-group mb-1 col-md-3">
-                                    <label for="cpf">Telefone Alt:</label>
-                                    <input type="text" name="telefoneAlt" class="form-control" placeholder="Telefone" tabindex="2"  value="<?=(!empty($anuncio->telefoneAlt ) ? $anuncio->telefoneAlt : '')?>">
-                                    <div class="form-check">
-                                        <label class="form-check-label">
-                                            <input type="checkbox" name="telAltWhatsApp" class="form-control" <?=(!empty($anuncio->telAltWhatsApp ) ? 'checked' : '')?> value="1">
-                                            <span class="form-check-sign font-small">Este numero possui WhatsApp</span>
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="form-group mb-1 col-md-6">
-                                    <label for="cpf">Email:</label>
-                                    <input type="text" name="email" class="form-control" placeholder="Email" tabindex="2"  value="<?=(!empty($anuncio->email ) ? $anuncio->email  : '')?>">
-                                    <div class="form-check">
-                                        <label class="form-check-label">
-                                            <input type="checkbox" name="naoReceberEmail" class="form-control" <?=(!empty($anuncio->naoReceberEmail ) ? 'checked' : '')?> value="1">
-                                            <span class="form-check-sign font-small">Não Exibir Email</span>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
 
-                        <div class="col-md-12">
-                            <div class="row">
-                                <div class="form-group mb-1 col-md-4">
-                                    <label for="cep">CEP:</label>
-                                    <input type="text" name="cep" class="form-control" placeholder="CEP" tabindex="2"  value="<?=(!empty($anuncio->cep ) ? $anuncio->cep : '')?>">
-                                </div>
-                                <div class="form-group mb-1 col-md-6">
-                                    <label for="rua">Rua:</label>
-                                    <input type="text" name="rua" class="form-control" placeholder="Rua" tabindex="2"  value="<?=(!empty($anuncio->rua ) ? $anuncio->rua : '')?>">
-                                </div>
-                                <div class="form-group mb-1 col-md-2">
-                                    <label for="numero">Numero:</label>
-                                    <input type="text" name="numero" class="form-control" placeholder="Numero:99" tabindex="2"  value="<?=(!empty($anuncio->numero ) ? $anuncio->numero  : '')?>">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-12">
-                            <div class="row">
-                                <div class="form-group mb-1 col-md-4">
-                                    <label for="bairro">Bairro:</label>
-                                    <input type="text" name="bairro" class="form-control" placeholder="Bairro" tabindex="2"  value="<?=(!empty($anuncio->bairro ) ? $anuncio->bairro : '')?>">
-                                </div>
-                                <div class="form-group mb-1 col-md-4">
-                                    <label for="cidade">Cidade:</label>
-                                    <input type="text" name="cidade" class="form-control" placeholder="Cidade" tabindex="2"  value="<?=(!empty($anuncio->cidade ) ? $anuncio->cidade  : '')?>">
-                                </div>
-                                <div class="form-group mb-1 col-md-4">
-                                    <label for="mapa">Link Maps:</label>
-                                    <input type="text" name="maps" class="form-control" placeholder="Maps" tabindex="2"  value="<?=(!empty($anuncio->maps ) ? $anuncio->maps  : '')?>">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label for="sobre">Dscrição completa:</label>
-                                    <textarea name="sobre" class="form-control" placeholder="Detalhes" style="height: 150px"><?=(!empty($anuncio->sobre ) ? $anuncio->sobre  : '')?></textarea>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="status">Status:</label>
-                                <select class="form-control" name="status">
-                                    <option value="1" <?=((!empty($anuncio->status) && $anuncio->status =='1')  ? 'selected' : '')?>>ATIVO</option>
-                                    <option value="2" <?=((!empty($anuncio->status) && $anuncio->status =='2') ? 'selected' : '')?>>INATIVO</option>
-                                    <option value="0" <?=((!empty($anuncio->status) && $anuncio->status =='0') ? 'selected' : '')?>>DELETADO</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div class="container container-relative">
-                        <?=(empty($anuncio->idAnuncio ) ? '<div class="maskSplash"><p class="msgText">Salvar para liberar ação</pcla></div> ' : '')?>
-                        <div class="col-md-12">
-                            <h4  class="sub-title">Galeria</h4>
-                            <hr/>
-                            <div class="card">
-                                <form  method="post" enctype="multipart/form-data" class="uploadFile" style="display: none">
-                                    <input type="file" name="addFotoAlbum" class="custom-file-input">
-                                </form>
-
-
-                                <div class="card-body">
-                                    <div class="container">
-                                        <div class="demo-gallery">
-                                            <div id="lightgallery" class="list-unstyled row">
-                                                <a class="col-xs-6 col-sm-4 col-md-3"  data-src="<?=THEME_URI ?>/_assets/images/sem_imagem.png"
-                                                   data-sub-html="<h4>Galeria Sem Imagem</h4><p>Sua Galeria ainda não possui imagens.</p>">
-                                                    <img class="img-responsive" src="<?=THEME_URI ?>/_assets/images/sem_imagem.png">
-                                                </a>
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="form-group mb-1 col-md-3">
+                                            <label for="telefone">Telefone:</label>
+                                            <input type="text" name="telefone" class="form-control" placeholder="Telefone" tabindex="2"  value="<?=(!empty($anuncio->telefone ) ? $anuncio->telefone  : '')?>">
+                                            <div class="form-check">
+                                                <label class="form-check-label">
+                                                    <input type="checkbox" name="telWhatsApp" class="form-control" <?=(!empty($anuncio->telWhatsApp ) ? 'checked' : '')?> value="1">
+                                                    <span class="form-check-sign font-small">Este numero possui WhatsApp</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group mb-1 col-md-3">
+                                            <label for="cpf">Telefone Alt:</label>
+                                            <input type="text" name="telefoneAlt" class="form-control" placeholder="Telefone" tabindex="2"  value="<?=(!empty($anuncio->telefoneAlt ) ? $anuncio->telefoneAlt : '')?>">
+                                            <div class="form-check">
+                                                <label class="form-check-label">
+                                                    <input type="checkbox" name="telAltWhatsApp" class="form-control" <?=(!empty($anuncio->telAltWhatsApp ) ? 'checked' : '')?> value="1">
+                                                    <span class="form-check-sign font-small">Este numero possui WhatsApp</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group mb-1 col-md-6">
+                                            <label for="cpf">Email:</label>
+                                            <input type="text" name="email" class="form-control" placeholder="Email" tabindex="2"  value="<?=(!empty($anuncio->email ) ? $anuncio->email  : '')?>">
+                                            <div class="form-check">
+                                                <label class="form-check-label">
+                                                    <input type="checkbox" name="naoReceberEmail" class="form-control" <?=(!empty($anuncio->naoReceberEmail ) ? 'checked' : '')?> value="1">
+                                                    <span class="form-check-sign font-small">Não Exibir Email</span>
+                                                </label>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="card-footer justify-content-between">
-                                    <button type="button" class="btn btn-primary add-foto bottom-left">
-                                        <i class="fas fa-camera"></i> <span> Add Fotos</span>
-                                    </button>
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="form-group mb-1 col-md-4">
+                                            <label for="cep">CEP:</label>
+                                            <input type="text" name="cep" class="form-control" placeholder="CEP" tabindex="2"  value="<?=(!empty($anuncio->cep ) ? $anuncio->cep : '')?>">
+                                        </div>
+                                        <div class="form-group mb-1 col-md-6">
+                                            <label for="rua">Rua:</label>
+                                            <input type="text" name="rua" class="form-control" placeholder="Rua" tabindex="2"  value="<?=(!empty($anuncio->rua ) ? $anuncio->rua : '')?>">
+                                        </div>
+                                        <div class="form-group mb-1 col-md-2">
+                                            <label for="numero">Numero:</label>
+                                            <input type="text" name="numero" class="form-control" placeholder="Numero:99" tabindex="2"  value="<?=(!empty($anuncio->numero ) ? $anuncio->numero  : '')?>">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="form-group mb-1 col-md-4">
+                                            <label for="bairro">Bairro:</label>
+                                            <input type="text" name="bairro" class="form-control" placeholder="Bairro" tabindex="2"  value="<?=(!empty($anuncio->bairro ) ? $anuncio->bairro : '')?>">
+                                        </div>
+                                        <div class="form-group mb-1 col-md-4">
+                                            <label for="cidade">Cidade:</label>
+                                            <input type="text" name="cidade" class="form-control" placeholder="Cidade" tabindex="2"  value="<?=(!empty($anuncio->cidade ) ? $anuncio->cidade  : '')?>">
+                                        </div>
+                                        <div class="form-group mb-1 col-md-4">
+                                            <label for="mapa">Link Maps:</label>
+                                            <input type="text" name="maps" class="form-control" placeholder="Maps" tabindex="2"  value="<?=(!empty($anuncio->maps ) ? $anuncio->maps  : '')?>">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="sobre">Dscrição completa:</label>
+                                            <textarea name="sobre" class="form-control" placeholder="Detalhes" style="height: 150px"><?=(!empty($anuncio->sobre ) ? $anuncio->sobre  : '')?></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="status">Status:</label>
+                                        <select class="form-control" name="status">
+                                            <option value="1" <?=((!empty($anuncio->status) && $anuncio->status =='1')  ? 'selected' : '')?>>ATIVO</option>
+                                            <option value="2" <?=((!empty($anuncio->status) && $anuncio->status =='2') ? 'selected' : '')?>>INATIVO</option>
+                                            <option value="0" <?=((!empty($anuncio->status) && $anuncio->status =='0') ? 'selected' : '')?>>DELETADO</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="tab-pane fade" id="galeria" role="galeria-tab" aria-labelledby="galeria-tab">
+                                <div class="container container-relative">
+                                    <?=(empty($anuncio->idAnuncio ) ? '<div class="maskSplash"><p class="msgText">Salvar para liberar ação</pcla></div> ' : '')?>
+                                    <div class="col-md-12">
+                                        <h4  class="sub-title">Galeria</h4>
+                                        <hr/>
+                                        <div class="card">
+                                            <form  method="post" enctype="multipart/form-data" class="uploadFile" style="display: none">
+                                                <input type="file" name="addFotoAlbum" class="custom-file-input">
+                                            </form>
+
+
+                                            <div class="card-body">
+                                                <div class="container">
+                                                    <div class="demo-gallery">
+                                                        <div id="lightgallery" class="list-unstyled row">
+                                                            <a class="col-xs-6 col-sm-4 col-md-3"  data-src="<?=THEME_URI ?>/_assets/images/sem_imagem.png"
+                                                               data-sub-html="<h4>Galeria Sem Imagem</h4><p>Sua Galeria ainda não possui imagens.</p>">
+                                                                <img class="img-responsive" src="<?=THEME_URI ?>/_assets/images/sem_imagem.png">
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="card-footer justify-content-between">
+                                                <button type="button" class="btn btn-primary add-foto bottom-left">
+                                                    <i class="fas fa-camera"></i> <span> Add Fotos</span>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                    </div>
                                 </div>
                             </div>
-
                         </div>
                     </div>
-
 
 
                     <div class="card-action">
