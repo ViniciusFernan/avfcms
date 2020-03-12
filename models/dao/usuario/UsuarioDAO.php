@@ -35,15 +35,7 @@ class UsuarioDAO extends UsuarioFactory{
     public function getUsuarioFromEmailSenha($email, $senha) {
         try{
             $sql = "SELECT
-                        usuario.idUsuario,
-                        usuario.nome,
-                        usuario.sobreNome,
-                        usuario.email,
-                        usuario.idPerfil,
-                        usuario.superAdmin,
-                        usuario.status,
-                        perfil.idPerfil,
-                        perfil.nomePerfil
+                        
                     FROM usuario
                     INNER JOIN perfil ON usuario.idPerfil = perfil.idPerfil
                     WHERE  usuario.status = 1
@@ -51,7 +43,25 @@ class UsuarioDAO extends UsuarioFactory{
                     AND senha = BINARY :senha
                     LIMIT 1 ";
 
-            $listaUsuarios = (new Select($this->tabela))->FullSelect($sql, "email={$email}&senha={$senha}");
+            $colunas = [
+                'usuario.idUsuario',
+                'usuario.nome',
+                'usuario.sobreNome',
+                'usuario.email',
+                'usuario.idPerfil',
+                'usuario.superAdmin',
+                'usuario.status',
+                'perfil.idPerfil',
+                'perfil.nomePerfil'
+            ];
+
+            $joins[] = 'INNER JOIN perfil ON usuario.idPerfil = perfil.idPerfil';
+
+            $where[] = ['type' => 'and', 'alias' => 'usuario', 'field' => 'status', 'value' => '1', 'comparation' => '=' ];
+            $where[] = ['type' => 'and', 'alias' => 'usuario', 'field' => 'email', 'value' => $email, 'comparation' => '=' ];
+            $where[] = ['type' => 'and', 'alias' => 'usuario', 'field' => 'senha', 'value' => $senha, 'comparation' => '= BINARY' ];
+
+            $listaUsuarios = (new Select($this->tabela))->Select($colunas, $where, $joins, '1' );
             if($listaUsuarios instanceof Exception) throw  $listaUsuarios;
                 if(empty($listaUsuarios)) throw new Exception('Nenhum Usuario encontrado nesse trem!');
             return $listaUsuarios;

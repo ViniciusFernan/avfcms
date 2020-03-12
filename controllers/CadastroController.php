@@ -14,6 +14,14 @@ require_once ABSPATH . "/models/class/usuario/UsuarioModel.php";
 
 class CadastroController extends MainController {
     public $retorno =[];
+
+    /**
+     * IndexController constructor.
+     * Define qual rota seguir
+     */
+    public function __construct() {
+
+    }
     /**
      * Ação que deverá ser executada quando
      * nenhuma outra for especificada, do mesmo jeito que o
@@ -30,6 +38,7 @@ class CadastroController extends MainController {
             $error = false;
 
             $insertResp = (new UsuarioModel())->novoUsuario($this->parametrosPost);
+            if($insertResp instanceof Exception) throw  $insertResp;
             if(empty($insertResp) && !is_int($insertResp) ) {
                 unset($this->parametrosPost["senha"]);
                 $this->retorno=['msg' => "Erro ao cadastrar usuário!", 'tipo' => 'danger'];
@@ -43,7 +52,7 @@ class CadastroController extends MainController {
                 $error = false;
             }
         }catch (Exception $exception){
-            return $exception;
+            $this->retorno = ['msg'=>$exception->getMessage(), 'tipo'=>'danger'];
         }
 
         $View = new View('cadastro/cadastro.view.php');

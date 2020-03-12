@@ -115,7 +115,7 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
                         <!-- telefone -->
                         <div class="form-group">
                             <label > Telefone sec. </label>
-                            <input type="tel"  name="telefone_2" class="form-control tel" value="<?=(!empty($dadosForm['telefone'])? $dadosForm['telefone'] : '' )?>">
+                            <input type="tel"  name="telefone_aux" class="form-control tel" value="<?=(!empty($dadosForm['telefone_aux'])? $dadosForm['telefone_aux'] : '' )?>">
                         </div>
                     </div>
                 </div>

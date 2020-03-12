@@ -41,9 +41,9 @@
         labelMonthSelect: 'Selecione um Mês',
         labelYearSelect: 'Selecione um Ano',
         format: 'dd/mm/yyyy',
-        formatSubmit: 'yyyy-mm-dd',
+        formatSubmit: 'dd/mm/yyyy',
         //hiddenPrefix: 'prefix__',
-        hiddenSuffix: '_submit',
+        hiddenSuffix: '',
         selectYears: 70,
         max: true
     });
@@ -52,7 +52,7 @@
         container: 'body',
         clear: 'Limpar',
         format: 'HH:i:00',
-        hiddenSuffix: '_submit',
+        hiddenSuffix: '',
         formatSubmit: 'HH:i',
         formatLabel: "<b>H</b>:i:00 <!i><!s!m!a!l!l>!h!r(!s)</!s!m!a!l!l></!i>",
         interval: 60

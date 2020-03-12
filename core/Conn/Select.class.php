@@ -24,8 +24,6 @@
  */
 class Select extends Conn {
 
-    private $Select;
-    private $Places;
     /** @var PDOStatement */
     private $Read;
     private $Table;
@@ -33,13 +31,8 @@ class Select extends Conn {
     /** @var PDO */
     private $Conn;
 
-    /* PAGINACAO */
-    private $limit;
-    private $offset;
-    private $paginaAtual;
-    private $totalPaginas;
-    private $rowCount;
-    private $limitBtnPaginacao = 11;
+    private $Select;
+    private $Parse;
 
     public function __construct($table)
     {
@@ -51,79 +44,6 @@ class Select extends Conn {
         }
     }
 
-    /**
-     * Este metodo dá o start na paginação. Só chamar caso queira paginar o resultado
-     * Chamar este metodo depois de instanciar a classe, e antes de efetuar o select
-     * @param Number $limit - Limite por Página
-     * @param Number $paginaAtual - Página Atual
-     */
-    public function ExePaginar($paginaAtual, $limit = 50) {
-        $paginaAtual = (int) $paginaAtual;
-        $limit = (int) $limit;
-        $this->paginaAtual = ($paginaAtual ? $paginaAtual : 1);
-        $this->limit = ($limit ? $limit : 50);
-    }
-
-    /**
-     * Monta a estrutura da paginação em html
-     * @param String $linkBase - Ex: http://localhost/?page=
-     * @return Array - Estrutura da Paginacao em HTML
-     */
-    public function getPaginacao($linkBase = "") {
-        //valida se existe paginacao
-        if (!$this->totalPaginas || $this->totalPaginas == 0)
-            return false;
-
-        if ($this->paginaAtual < ceil($this->limitBtnPaginacao / 2))
-            $inicial = 1;
-        else
-            $inicial = $this->paginaAtual - floor($this->limitBtnPaginacao / 2);
-
-        //monta array das paginas e urls
-        $links = "";
-        $c = 0;
-        for ($i = $inicial; $i <= $this->totalPaginas; $i++) {
-            $links .= '<li ' . ($this->paginaAtual == $i ? 'class="active"' : "") . '><a href="' . $linkBase . $i . '" data-btn-paginacao="' . $i . '">' . $i . '</a></li>';
-            if (++$c >= $this->limitBtnPaginacao)
-                break;
-        }
-        $classLinkAnterior = ($this->paginaAtual == 1 ? "disabled" : NULL);
-        $linkPaginaAnterior = (!$classLinkAnterior ? ($this->paginaAtual - 1) : "#");
-        $classProximaPagina = ($this->paginaAtual == $this->totalPaginas ? "disabled" : NULL);
-        $linkProximaPagina = (!$classProximaPagina ? ($this->paginaAtual + 1) : "#");
-        $linkPrimeiraPagina = 1;
-        $linkUltimaPagina = $this->totalPaginas;
-
-        $pag = '<div class="text-center" id="paginacao">
-                    <nav>
-                        <ul class="pagination">
-                            <li class="' . $classLinkAnterior . '">
-                                <a href="' . $linkBase . $linkPrimeiraPagina . '" aria-label="Previous" data-btn-paginacao="' . $linkPrimeiraPagina . '">
-                                    <span aria-hidden="true"><i class="fa fa-fast-backward"></i></span>
-                                </a>
-                            </li>
-                            <li class="' . $classLinkAnterior . '">
-                                <a href="' . $linkBase . $linkPaginaAnterior . '" aria-label="Previous" data-btn-paginacao="' . $linkPaginaAnterior . '">
-                                    <span aria-hidden="true"><i class="fa fa-backward"></i></span>
-                                </a>
-                            </li>
-                            ' . $links . '
-                            <li class="' . $classProximaPagina . '">
-                                <a href="' . $linkBase . $linkProximaPagina . '" aria-label="Next" data-btn-paginacao="' . $linkProximaPagina . '">
-                                    <span aria-hidden="true"><i class="fa fa-forward"></i></span>
-                                </a>
-                            </li>
-                            <li class="' . $classProximaPagina . '">
-                                <a href="' . $linkBase . $linkUltimaPagina . '" aria-label="Next" data-btn-paginacao="' . $linkUltimaPagina . '">
-                                    <span aria-hidden="true"><i class="fa fa-fast-forward"></i></span>
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>';
-
-        return $pag;
-    }
 
     /**
      * <b>Exe Read:</b> Executa uma leitura simplificada com Prepared Statments. Basta informar o nome da tabela,
@@ -134,27 +54,23 @@ class Select extends Conn {
      * @param array $Join
      * @return array|string
      */
-    public function Select($Colunas=null, $Termos = null, $ParseString = null, $Join = null) {
+    public function Select($Colunas=null, $where = null, $ParseString = null, $Join = null, $limit = null) {
         try{
-            if ($ParseString)
-                $ParseString = str_replace("%", "^", $ParseString);
 
             if(!empty($Colunas) && is_array($Colunas)) $Colunas = implode(', ', $Colunas);
             else $Colunas = '*' ;
 
-            if (!empty($ParseString)):
-                parse_str($ParseString, $this->Places);
-            endif;
+            $strJoin = $this->buildJoin($Join);
+
+            $strWhere = $this->buildWhere($where);
 
             $limit = "";
-
-            $strJoin = $this->buildJoin($Join);
 
             $sql = "SELECT SQL_CALC_FOUND_ROWS 
                     {$Colunas} 
                     FROM {$this->Table}  
                     {$strJoin}
-                    WHERE {$Termos} 
+                    WHERE {$strWhere} 
                     {$limit}";
             $this->Select = $sql;
             $select = $this->Execute();
@@ -162,21 +78,9 @@ class Select extends Conn {
 
             return $select;
         }catch (Exception $e){
-            return $e->getMessage();
+            return $e;
         }
 
-    }
-
-
-    /**
-     * <b>Contar Registros: </b> Retorna o número de registros encontrados pelo select!
-     * @return INT $Var = Quantidade de registros encontrados
-     */
-    public function getRowCount() {
-        if (!empty($this->rowCount))
-            return $this->rowCount;
-        else
-            return $this->Read->rowCount();
     }
 
     /**
@@ -206,24 +110,6 @@ class Select extends Conn {
 
     }
 
-    /**
-     * <b>Full Read:</b> Executa leitura de dados via query que deve ser montada manualmente para possibilitar
-     * seleção de multiplas tabelas em uma única query!
-     * @param STRING $Query = Query Select Syntax
-     * @param STRING $ParseString = link={$link}&link2={$link2}
-     */
-    public function setPlaces($ParseString) {
-        try{
-            parse_str($ParseString, $this->Places);
-            $setPlaces = $this->Execute();
-            if(is_string($setPlaces) && !empty($setPlaces)) throw new Exception($setPlaces);
-
-            return $setPlaces;
-        }catch (Exception $e){
-            return $e->getMessage();
-        }
-
-    }
 
     /**
      * ****************************************
@@ -237,61 +123,19 @@ class Select extends Conn {
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
     }
 
-    //Cria a sintaxe da query para Prepared Statements
-    private function getSyntax() {
-        if ($this->Places):
-            foreach ($this->Places as $Vinculo => $Valor):
-                if ($Vinculo == 'limit' || $Vinculo == 'offset'):
-                    $Valor = (int) $Valor;
-                endif;
-                $Valor = str_replace("^", "%", $Valor);
-                $this->Read->bindValue(":{$Vinculo}", $Valor, ( is_int($Valor) ? PDO::PARAM_INT : PDO::PARAM_STR));
-            endforeach;
-        endif;
-    }
 
     //Obtém a Conexão e a Syntax, executa a query!
     private function Execute() {
         try {
             $this->Connect();
-            $this->getSyntax();
+            $this->bindParams();
             $this->Read->execute();
             return $this->Read->fetchAll( PDO::FETCH_OBJ); //return array objects
         } catch (PDOException $e) {
-           return $e->getMessage();
+           return $e;
         }
     }
 
-    /**
-     * Paginacao
-     * @param String $Query SQL
-     * @param String $ParseString
-     */
-    private function pagination($Query, $ParseString = null) {
-        try {
-            $this->Select = (string) $Query;
-            if (!empty($ParseString)):
-                parse_str($ParseString, $this->Places);
-            endif;
-
-            $this->Connect();
-
-            $this->getSyntax();
-            $this->Read->execute();
-            $this->rowCount = $this->Read->rowCount();
-
-            //Seta a quantidade de itens encontrado na tabela
-            $this->rowCount = $this->getRowCount();
-
-            //faz calculo da quantidade de pagina e offset
-            $this->totalPaginas = ceil($this->rowCount / $this->limit);
-            $this->offset = ($this->paginaAtual * $this->limit) - $this->limit;
-
-        } catch (PDOException $e) {
-            return $e->getMessage();
-        }
-
-    }
 
     private function buildJoin($joins)
     {
@@ -307,6 +151,39 @@ class Select extends Conn {
             endforeach;
 
             return $partQuery;
+        } catch (Exception $exception) {
+            return $exception;
+        }
+    }
+
+    private function buildWhere($where)
+    {
+        try {
+            if(!empty($where) && !is_array($where)) throw new Exception('Erro em dado enviado WHERE ');
+
+            if(empty($where))  throw new Exception('Termo de pesquisa inesistente WHERE ');
+
+            $returno = [];
+
+            $value = ['type'=>'', 'alias'=>'', 'field'=>'', 'value'=>'', 'comparation'=>''];
+
+            foreach ($where as $key => $item):
+                if(empty(@$item['field']) || empty(@$item['value'])) throw new exception('Erro em field e value WHERE');
+
+                if($key>0) $value['type'] = (!empty(@$item['type']) ? $item['type']  : " AND ");
+
+                $value['alias'] = (!empty(@$item['alias']) ? $item['alias']."."  : '');
+                $value['field'] = $item['field'];
+                $value['value'] = $item['value'];
+                $value['comparation'] = (!empty(@$item['comparation']) ? $item['comparation']  : '=');
+
+                $returno['where'][] = $value['type'] . $value['alias'].$value['field'] . $value['comparation'] .':'. $value['field'];
+                $this->Parse[] = [$value['field'] => $value['value'] ];
+            endforeach;
+
+            $returno = implode(' ', $returno['where']);
+
+            return $returno;
         } catch (Exception $exception) {
             return $exception;
         }
