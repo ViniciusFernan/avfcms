@@ -32,7 +32,12 @@ class Select extends Conn {
     private $Conn;
 
     private $Select;
+    private $Columns;
+    private $Where;
     private $Parse;
+    private $Join;
+    private $Group;
+    private $Having;
 
     public function __construct($table)
     {
@@ -54,26 +59,27 @@ class Select extends Conn {
      * @param array $Join
      * @return array|string
      */
-    public function Select($Colunas=null, $where = null, $ParseString = null, $Join = null, $limit = null) {
+    public function Select($Colunas=null, $where = null,  $Join = null, $limit = '0,50',  $having=null) {
         try{
 
-            if(!empty($Colunas) && is_array($Colunas)) $Colunas = implode(', ', $Colunas);
-            else $Colunas = '*' ;
+            $respColumns = $this->buildColumns($Colunas);
+            if($respColumns instanceof Exception) throw $respColumns;
 
-            $strJoin = $this->buildJoin($Join);
+            $respJoin = $this->buildJoin($Join);
+            if($respJoin instanceof Exception) throw $respJoin;
 
-            $strWhere = $this->buildWhere($where);
+            $respWhere = $this->buildWhere($where);
+            if($respWhere instanceof Exception) throw $respWhere;
 
-            $limit = "";
-
-            $sql = "SELECT SQL_CALC_FOUND_ROWS 
-                    {$Colunas} 
+            $this->Select = "SELECT SQL_CALC_FOUND_ROWS 
+                    {$this->Columns} 
                     FROM {$this->Table}  
-                    {$strJoin}
-                    WHERE {$strWhere} 
-                    {$limit}";
-            $this->Select = $sql;
+                    {$this->Join}
+                    WHERE {$this->Where} 
+                    LIMIT {$limit}";
+
             $select = $this->Execute();
+            if($select instanceof Exception) throw $select;
             if(is_string($select) && !empty($select)) throw new Exception($select);
 
             return $select;
@@ -136,21 +142,46 @@ class Select extends Conn {
         }
     }
 
+    private function bindParams(){
+        try{
+            if(empty($this->Parse) || !is_array($this->Parse)) throw new Exception('Erro em processar parametros');
+
+            foreach ($this->Parse as $key => $value):
+                $this->Read->bindValue(":{$key}", $value, ( is_int($value) ? PDO::PARAM_INT : PDO::PARAM_STR));
+            endforeach;
+        }catch (Exception $exception){
+            return $exception;
+        }
+    }
+
+    private function buildColumns($columns)
+    {
+        try {
+            if(!empty($columns) && !is_array($columns)) throw new Exception('Erro au processar COLUMNS ');
+
+            $this->Columns = '*';
+            if(!empty($columns) && is_array($columns)) $this->Columns = implode(', ', $columns);
+
+            return true;
+        } catch (Exception $exception) {
+            return $exception;
+        }
+    }
 
     private function buildJoin($joins)
     {
         try {
-            if(!empty($joins) && !is_array($joins)) throw new Exception('Erro em dado enviado JOIN ');
+            if(!empty($joins) && !is_array($joins)) throw new Exception('Erro em processar JOINS ');
 
             if(empty($joins)) return '';
 
-            $partQuery = '';
+            $this->Join = '';
 
             foreach ($joins as $key => $item):
-                $partQuery .= $item ."\n";
+                $this->Join  .= $item ."\n";
             endforeach;
 
-            return $partQuery;
+            return true;
         } catch (Exception $exception) {
             return $exception;
         }
@@ -159,31 +190,29 @@ class Select extends Conn {
     private function buildWhere($where)
     {
         try {
-            if(!empty($where) && !is_array($where)) throw new Exception('Erro em dado enviado WHERE ');
+            if(!empty($where) && !is_array($where)) throw new Exception('Erro em processar WHERE ');
 
             if(empty($where))  throw new Exception('Termo de pesquisa inesistente WHERE ');
-
-            $returno = [];
 
             $value = ['type'=>'', 'alias'=>'', 'field'=>'', 'value'=>'', 'comparation'=>''];
 
             foreach ($where as $key => $item):
                 if(empty(@$item['field']) || empty(@$item['value'])) throw new exception('Erro em field e value WHERE');
 
-                if($key>0) $value['type'] = (!empty(@$item['type']) ? $item['type']  : " AND ");
+                if($key>0) $value['type'] = (!empty(@$item['type']) ? strtoupper($item['type'])  : "AND");
 
                 $value['alias'] = (!empty(@$item['alias']) ? $item['alias']."."  : '');
                 $value['field'] = $item['field'];
                 $value['value'] = $item['value'];
                 $value['comparation'] = (!empty(@$item['comparation']) ? $item['comparation']  : '=');
 
-                $returno['where'][] = $value['type'] . $value['alias'].$value['field'] . $value['comparation'] .':'. $value['field'];
-                $this->Parse[] = [$value['field'] => $value['value'] ];
+                $this->Where[] = $value['type']." ".$value['alias'].$value['field'] . $value['comparation'] .':'. $value['field'];
+                $this->Parse[$value['field']] = $value['value'] ;
             endforeach;
 
-            $returno = implode(' ', $returno['where']);
+            $this->Where = implode(' ', $this->Where);
 
-            return $returno;
+            return true;
         } catch (Exception $exception) {
             return $exception;
         }

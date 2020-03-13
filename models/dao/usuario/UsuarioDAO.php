@@ -34,14 +34,6 @@ class UsuarioDAO extends UsuarioFactory{
      */
     public function getUsuarioFromEmailSenha($email, $senha) {
         try{
-            $sql = "SELECT
-                        
-                    FROM usuario
-                    INNER JOIN perfil ON usuario.idPerfil = perfil.idPerfil
-                    WHERE  usuario.status = 1
-                    AND usuario.email = :email
-                    AND senha = BINARY :senha
-                    LIMIT 1 ";
 
             $colunas = [
                 'usuario.idUsuario',
@@ -51,6 +43,7 @@ class UsuarioDAO extends UsuarioFactory{
                 'usuario.idPerfil',
                 'usuario.superAdmin',
                 'usuario.status',
+                'usuario.imgPerfil',
                 'perfil.idPerfil',
                 'perfil.nomePerfil'
             ];
@@ -59,7 +52,7 @@ class UsuarioDAO extends UsuarioFactory{
 
             $where[] = ['type' => 'and', 'alias' => 'usuario', 'field' => 'status', 'value' => '1', 'comparation' => '=' ];
             $where[] = ['type' => 'and', 'alias' => 'usuario', 'field' => 'email', 'value' => $email, 'comparation' => '=' ];
-            $where[] = ['type' => 'and', 'alias' => 'usuario', 'field' => 'senha', 'value' => $senha, 'comparation' => '= BINARY' ];
+            $where[] = ['type' => 'and', 'alias' => 'usuario', 'field' => 'senha', 'value' => $senha, 'comparation' => '= BINARY ' ];
 
             $listaUsuarios = (new Select($this->tabela))->Select($colunas, $where, $joins, '1' );
             if($listaUsuarios instanceof Exception) throw  $listaUsuarios;
@@ -110,7 +103,10 @@ class UsuarioDAO extends UsuarioFactory{
         try{
             if(!is_array($post) || empty($post)) throw new Exception('Tem um trem errado aqui!');
 
-            $dadosUsuario = (new Select($this->tabela))->Select(null, "email=:email AND status=:status", "email={$post['email']}&status=1");
+            $where[] = ['type' => 'and', 'field' => 'status', 'value' => '1', 'comparation' => '=' ];
+            $where[] = ['type' => 'and', 'field' => 'email', 'value' => $post['email'], 'comparation' => '=' ];
+
+            $dadosUsuario = (new Select($this->tabela))->Select(null, $where);
             if($dadosUsuario instanceof Exception) throw $dadosUsuario;
             if(!empty($dadosUsuario)):
                 return true;
@@ -129,7 +125,10 @@ class UsuarioDAO extends UsuarioFactory{
             if(!is_array($post) || empty($post))
                 throw new Exception('Error grave nesse trem');
 
-            $dadosUsuario = (new Select($this->tabela))->Select(null, "CPF=:CPF AND status=:status", "CPF={$post['CPF']}&status=1");
+            $where[] = ['type' => 'and',  'field' => 'status', 'value' => '1', 'comparation' => '=' ];
+            $where[] = ['type' => 'and',  'field' => 'CPF', 'value' => $post['CPF'], 'comparation' => '=' ];
+
+            $dadosUsuario = (new Select($this->tabela))->Select(null, $where);
             if($dadosUsuario instanceof Exception) throw $dadosUsuario;
             if(!empty($dadosUsuario)):
                 return true;
@@ -147,8 +146,10 @@ class UsuarioDAO extends UsuarioFactory{
             if(empty($key) || empty($valor) )
                 throw new Exception('Error grave nesse trem');
 
+            $where[] = ['type' => 'and',  'field' => 'status', 'value' => '1', 'comparation' => '=' ];
+            $where[] = ['type' => 'and',  'field' => $key, 'value' => $valor, 'comparation' => '=' ];
 
-            $dadosUsuario = (new Select($this->tabela))->Select(null, "{$key}=:{$key} AND status=:status", "{$key}={$valor}&status=1");
+            $dadosUsuario = (new Select($this->tabela))->Select(null, $where);
             if($dadosUsuario instanceof Exception) throw $dadosUsuario;
             if(!empty($dadosUsuario)):
                 return true;
@@ -163,21 +164,6 @@ class UsuarioDAO extends UsuarioFactory{
 
     public function buscarUsuarioPorEmail($email) {
         try{
-            $sql = "SELECT
-                        usuario.idUsuario,
-                        usuario.nome,
-                        usuario.sobreNome,
-                        usuario.email,
-                        usuario.idPerfil,
-                        usuario.superAdmin,
-                        usuario.status,
-                        perfil.idPerfil,
-                        perfil.nomePerfil
-                    FROM usuario
-                    INNER JOIN perfil ON usuario.idPerfil = perfil.idPerfil
-                    WHERE  usuario.status = 1
-                    AND usuario.email = :email
-                    LIMIT 1 ";
 
             $colunas = [
                 'usuario.idUsuario',
@@ -187,12 +173,17 @@ class UsuarioDAO extends UsuarioFactory{
                 'usuario.idPerfil',
                 'usuario.superAdmin',
                 'usuario.status',
+                'usuario.imgPerfil',
                 'perfil.idPerfil',
                 'perfil.nomePerfil'
             ];
 
             $joins[] = 'INNER JOIN perfil ON usuario.idPerfil = perfil.idPerfil';
-            $dadosUsuario = (new Select($this->tabela))->Select($colunas, 'email=:email', "email={$email}", $joins);
+
+            $where[] = ['type' => 'and', 'alias' => 'usuario', 'field' => 'status', 'value' => '1', 'comparation' => '=' ];
+            $where[] = ['type' => 'and', 'alias' => 'usuario', 'field' => 'email', 'value' => $email, 'comparation' => '=' ];
+
+            $dadosUsuario = (new Select($this->tabela))->Select($colunas, $where, $joins);
             if($dadosUsuario instanceof Exception) throw $dadosUsuario;
 
             if(empty($dadosUsuario)) throw new Exception('Não achou nada nesse trem!');
@@ -214,12 +205,17 @@ class UsuarioDAO extends UsuarioFactory{
                 'usuario.idPerfil',
                 'usuario.superAdmin',
                 'usuario.status',
+                'usuario.imgPerfil',
                 'perfil.idPerfil',
                 'perfil.nomePerfil'
+
             ];
 
             $joins[] = 'INNER JOIN perfil ON usuario.idPerfil = perfil.idPerfil';
-            $listaUsuario = (new Select($this->tabela))->Select($colunas, 'idUsuario>:id', 'id=0', $joins);
+
+            $where[] = ['type' => 'and', 'alias' => 'usuario', 'field' => 'idUsuario', 'value' => '1', 'comparation' => '>=' ];
+
+            $listaUsuario = (new Select($this->tabela))->Select($colunas, $where, $joins);
             if($listaUsuario instanceof Exception) throw $listaUsuario;
 
             if(empty($listaUsuario)) throw new Exception('Não achou nada nesse trem!');
@@ -234,7 +230,9 @@ class UsuarioDAO extends UsuarioFactory{
         try{
             if(empty($id)) throw new Exception('Erro identificador do usuario não enviado');
 
-            $dadosUsuario = (new Select($this->tabela))->Select(null, "idUsuario=:id", "id={$id}");
+            $where[] = ['type' => 'and', 'alias' => 'usuario', 'field' => 'idUsuario', 'value' => $id, 'comparation' => '=' ];
+
+            $dadosUsuario = (new Select($this->tabela))->Select(null, $where);
             if($dadosUsuario instanceof Exception) throw $dadosUsuario;
             if(empty($dadosUsuario)) throw new Exception('Não achou nada nesse trem!');
 

@@ -1,5 +1,7 @@
 <?php
+
 ?>
+
 <div class="main-header">
     <div class="logo-header">
         <a href="<?=HOME_URI?>/" class="logo">
@@ -93,7 +95,7 @@
                 </li>
                 <li class="nav-item dropdown">
                     <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#" aria-expanded="false">
-                        <img src="<?=(!empty($_SESSION['usuario']->imgPerfil ) ?  UP_URI."/usuario/{$_SESSION['usuario']->idUsuario}/perfil/{$usuario->imgPerfil}"  :  THEME_URI.'/_assets/images/profile.jpg').'?v-'. rand(0, 1000)  ?>" alt="user-img" width="36" class="img-circle imgPerfil"><span >Vinicius</span></span>
+                        <img src="<?=(!empty($_SESSION['usuario']->imgPerfil ) ?  UP_URI."/usuario/{$_SESSION['usuario']->idUsuario}/perfil/{$_SESSION['usuario']->imgPerfil}"  :  THEME_URI.'/_assets/images/profile.jpg').'?v-'. rand(0, 1000)  ?>" alt="user-img" width="36" class="img-circle imgPerfil"><span >Vinicius</span></span>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
                         <li>
@@ -116,5 +118,3 @@
         </div>
     </nav>
 </div>
-
-<?php var_dump($_SESSION['usuario']); exit;?>
