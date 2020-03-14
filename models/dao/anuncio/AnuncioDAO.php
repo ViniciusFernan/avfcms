@@ -36,7 +36,7 @@ class AnuncioDAO extends AnuncioFactory {
 
             unset($Data['idAnuncio']);
 
-            $updateAnuncio = (new Update)->ExeUpdate('anuncio', $Data, 'WHERE idAnuncio=:idAnuncio', "idAnuncio={$idAnuncio}");
+            $updateAnuncio = (new Update('anuncio'))->ExeUpdate( $Data, 'WHERE idAnuncio=:idAnuncio', "idAnuncio={$idAnuncio}");
             if($updateAnuncio instanceof Exception) throw $updateAnuncio;
             if(empty($updateAnuncio)) throw new Exception('Ops, erro ao atualizar usuario');
 

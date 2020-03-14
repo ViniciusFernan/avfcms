@@ -19,34 +19,39 @@ class LogarComoModel {
      * @param INTEGER $idUsuario - Id do usuario que quer se logar como
      */
     public function Logar($idUsuario) {
+        try {
 
-        $sel = new Select;
-        $sql = "SELECT
-                    usuario.idUsuario,
-                    usuario.idCorretora,
-                    usuario.idEquipe,
-                    usuario.nome,
-                    usuario.apelido,
-                    usuario.email,
-                    usuario.idPerfil,
-                    usuario.superAdmin,
-                    usuario.status,
-                    corretora.nomeCorretora,
-                    perfil.nomePerfil,
-                    usuario.senha
-                FROM
-                    usuario
-                INNER JOIN corretora ON usuario.idCorretora = corretora.idCorretora
-                INNER JOIN perfil ON usuario.idPerfil = perfil.idPerfil
-                WHERE idUsuario=:idUsuario";
-        $sel->FullSelect($sql, "idUsuario=$idUsuario");
-        if ($sel->getResult()):
+
+            $colunas = [
+                'usuario.idUsuario',
+                'usuario.idCorretora',
+                'usuario.idEquipe',
+                'usuario.nome',
+                'usuario.apelido',
+                'usuario.email',
+                'usuario.idPerfil',
+                'usuario.superAdmin',
+                'usuario.status',
+                'corretora.nomeCorretora',
+                'perfil.nomePerfil',
+                'usuario.senha'
+            ];
+
+            $join[] = 'INNER JOIN perfil ON usuario.idPerfil = perfil.idPerfil';
+
+            $where[] = ['type' => 'and', 'alias' => 'usuario', 'field' => 'idUsuario', 'value' => $idUsuario, 'comparation' => '='];
+
+            $sel = (new Select())->Select($colunas, $where, $join);
+            if ($sel instanceof Exception) throw $sel;
+            if (empty($sel)) throw new Exception('Nenhum Usuario encontrado nesse trem!');
+
             $_SESSION['LOGARCOMO_TMP'] = $_SESSION['usuario'];
-            $_SESSION['usuario'] = $sel->getResult()[0];
-            $this->result = ['resp' => 'success'];
-            return;
-        endif;
-        $this->result = ['resp' => 'error'];
+            $_SESSION['usuario'] = $sel[0];
+
+            return true;
+        } catch (Exception $exception) {
+            return $exception;
+        }
     }
 
     /**

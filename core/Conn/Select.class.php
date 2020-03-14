@@ -52,20 +52,24 @@ class Select extends Conn {
 
     /**
      * <b>Exe Read:</b> Executa uma leitura simplificada com Prepared Statments. Basta informar o nome da tabela,
-     * os termos da seleção e uma analize em cadeia (ParseString) para executar.
-     * @param array $Colunas
-     * @param STRING $Termos = WHERE | ORDER | LIMIT :limit | OFFSET :offset
-     * @param STRING $ParseString = link={$link}&link2={$link2}
-     * @param array $Join
-     * @return array|string
+     * @param null $colunas
+     * @param null $where
+     * @param null $join
+     * @param string $limit
+     * @param null $having
+     * Function Select
+     * @return array|Exception|PDOException
+     * @since  13/03/2020
+     * @version 1.0
+     * @author  Vinicius Fernandes (AVFWEB.COM.BR)
      */
-    public function Select($Colunas=null, $where = null,  $Join = null, $limit = '0,50',  $having=null) {
+    public function Select($colunas = null, $where = null,  $join = null, $limit = '0,50',  $having = null) {
         try{
 
-            $respColumns = $this->buildColumns($Colunas);
+            $respColumns = $this->buildColumns($colunas);
             if($respColumns instanceof Exception) throw $respColumns;
 
-            $respJoin = $this->buildJoin($Join);
+            $respJoin = $this->buildJoin($join);
             if($respJoin instanceof Exception) throw $respJoin;
 
             $respWhere = $this->buildWhere($where);
@@ -94,7 +98,7 @@ class Select extends Conn {
      * @param String $Query - A string Select com Prepared Statments
      * @param String $ParseString - Passa os parametro em forma de url
      */
-    public function FullSelect($Query, $ParseString = null) {
+    public function FullSelect($Query, $where = null) {
 
         try{
             if ($ParseString)

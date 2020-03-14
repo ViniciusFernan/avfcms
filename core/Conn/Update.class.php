@@ -5,7 +5,7 @@
  */
 class Update extends Conn {
 
-    private $Tabela;
+    private $Table;
     private $Dados;
     private $Termos;
     private $Places;
@@ -16,6 +16,17 @@ class Update extends Conn {
     /** @var PDO */
     private $Conn;
 
+    public function __construct($table)
+    {
+        try {
+            if (empty($table)) throw new Exception('É necessário informar o nome da tabela.');
+            $this->Table = $table;
+        } catch (Exception $e) {
+            return $e;
+        }
+    }
+
+
     /**
      * <b>Exe Update:</b> Executa uma atualização simplificada com Prepared Statments. Basta informar o
      * nome da tabela, os dados a serem atualizados em um Attay Atribuitivo, as condições e uma
@@ -25,12 +36,10 @@ class Update extends Conn {
      * @param STRING $Termos = WHERE coluna = :link AND.. OR..
      * @param STRING $ParseString = link={$link}&link2={$link2}
      */
-    public function ExeUpdate($Tabela, array $Dados, $Termos, $ParseString) {
-        $this->Tabela = (string) $Tabela;
-        $this->Dados = $Dados;
-        $this->Termos = (string) $Termos;
+    public function Update($dados = null, $where = null) {
+        $this->Dados = $dados;
+        $this->Termos = (string) $where;
 
-        parse_str($ParseString, $this->Places);
         $this->getSyntax();
         return $this->Execute();
     }

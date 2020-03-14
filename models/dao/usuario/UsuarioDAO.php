@@ -56,7 +56,7 @@ class UsuarioDAO extends UsuarioFactory{
 
             $listaUsuarios = (new Select($this->tabela))->Select($colunas, $where, $joins, '1' );
             if($listaUsuarios instanceof Exception) throw  $listaUsuarios;
-                if(empty($listaUsuarios)) throw new Exception('Nenhum Usuario encontrado nesse trem!');
+            if(empty($listaUsuarios)) throw new Exception('Nenhum Usuario encontrado nesse trem!');
             return $listaUsuarios;
         }catch (Exception $e){
             return $e;
@@ -90,7 +90,8 @@ class UsuarioDAO extends UsuarioFactory{
 
             unset($Data['idUsuario']);
 
-            $updateUsuario = (new Update)->ExeUpdate('usuario', $Data, 'WHERE idUsuario=:idUsuario', "idUsuario={$idUsuario}");
+            $where[] = ['type' => 'and', 'alias' => 'usuario', 'field' => 'idUsuario', 'value' => $idUsuario, 'comparation' => '='];
+            $updateUsuario = (new Update('usuario'))->Update( $Data,  $where);
             if($updateUsuario instanceof Exception) throw $updateUsuario;
             return true;
         }catch (Exception $e){
