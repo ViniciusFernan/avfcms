@@ -84,13 +84,13 @@ class UsuarioDAO extends UsuarioFactory{
 
     }
 
-    public function editarUsuario($Data, $idUsuario){
+    public function   editarUsuario($Data, $idUsuario){
         try{
             if(!is_array($Data) || empty($Data)) throw new Exception('Tem um trem errado aqui!');
 
             unset($Data['idUsuario']);
 
-            $where[] = ['type' => 'and', 'alias' => 'usuario', 'field' => 'idUsuario', 'value' => $idUsuario, 'comparation' => '='];
+            $where[] = ['type' => 'and', 'field' => 'idUsuario', 'value' => $idUsuario, 'comparation' => '='];
             $updateUsuario = (new Update('usuario'))->Update( $Data,  $where);
             if($updateUsuario instanceof Exception) throw $updateUsuario;
             return true;

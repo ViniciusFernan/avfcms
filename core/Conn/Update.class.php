@@ -5,10 +5,14 @@
  */
 class Update extends Conn {
 
+    private $Read;
     private $Table;
+
+    private $DataSet;
     private $Dados;
-    private $Termos;
-    private $Places;
+
+    private $Where;
+    private $Set;
 
     /** @var PDOStatement */
     private $Update;
@@ -37,33 +41,27 @@ class Update extends Conn {
      * @param STRING $ParseString = link={$link}&link2={$link2}
      */
     public function Update($dados = null, $where = null) {
-        $this->Dados = $dados;
-        $this->Termos = (string) $where;
+        try{
 
-        $this->getSyntax();
-        return $this->Execute();
+            $respWhere = $this->buildWhere(array_filter($where));
+            if($respWhere instanceof Exception) throw $respWhere;
+
+            $respSet = $this->buildSet(array_filter($dados));
+            if($respSet instanceof Exception) throw $respSet;
+
+            $this->Update = "UPDATE {$this->Table} SET {$this->Set} WHERE {$this->Where}";
+
+            $update = $this->Execute();
+            if($update instanceof Exception) throw $update;
+            if(is_string($update) && !empty($update)) throw new Exception($update);
+
+            return $update;
+
+        }catch (Exception $exception){
+            return $exception;
+        }
     }
 
-
-
-    /**
-     * <b>Contar Registros: </b> Retorna o número de linhas alteradas no banco!
-     * @return INT $Var = Quantidade de linhas alteradas
-     */
-    public function getRowCount() {
-        return $this->Update->rowCount();
-    }
-
-    /**
-     * <b>Modificar Links:</b> Método pode ser usado para atualizar com Stored Procedures. Modificando apenas os valores
-     * da condição. Use este método para editar múltiplas linhas!
-     * @param STRING $ParseString = id={$id}&..
-     */
-    public function setPlaces($ParseString) {
-        parse_str($ParseString, $this->Places);
-        $this->getSyntax();
-        $this->Execute();
-    }
 
     /**
      * ****************************************
@@ -76,28 +74,76 @@ class Update extends Conn {
         $this->Update = $this->Conn->prepare($this->Update);
     }
 
-    //Cria a sintaxe da query para Prepared Statements
-    private function getSyntax() {
-        foreach ($this->Dados as $Key => $Value):
-            $Places[] = $Key . ' = :' . $Key;
-        endforeach;
-
-        $null = array_search('NULL', $this->Dados, true);
-        if ($null)
-            $this->Dados[$null] = NULL;
-
-        $Places = implode(', ', $Places);
-        $this->Update = "UPDATE {$this->Tabela} SET {$Places} {$this->Termos}";
-    }
-
     //Obtém a Conexão e a Syntax, executa a query!
     private function Execute() {
         try {
             $this->Connect();
-            $this->Update->execute(array_merge($this->Dados, $this->Places));
-           return $this->getRowCount();
+            $this->bindParams();
+           return $this->Update->execute();
         } catch (PDOException $e) {
            return $e;
+        }
+    }
+
+    private function buildWhere($where)
+    {
+        try {
+            if(!empty($where) && !is_array($where)) throw new Exception('Erro em processar WHERE ');
+
+            if(empty($where))  throw new Exception('Termo de pesquisa inesistente WHERE ');
+
+            $value = ['type'=>'', 'alias'=>'', 'field'=>'', 'value'=>'', 'comparation'=>''];
+
+            foreach ($where as $key => $item):
+                if(empty(@$item['field']) || empty(@$item['value'])) throw new exception('Erro em field e value WHERE');
+
+                if($key>0) $value['type'] = (!empty(@$item['type']) ? strtoupper($item['type'])  : "AND");
+
+                $value['alias'] = (!empty(@$item['alias']) ? $item['alias']."."  : '');
+                $value['field'] = $item['field'];
+                $value['value'] = $item['value'];
+                $value['comparation'] = (!empty(@$item['comparation']) ? $item['comparation']  : '=');
+
+                $this->Where[] = $value['type']." ".$value['alias'].$value['field'] . $value['comparation'] .':'. $value['field'];
+            endforeach;
+
+            $this->Where = implode(' ', $this->Where);
+            $this->Dados[$value['field']] = $value['value'];
+            return true;
+        } catch (Exception $exception) {
+            return $exception;
+        }
+    }
+
+    private function buildSet($dados){
+        try{
+            if(empty($dados))  throw new Exception('Termo de pesquisa inesistente SET error ');
+            if(!is_array($dados)) throw new Exception('Tipo de dado inconsistente.');
+
+            foreach ($dados as $key => $value):
+                $this->Set[] = $key. " =:". $key;
+                $this->DataSet[$key] = $value;
+            endforeach;
+
+            $this->Set = implode(', ', $this->Set);
+            return true;
+        }catch (Exception $exception){
+            return $exception;
+        }
+    }
+
+
+    private function bindParams(){
+        try{
+            if(empty($this->DataSet) || !is_array($this->DataSet)) throw new Exception('Erro em processar set parametros');
+            if(empty($this->Dados) || !is_array($this->Dados)) throw new Exception('Erro em processar parametros');
+
+            $this->Dados = array_merge($this->Dados, $this->DataSet);
+            foreach ($this->Dados as $key => $value):
+                $this->Update->bindValue(":{$key}", $value, ( is_int($value) ? PDO::PARAM_INT : PDO::PARAM_STR));
+            endforeach;
+        }catch (Exception $exception){
+            return $exception;
         }
     }
 

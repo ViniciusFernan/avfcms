@@ -94,34 +94,6 @@ class Select extends Conn {
     }
 
     /**
-     * <b>Full Select: Executa leitura com a sql completa montada da forma que for necessária</b>
-     * @param String $Query - A string Select com Prepared Statments
-     * @param String $ParseString - Passa os parametro em forma de url
-     */
-    public function FullSelect($Query, $where = null) {
-
-        try{
-            if ($ParseString)
-                $ParseString = str_replace("%", "^", $ParseString);
-
-            $limit='';
-            $this->Select = (string) $Query . $limit;
-            if (!empty($ParseString)):
-                parse_str($ParseString, $this->Places);
-            endif;
-            $fullSelect = $this->Execute();
-            if(is_string($fullSelect) && !empty($fullSelect)) throw new Exception($fullSelect);
-
-            return $fullSelect;
-        }catch (Exception $e){
-            return $e->getMessage();
-        }
-
-
-    }
-
-
-    /**
      * ****************************************
      * *********** PRIVATE METHODS ************
      * ****************************************
@@ -211,7 +183,7 @@ class Select extends Conn {
                 $value['comparation'] = (!empty(@$item['comparation']) ? $item['comparation']  : '=');
 
                 $this->Where[] = $value['type']." ".$value['alias'].$value['field'] . $value['comparation'] .':'. $value['field'];
-                $this->Parse[$value['field']] = $value['value'] ;
+                $this->Parse[$value['field']] = $value['value'];
             endforeach;
 
             $this->Where = implode(' ', $this->Where);
