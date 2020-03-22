@@ -43,8 +43,7 @@ class Log {
         $array['ip'] = $_SERVER['REMOTE_ADDR'];
         $array['navegador'] = "browser: " . $browser['name'] . "-|  Versão:" . $browser['version'] . "-|  Plataforma: " . $browser['platform'];
 
-        $createLog = new Create;
-        $createLog->ExeCreate('logs', $array);
+        $createLog = (new Create('logs'))->Create($array);
         return $createLog->getResult();
     }
 

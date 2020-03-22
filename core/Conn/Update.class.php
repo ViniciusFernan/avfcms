@@ -4,8 +4,9 @@
  * Classe responsável por atualizações genéticas no banco de dados!
  */
 class Update extends Conn {
+    /** @var PDO */
+    private $Conn;
 
-    private $Read;
     private $Table;
 
     private $DataSet;
@@ -17,9 +18,6 @@ class Update extends Conn {
     /** @var PDOStatement */
     private $Update;
 
-    /** @var PDO */
-    private $Conn;
-
     public function __construct($table)
     {
         try {
@@ -30,16 +28,6 @@ class Update extends Conn {
         }
     }
 
-
-    /**
-     * <b>Exe Update:</b> Executa uma atualização simplificada com Prepared Statments. Basta informar o
-     * nome da tabela, os dados a serem atualizados em um Attay Atribuitivo, as condições e uma
-     * analize em cadeia (ParseString) para executar.
-     * @param STRING $Tabela = Nome da tabela
-     * @param ARRAY $Dados = [ NomeDaColuna ] => Valor ( Atribuição )
-     * @param STRING $Termos = WHERE coluna = :link AND.. OR..
-     * @param STRING $ParseString = link={$link}&link2={$link2}
-     */
     public function Update($dados = null, $where = null) {
         try{
 

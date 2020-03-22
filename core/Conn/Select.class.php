@@ -24,12 +24,12 @@
  */
 class Select extends Conn {
 
+    /** @var PDO */
+    private $Conn;
+
     /** @var PDOStatement */
     private $Read;
     private $Table;
-
-    /** @var PDO */
-    private $Conn;
 
     private $Select;
     private $Columns;
@@ -167,7 +167,6 @@ class Select extends Conn {
     {
         try {
             if(!empty($where) && !is_array($where)) throw new Exception('Erro em processar WHERE ');
-
             if(empty($where))  throw new Exception('Termo de pesquisa inesistente WHERE ');
 
             $value = ['type'=>'', 'alias'=>'', 'field'=>'', 'value'=>'', 'comparation'=>''];

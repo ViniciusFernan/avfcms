@@ -74,7 +74,7 @@ class UsuarioDAO extends UsuarioFactory{
             if(!is_array($post) || empty($post))
                 throw new Exception('Error grave nesse trem');
 
-            $userCreate = (new Create)->ExeCreate('usuario', $post);
+            $userCreate = (new Create('usuario'))->Create($post);
             if($userCreate instanceof Exception) throw  $userCreate;
 
             return $userCreate;

@@ -20,7 +20,7 @@ class AnuncioDAO extends AnuncioFactory {
             if(!is_array($post) || empty($post))
                 throw new Exception('Error grave nesse trem');
 
-            $anuncioCreate = (new Create)->ExeCreate('anuncio', $post);
+            $anuncioCreate = (new Create('anuncio'))->Create($post);
             if($anuncioCreate instanceof Exception) throw $anuncioCreate;
 
             return $anuncioCreate;
