@@ -160,7 +160,7 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
 
             <div class="card-footer">
                 <!-- Sign in button -->
-                <button class="btn bg-roxo btn-rounded btn-block waves-effect " type="submit">Cadastrar</button>
+                <button class="btn bg-roxo btn-rounded btn-block waves-effect " style="color: #fff" ><b class="white" >Cadastrar</b></button>
             </div>
 
         </form>
