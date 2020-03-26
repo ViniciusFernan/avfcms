@@ -64,7 +64,7 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
                 <div class="msg-box"><?php if(!empty($boxMsg)): echo Util::getAlert($boxMsg['msg'], $boxMsg['tipo']); endif; ?></div>
 
                 <div class="row">
-                    <div class="col">
+                    <div class="col-sm-6">
                         <!-- nome -->
                         <div class="form-group">
                             <label ><i style="color: #ff0219">*</i> Nome</label>
@@ -72,7 +72,7 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
 
                         </div>
                     </div>
-                    <div class="col">
+                    <div class="col-sm-6">
                         <!-- sobre nome -->
                         <div class="form-group">
                             <label >Sobre nome</label>
@@ -83,14 +83,14 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
                 </div>
 
                 <div class="row">
-                    <div class="col">
+                    <div class="col-sm-6">
                         <!-- E-mail -->
                         <div class="form-group">
                             <label ><i style="color: #ff0219">*</i> E-mail</label>
                             <input type="email" class="form-control" name="email" value="<?=(!empty($dadosForm['email'])? $dadosForm['email'] : '' )?>" >
                         </div>
                     </div>
-                    <div class="col">
+                    <div class="col-sm-6">
                         <!-- senha -->
                         <div class="form-group">
                             <label ><i style="color: #ff0219">*</i> Senha</label>
@@ -103,7 +103,7 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
                 </div>
 
                 <div class="row">
-                    <div class="col">
+                    <div class="col-sm-6">
                         <!-- telefone -->
                         <div class="form-group">
                             <label ><i style="color: #ff0219">*</i> Telefone Principal</label>
@@ -111,7 +111,7 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
                         </div>
                     </div>
 
-                    <div class="col">
+                    <div class="col-sm-6">
                         <!-- telefone -->
                         <div class="form-group">
                             <label > Telefone sec. </label>
@@ -121,25 +121,25 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
                 </div>
 
                 <div class="row">
-                    <div class="col">
+                    <div class="col-sm-4">
                         <div class="form-group">
                             <!-- sexo -->
                             <label ><i style="color: #ff0219">*</i> Sexo</label>
-                            <select class="form-control" name="sexo" >
+                            <select class="form-control" name="sexo">
                                 <option value="" disabled selected>Selecione sexo</option>
-                                <option value="1">Masculino</option>
-                                <option value="2">Feminino</option>
+                                <option value="1" <?=((!empty($dadosForm['sexo']) && $dadosForm['sexo'] == 1 ) ? 'selected="selected"' : '' )?> >Masculino</option>
+                                <option value="2" <?=((!empty($dadosForm['sexo']) && $dadosForm['sexo'] == 2 ) ? 'selected="selected"' : '' )?> >Feminino</option>
                             </select>
                         </div>
                     </div>
-                    <div class="col">
+                    <div class="col-sm-4">
                         <!-- nascimento -->
                         <div class="form-group">
                             <label><i style="color: #ff0219">*</i> Data de nascomento</label>
                             <input type="text"  class="form-control calendario" name="dataNascimento" value="<?=(!empty($dadosForm['dataNascimento'])? $dadosForm['dataNascimento'] : '' )?>" >
                         </div>
                     </div>
-                    <div class="col">
+                    <div class="col-sm-4">
                         <!-- cpf -->
                         <div class="form-group">
                             <label><i style="color: #ff0219">*</i> CPF </label>

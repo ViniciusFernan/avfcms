@@ -1,9 +1,11 @@
 <?php
+
 /**
  * <b>Update.class:</b>
  * Classe responsável por atualizações genéticas no banco de dados!
  */
-class Update extends Conn {
+class Update extends Conn
+{
     /** @var PDO */
     private $Conn;
 
@@ -28,24 +30,25 @@ class Update extends Conn {
         }
     }
 
-    public function Update($dados = null, $where = null) {
-        try{
+    public function Update($dados = null, $where = null)
+    {
+        try {
 
             $respWhere = $this->buildWhere(array_filter($where));
-            if($respWhere instanceof Exception) throw $respWhere;
+            if ($respWhere instanceof Exception) throw $respWhere;
 
             $respSet = $this->buildSet(array_filter($dados));
-            if($respSet instanceof Exception) throw $respSet;
+            if ($respSet instanceof Exception) throw $respSet;
 
             $this->Update = "UPDATE {$this->Table} SET {$this->Set} WHERE {$this->Where}";
 
             $update = $this->Execute();
-            if($update instanceof Exception) throw $update;
-            if(is_string($update) && !empty($update)) throw new Exception($update);
+            if ($update instanceof Exception) throw $update;
+            if (is_string($update) && !empty($update)) throw new Exception($update);
 
             return $update;
 
-        }catch (Exception $exception){
+        } catch (Exception $exception) {
             return $exception;
         }
     }
@@ -57,42 +60,48 @@ class Update extends Conn {
      * ****************************************
      */
     //Obtém o PDO e Prepara a query
-    private function Connect() {
-        $this->Conn = parent::getConn();
-        $this->Update = $this->Conn->prepare($this->Update);
+    private function Connect()
+    {
+        try {
+            $this->Conn = parent::getConn();
+            $this->Update = $this->Conn->prepare($this->Update);
+        } catch (PDOException $e) {
+            return $e;
+        }
     }
 
     //Obtém a Conexão e a Syntax, executa a query!
-    private function Execute() {
+    private function Execute()
+    {
         try {
             $this->Connect();
             $this->bindParams();
-           return $this->Update->execute();
+            return $this->Update->execute();
         } catch (PDOException $e) {
-           return $e;
+            return $e;
         }
     }
 
     private function buildWhere($where)
     {
         try {
-            if(!empty($where) && !is_array($where)) throw new Exception('Erro em processar WHERE ');
+            if (!empty($where) && !is_array($where)) throw new Exception('Erro em processar WHERE ');
 
-            if(empty($where))  throw new Exception('Termo de pesquisa inesistente WHERE ');
+            if (empty($where)) throw new Exception('Termo de pesquisa inesistente WHERE ');
 
-            $value = ['type'=>'', 'alias'=>'', 'field'=>'', 'value'=>'', 'comparation'=>''];
+            $value = ['type' => '', 'alias' => '', 'field' => '', 'value' => '', 'comparation' => ''];
 
             foreach ($where as $key => $item):
-                if(empty(@$item['field']) || empty(@$item['value'])) throw new exception('Erro em field e value WHERE');
+                if (empty(@$item['field']) || empty(@$item['value'])) throw new exception('Erro em field e value WHERE');
 
-                if($key>0) $value['type'] = (!empty(@$item['type']) ? strtoupper($item['type'])  : "AND");
+                if ($key > 0) $value['type'] = (!empty(@$item['type']) ? strtoupper($item['type']) : "AND");
 
-                $value['alias'] = (!empty(@$item['alias']) ? $item['alias']."."  : '');
+                $value['alias'] = (!empty(@$item['alias']) ? $item['alias'] . "." : '');
                 $value['field'] = $item['field'];
                 $value['value'] = $item['value'];
-                $value['comparation'] = (!empty(@$item['comparation']) ? $item['comparation']  : '=');
+                $value['comparation'] = (!empty(@$item['comparation']) ? $item['comparation'] : '=');
 
-                $this->Where[] = $value['type']." ".$value['alias'].$value['field'] . $value['comparation'] .':'. $value['field'];
+                $this->Where[] = $value['type'] . " " . $value['alias'] . $value['field'] . $value['comparation'] . ':' . $value['field'];
             endforeach;
 
             $this->Where = implode(' ', $this->Where);
@@ -103,34 +112,36 @@ class Update extends Conn {
         }
     }
 
-    private function buildSet($dados){
-        try{
-            if(empty($dados))  throw new Exception('Termo de pesquisa inesistente SET error ');
-            if(!is_array($dados)) throw new Exception('Tipo de dado inconsistente.');
+    private function buildSet($dados)
+    {
+        try {
+            if (empty($dados)) throw new Exception('Termo de pesquisa inesistente SET error ');
+            if (!is_array($dados)) throw new Exception('Tipo de dado inconsistente.');
 
             foreach ($dados as $key => $value):
-                $this->Set[] = $key. " =:". $key;
+                $this->Set[] = $key . " =:" . $key;
                 $this->DataSet[$key] = $value;
             endforeach;
 
             $this->Set = implode(', ', $this->Set);
             return true;
-        }catch (Exception $exception){
+        } catch (Exception $exception) {
             return $exception;
         }
     }
 
 
-    private function bindParams(){
-        try{
-            if(empty($this->DataSet) || !is_array($this->DataSet)) throw new Exception('Erro em processar set parametros');
-            if(empty($this->Dados) || !is_array($this->Dados)) throw new Exception('Erro em processar parametros');
+    private function bindParams()
+    {
+        try {
+            if (empty($this->DataSet) || !is_array($this->DataSet)) throw new Exception('Erro em processar set parametros');
+            if (empty($this->Dados) || !is_array($this->Dados)) throw new Exception('Erro em processar parametros');
 
             $this->Dados = array_merge($this->Dados, $this->DataSet);
             foreach ($this->Dados as $key => $value):
-                $this->Update->bindValue(":{$key}", $value, ( is_int($value) ? PDO::PARAM_INT : PDO::PARAM_STR));
+                $this->Update->bindValue(":{$key}", $value, (is_int($value) ? PDO::PARAM_INT : PDO::PARAM_STR));
             endforeach;
-        }catch (Exception $exception){
+        } catch (Exception $exception) {
             return $exception;
         }
     }
