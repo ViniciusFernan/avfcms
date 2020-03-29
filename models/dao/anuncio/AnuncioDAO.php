@@ -90,7 +90,9 @@ class AnuncioDAO extends AnuncioFactory {
             if(empty($idUsuario) )
                 throw new Exception('Error grave nesse trem');
 
-            $dadosAnuncio = (new Select($this->tabela))->Select('*', "idUsuario=:idUsuario", "idUsuario={$idUsuario}");
+            $where[] = ['type' => 'and', 'alias' => '', 'field' => 'idUsuario', 'value' => $idUsuario, 'comparation' => '='];
+
+            $dadosAnuncio = (new Select($this->tabela))->Select(['*'], $where);
             if($dadosAnuncio instanceof Exception) throw $dadosAnuncio;
             if(!empty($dadosAnuncio)):
                 return $dadosAnuncio;

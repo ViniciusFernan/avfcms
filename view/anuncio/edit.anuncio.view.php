@@ -128,7 +128,7 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
                                             </div>
                                         </div>
                                         <div class="form-group mb-1 col-md-6">
-                                            <label for="cpf">Email:</label>
+                                            <label for="email">Email:</label>
                                             <input type="text" name="email" class="form-control" placeholder="Email" tabindex="2"  value="<?=(!empty($anuncio->email ) ? $anuncio->email  : '')?>">
                                             <div class="form-check">
                                                 <label class="form-check-label">
