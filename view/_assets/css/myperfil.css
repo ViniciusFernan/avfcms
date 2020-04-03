@@ -85,7 +85,7 @@
 .passwordBox{ position: relative; }
 #showPassword{
     position: absolute;
-    top: 49px;
+    top: 48px;
     right: 15px;
     font-size: 25px;
     cursor: pointer;
