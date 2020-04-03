@@ -10,7 +10,7 @@
  * @author AVF-WEB
  * @version 1.0Locacao
  * */
-require_once ABSPATH . "/models/class/anuncio/AnuncioModel.php";
+require_once ABSPATH . "/models/anuncio/model/AnuncioModel.php";
 
 class AnuncioController extends MainController {
     public $retorno =[];

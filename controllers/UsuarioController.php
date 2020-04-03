@@ -11,7 +11,7 @@
  * @version 1.0
  */
 
-require_once ABSPATH . "/models/class/usuario/UsuarioModel.php";
+require_once ABSPATH . "/models/usuario/model/UsuarioModel.php";
 
 class UsuarioController extends MainController {
     public $retorno =[];

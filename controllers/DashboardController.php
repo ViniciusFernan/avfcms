@@ -10,7 +10,7 @@
  * @author AVF-WEB
  * @version 1.0Locacao
  * */
-require_once ABSPATH . "/models/class/DashboardModel.php";
+require_once ABSPATH . "/models/dashboard/model/DashboardModel.php";
 
 class DashboardController extends MainController {
     public $retorno =[];

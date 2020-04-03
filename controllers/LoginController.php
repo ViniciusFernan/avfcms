@@ -11,7 +11,7 @@
  * @version 1.0
  * */
 
-require_once ABSPATH . "/models/class/auth/LoginModel.php";
+require_once ABSPATH . "/models/auth/model/LoginModel.php";
 class LoginController extends MainController {
     public $retorno =[];
 

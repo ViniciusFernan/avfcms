@@ -8,7 +8,7 @@
  * @version 1.0
  */
 
-require_once ABSPATH . "/models/class/mailer/MailerModel.php";
+require_once ABSPATH . "/models/mailer/model/MailerModel.php";
 require_once ABSPATH . "/lib/UploadVerot/class.upload.php";
 
 class Util{

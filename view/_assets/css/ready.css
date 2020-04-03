@@ -2168,6 +2168,7 @@ body {
 }
 .sidebar .nav .nav-item {
   display: list-item;
+  border-bottom: 1px solid #d5d5d5;
 }
 .sidebar .nav .nav-item.active a {
   color: #575962;
@@ -2202,7 +2203,7 @@ body {
   display: flex;
   align-items: center;
   color: #505050;
-  padding: 13px 25px;
+  padding: 9px 11px;
   width: 100%;
   font-size: 14px;
   font-weight: 600;
