@@ -28,6 +28,7 @@ class Select extends Conn
 
     /** @var PDO */
     private $Conn;
+    private $DestructConn=0;
 
     /** @var PDOStatement */
     private $Read;
@@ -41,11 +42,16 @@ class Select extends Conn
     private $Group;
     private $Having;
 
-    public function __construct($table)
+    public function __construct($table, $Conn = null)
     {
         try {
             if (empty($table)) throw new Exception('É necessário informar o nome da tabela.');
             $this->Table = $table;
+            if($Conn instanceof PDO && is_object($Conn)){
+                $this->Conn = $Conn;
+            }else{
+                $this->DestructConn=1;
+            }
         } catch (Exception $e) {
             return $e;
         }
@@ -105,10 +111,13 @@ class Select extends Conn
     private function Connect()
     {
         try {
-            $this->Conn = parent::getConn();
+            if(!$this->Conn instanceof PDO)
+                $this->Conn = parent::getConn();
+
             $this->Read = $this->Conn->prepare($this->Select);
             $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
+            if($this->DestructConn==1) $this->Conn->rollBack();
             return $e;
         }
     }
@@ -118,10 +127,14 @@ class Select extends Conn
     private function Execute()
     {
         try {
+            $retorno = null;
             $this->Connect();
             $this->bindParams();
             $this->Read->execute();
-            return $this->Read->fetchAll(PDO::FETCH_OBJ); //return array objects
+            $retorno = $this->Read->fetchAll(PDO::FETCH_OBJ); //return array objects
+            if($retorno instanceof Exception) throw $retorno;
+
+            return $retorno;
         } catch (PDOException $e) {
             return $e;
         }

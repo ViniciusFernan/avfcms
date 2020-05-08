@@ -8,6 +8,7 @@ class Update extends Conn
 {
     /** @var PDO */
     private $Conn;
+    private $DestructConn=0;
 
     private $Table;
 
@@ -20,11 +21,17 @@ class Update extends Conn
     /** @var PDOStatement */
     private $Update;
 
-    public function __construct($table)
+    public function __construct($table, $Conn = null)
     {
         try {
             if (empty($table)) throw new Exception('É necessário informar o nome da tabela.');
             $this->Table = $table;
+
+            if($Conn instanceof PDO && is_object($Conn)){
+                $this->Conn = $Conn;
+            }else{
+                $this->DestructConn = 1;
+            }
         } catch (Exception $e) {
             return $e;
         }
@@ -63,9 +70,13 @@ class Update extends Conn
     private function Connect()
     {
         try {
-            $this->Conn = parent::getConn();
+            if(!$this->Conn instanceof PDO)
+                $this->Conn = parent::getConn();
+
             $this->Update = $this->Conn->prepare($this->Update);
         } catch (PDOException $e) {
+            if($this->DestructConn==1) $this->Conn->rollBack();
+
             return $e;
         }
     }
@@ -74,9 +85,13 @@ class Update extends Conn
     private function Execute()
     {
         try {
+            $return = null;
             $this->Connect();
             $this->bindParams();
-            return $this->Update->execute();
+            $return = $this->Update->execute();
+            if($return instanceof Exception) throw $return;
+
+            return $return;
         } catch (PDOException $e) {
             return $e;
         }

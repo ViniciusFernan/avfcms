@@ -14,14 +14,16 @@ require_once ABSPATH . "/models/anuncio/strategy/RetornaAnuncioPorIdStrategy.php
 require_once ABSPATH . "/models/anuncio/strategy/EditarAnuncioStrategy.php";
 
 
-class AnuncioModel extends AnuncioFactory {
-    
+class AnuncioModel extends Conn {
+    private $Conn;
     /**
      * cadastro de novo anuncio
      */
     public function newAnuncio($post) {
         try{
             if(!is_array($post) || empty($post)) throw new Exception('Preencha o formulário!');
+            $this->Conn = parent::getConn();
+            $this->Conn->beginTransaction();
 
             $insertResp = (new NovoAnuncioStrategy)->novoAnuncio($post);
             if($insertResp instanceof Exception) throw  $insertResp;

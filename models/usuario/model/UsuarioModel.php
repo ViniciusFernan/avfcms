@@ -14,21 +14,25 @@ require_once ABSPATH . "/models/usuario/strategy/EditarUsuarioStrategy.php";
 require_once ABSPATH . "/models/usuario/strategy/RetornaUsuarioPorIdStrategy.php";
 
 
-class UsuarioModel extends UsuarioFactory {
-    
+class UsuarioModel extends Conn {
+    private $Conn;
     /**
      * cadastro de novo usuario
      */
     public function novoUsuario($post) {
         try{
             if(!is_array($post) || empty($post)) throw new Exception('Preencha o formulário!');
-
-            $post["idPerfil"] = 6;
+            $this->Conn = parent::getConn();
+            $this->Conn->beginTransaction();
 
             $insertResp = (new NovoUsuarioStrategy)->novoUsuario($post);
             if($insertResp instanceof Exception) throw  $insertResp;
+
+            $insertResp = (new UsuarioDAO)->insertNewUser($post);
+            $this->Conn->commit();
             return $insertResp;
         }catch (Exception $e){
+            $this->Conn->rollBack();
             return $e;
         }
     }

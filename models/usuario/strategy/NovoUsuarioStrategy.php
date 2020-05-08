@@ -19,13 +19,12 @@ class NovoUsuarioStrategy extends UsuarioFactory {
         try{
             if(!is_array($post) || empty($post)) throw new Exception('Preencha o formulário!');
 
-            if( empty($post['nome'])            ||
-                empty($post['email'])           ||
-                empty($post['CPF'])             ||
-                empty($post['senha'])           ||
-                empty($post['dataNascimento'])  ||
-                empty($post['sexo'])
-            ) throw new Exception('Dados obrigatórios não informados');
+            if( empty($post['nome']) ) throw new Exception('Dado obrigatório não informado [Nome]');
+            if( empty($post['email']) ) throw new Exception('Dado obrigatório não informado [Email]');
+            if( empty($post['senha']) ) throw new Exception('Dado obrigatório não informado [Senha]');
+            if( empty($post['dataNascimento']) ) throw new Exception('Dado obrigatório não informado [Data de Nascimento]');
+            if( empty($post['sexo']) ) throw new Exception('Dado obrigatório não informado [Sexo]');
+            if( empty($post['CPF']) ) throw new Exception('Dado obrigatório não informado [CPF]');
 
             if(!empty($post['CPF']) && Util::CPF($post['CPF'])==FALSE ) throw new Exception('CPF informado é invalido');
 
@@ -40,13 +39,12 @@ class NovoUsuarioStrategy extends UsuarioFactory {
             $post["dataNascimento"] = Util::DataToDate($post['dataNascimento']);
             $post["dataCadastro"] = date('Y-m-d H:i:s');
             $post["sexo"] = $post['sexo'];
+            $post["idPerfil"] = 6;
             $post["status"] = 1 ;
-
-            $insertResp = (new UsuarioDAO)->insertNewUser($post);
 
             if(!empty($insertResp) && !is_int($insertResp))  throw new Exception($insertResp);
 
-            return $insertResp;
+            return $post;
         }catch (Exception $e){
             return $e;
         }

@@ -9,21 +9,10 @@ class UsuarioDAO extends UsuarioFactory{
 
     protected $tabela = 'usuario';
     protected $alias = 'u';
+    private $Conn = null;
 
-    public function __construct($dataBase = null)
-    {
-//        if (empty($dataBase))
-//        {
-//            $this->dataBase = new AcessarDB();
-//            $this->dataBase = $this->dataBase->acessarDB();
-//            $this->destruirDB = 1;
-//        }
-//        else
-//        {
-//            $this->dataBase = $dataBase;
-//        }
-//
-//        parent::__construct($this->_table, $this->dataBase);
+    public function __construct($Conn = null) {
+        if($Conn instanceof PDO && is_object($Conn)) $this->Conn = $Conn;
     }
 
     /**
@@ -36,25 +25,25 @@ class UsuarioDAO extends UsuarioFactory{
         try{
 
             $colunas = [
-                'usuario.idUsuario',
-                'usuario.nome',
-                'usuario.sobreNome',
-                'usuario.email',
-                'usuario.idPerfil',
-                'usuario.superAdmin',
-                'usuario.status',
-                'usuario.imgPerfil',
-                'perfil.idPerfil',
-                'perfil.nomePerfil'
+                $this->alias.'.idUsuario',
+                $this->alias.'.nome',
+                $this->alias.'.sobreNome',
+                $this->alias.'.email',
+                $this->alias.'.idPerfil',
+                $this->alias.'.superAdmin',
+                $this->alias.'.status',
+                $this->alias.'.imgPerfil',
+                'p.idPerfil',
+                'p.nomePerfil'
             ];
 
-            $joins[] = 'INNER JOIN perfil ON usuario.idPerfil = perfil.idPerfil';
+            $joins[] = 'INNER JOIN perfil ON '.$this->alias.'.idPerfil = p.idPerfil';
 
-            $where[] = ['type' => 'and', 'alias' => 'usuario', 'field' => 'status', 'value' => '1', 'comparation' => '=' ];
-            $where[] = ['type' => 'and', 'alias' => 'usuario', 'field' => 'email', 'value' => $email, 'comparation' => '=' ];
-            $where[] = ['type' => 'and', 'alias' => 'usuario', 'field' => 'senha', 'value' => $senha, 'comparation' => '= BINARY ' ];
+            $where[] = ['type' => 'and', 'alias' => $this->alias, 'field' => 'status', 'value' => '1', 'comparation' => '=' ];
+            $where[] = ['type' => 'and', 'alias' => $this->alias, 'field' => 'email', 'value' => $email, 'comparation' => '=' ];
+            $where[] = ['type' => 'and', 'alias' => $this->alias, 'field' => 'senha', 'value' => $senha, 'comparation' => '= BINARY ' ];
 
-            $listaUsuarios = (new Select($this->tabela))->Select($colunas, $where, $joins, '1' );
+            $listaUsuarios = (new Select($this->tabela.' '.$this->alias))->Select($colunas, $where, $joins, '1' );
             if($listaUsuarios instanceof Exception) throw  $listaUsuarios;
             if(empty($listaUsuarios)) throw new Exception('Nenhum Usuario encontrado nesse trem!');
             return $listaUsuarios;
@@ -74,7 +63,7 @@ class UsuarioDAO extends UsuarioFactory{
             if(!is_array($post) || empty($post))
                 throw new Exception('Error grave nesse trem');
 
-            $userCreate = (new Create('usuario'))->Create($post);
+            $userCreate = (new Create('usuario', $this->Conn))->Create($post);
             if($userCreate instanceof Exception) throw  $userCreate;
 
             return $userCreate;
@@ -84,14 +73,14 @@ class UsuarioDAO extends UsuarioFactory{
 
     }
 
-    public function   editarUsuario($Data, $idUsuario){
+    public function editarUsuario($Data, $idUsuario){
         try{
             if(!is_array($Data) || empty($Data)) throw new Exception('Tem um trem errado aqui!');
 
             unset($Data['idUsuario']);
 
             $where[] = ['type' => 'and', 'field' => 'idUsuario', 'value' => $idUsuario, 'comparation' => '='];
-            $updateUsuario = (new Update('usuario'))->Update( $Data,  $where);
+            $updateUsuario = (new Update('usuario', $this->Conn))->Update( $Data,  $where);
             if($updateUsuario instanceof Exception) throw $updateUsuario;
             return true;
         }catch (Exception $e){
