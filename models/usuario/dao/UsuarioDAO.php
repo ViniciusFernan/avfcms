@@ -37,7 +37,7 @@ class UsuarioDAO extends UsuarioFactory{
                 'p.nomePerfil'
             ];
 
-            $joins[] = 'INNER JOIN perfil ON '.$this->alias.'.idPerfil = p.idPerfil';
+            $joins[] = "INNER JOIN perfil p ON p.idPerfil = {$this->alias}.idPerfil";
 
             $where[] = ['type' => 'and', 'alias' => $this->alias, 'field' => 'status', 'value' => '1', 'comparation' => '=' ];
             $where[] = ['type' => 'and', 'alias' => $this->alias, 'field' => 'email', 'value' => $email, 'comparation' => '=' ];
