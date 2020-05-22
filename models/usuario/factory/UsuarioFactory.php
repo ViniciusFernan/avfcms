@@ -1,11 +1,12 @@
 <?php
 /**
-* @package Sistema distribuido em modulos
-* @author AVF-WEB
-* @version 1.0
-* */
+ * @package Sistema distribuido em modulos
+ * @author AVF-WEB
+ * @version 1.0
+ * */
 
-Abstract class UsuarioFactory{
+Abstract class UsuarioFactory
+{
 
     private $idUsuario;
     private $nome;
@@ -212,7 +213,6 @@ Abstract class UsuarioFactory{
     {
         $this->chaveDeRecuperacao = $chaveDeRecuperacao;
     }
-
 
 
 }

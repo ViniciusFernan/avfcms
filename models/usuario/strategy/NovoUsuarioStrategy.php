@@ -39,7 +39,6 @@ class NovoUsuarioStrategy extends UsuarioFactory {
             $post["dataNascimento"] = Util::DataToDate($post['dataNascimento']);
             $post["dataCadastro"] = date('Y-m-d H:i:s');
             $post["sexo"] = $post['sexo'];
-            $post["idPerfil"] = 6;
             $post["status"] = 1 ;
 
             if(!empty($insertResp) && !is_int($insertResp))  throw new Exception($insertResp);

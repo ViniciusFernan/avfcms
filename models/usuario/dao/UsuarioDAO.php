@@ -103,7 +103,6 @@ class UsuarioDAO extends UsuarioFactory{
             else:
                 return false;
             endif;
-
         }catch(Exeption $e){
             return $e;
         }

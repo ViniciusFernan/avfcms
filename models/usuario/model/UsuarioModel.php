@@ -46,22 +46,37 @@ class UsuarioModel extends Conn {
         try{
             if(!Util::Email($email) || empty($email)) throw new Exception('Error em processar dados');
 
-            $returnUsuario = (new RecuperarSenhaUsuarioStrategy)->recuperarSenhaDoUsuario($email);
+            $usuarioDAO = new UsuarioDAO;
+            $user = $usuarioDAO->buscarUsuarioPorEmail($email);
+            if(empty($user)) throw new Exception('Usuários não encontrado!');
+            if(is_string($user) && !empty($user)) throw new Exception($user);
+
+            $hash['chaveDeRecuperacao'] = Util::encriptaSenha(rand(1, 1000));
+            $user->chaveDeRecuperacao = Util::encriptaData($email . "__" . $hash['chaveDeRecuperacao']);
+
+            $returnUsuario = (new RecuperarSenhaUsuarioStrategy)->recuperarSenhaDoUsuario($user);
             if($returnUsuario instanceof Exception)  throw $returnUsuario;
             if(empty($returnUsuario)) throw new Exception('Erro grave nesse trem!');
-            return (int) $returnUsuario;
+
+            $userUpdate['chaveDeRecuperacao'] = $user->chaveDeRecuperacao;
+
+            $updateusuario = $usuarioDAO->editarUsuario($userUpdate, $user->idUsuario);
+            if(is_string($updateusuario) && !empty($updateusuario)) throw new Exception($updateusuario);
+
+            return 1;
         }catch (Exception $e){
             return $e;
         }
     }
+
 
     /**
      * Retorna lista de usuarios
      */
     public function getListaDeUsuarios() {
         try{
-            $listaUsuarios = (new ListaUsuarioStrategy)->listaUsuario();
-            if($listaUsuarios instanceof Exception) throw $listaUsuarios;
+            $listaUsuarios = (new UsuarioDAO)->getListaDeUsuarios();
+            if(!empty($listaUsuarios) && is_string($listaUsuarios)) throw new Exception($listaUsuarios);
             return $listaUsuarios;
         }catch (Exception $e){
             return $e;
@@ -75,9 +90,10 @@ class UsuarioModel extends Conn {
         try{
             if(empty($id)) throw new Exception('Erro identificador do usuario não enviado');
 
-            $dadosUsuario = (new RetornaUsuarioPorIdStrategy)->getUsuario($id);
-            if($dadosUsuario instanceof Exception) throw $dadosUsuario;
+            $dadosUsuario = (new UsuarioDAO)->getUsuarioPorId($id);
+            if(!empty($dadosUsuario) && is_string($dadosUsuario)) throw new Exception($dadosUsuario);
             return $dadosUsuario;
+
         }catch (Exception $e){
             return $e;
         }
@@ -85,7 +101,15 @@ class UsuarioModel extends Conn {
 
     public function editarUsuario($post){
         try{
-            $updateUsuario = (new  EditarUsuarioStrategy)->editarUsuario($post);
+            if(empty($post['idUsuario'])) throw new Exception('Erro identificador do usuario não enviado');
+
+            $idUsuario=$post['idUsuario'];
+            unset($post['idUsuario']);
+
+            if(!empty($post['senha'])) $post['senha'] = Util::encriptaSenha($post['senha']);
+            else unset($post['senha']);
+
+            $updateUsuario = (new  UsuarioDAO)->editarUsuario($post, $idUsuario);
             if($updateUsuario instanceof Exception) throw $updateUsuario;
 
             return $updateUsuario;

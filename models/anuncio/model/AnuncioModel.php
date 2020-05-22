@@ -22,12 +22,21 @@ class AnuncioModel extends Conn {
     public function newAnuncio($post) {
         try{
             if(!is_array($post) || empty($post)) throw new Exception('Preencha o formulário!');
-            $this->Conn = parent::getConn();
-            $this->Conn->beginTransaction();
 
-            $insertResp = (new NovoAnuncioStrategy)->novoAnuncio($post);
-            if($insertResp instanceof Exception) throw  $insertResp;
+            if(@empty($post['slugAnuncio'])) throw new exception('Erro em processar dados ');
+
+            $checkSlug = (new ChecaCadastroAnuncioStrategy)->checaCadastradoUsuario( $post['slugAnuncio']);
+            if(!empty($checkSlug))
+                throw new Exception("Já existe um cadastro com o Slug {$post['slugAnuncio']} no sistema");
+
+            unset($post["idAnuncio"]);
+            $post["status"] = 1 ;
+
+            $insertResp = (new AnuncioDAO)->inserirNovoAnuncio($post);
+            if($insertResp instanceof Exception) throw $insertResp;
+
             return $insertResp;
+
         }catch (Exception $e){
             return $e;
         }
@@ -38,9 +47,9 @@ class AnuncioModel extends Conn {
      */
     public function getListaAnunciosUsuario($idUsuario) {
         try{
-            $listaUsuarios = (new ListaAnuncioPorUsuarioStrategy)->listarAnuncioPorUsuario($idUsuario);
-            if($listaUsuarios instanceof  Exception) throw $listaUsuarios;
-            return $listaUsuarios;
+            $listaAnuncioUsuarios = (new AnuncioDAO)->listarAnuncioPorUsuario($idUsuario);
+            if($listaAnuncioUsuarios instanceof Exception) throw $listaAnuncioUsuarios;
+            return $listaAnuncioUsuarios;
         }catch (Exception $e){
             return $e;
         }
@@ -53,9 +62,9 @@ class AnuncioModel extends Conn {
         try{
             if(empty($id)) throw new Exception('Erro identificador do usuario não enviado');
 
-            $dadosUsuario = (new RetornaAnuncioPorIdStrategy)->getAnuncio($id);
-            if($dadosUsuario instanceof Exception) throw $dadosUsuario;
-            return $dadosUsuario;
+            $dadosAnuncio = (new AnuncioDAO)->getAnuncioPorId($id);
+            if($dadosAnuncio instanceof Exception) throw $dadosAnuncio;
+            return $dadosAnuncio;
         }catch (Exception $e){
             return $e;
         }
@@ -68,8 +77,13 @@ class AnuncioModel extends Conn {
      */
     public function editAnuncio($post){
         try{
-            $updateAnuncio = (new  EditarAnuncioStrategy)->editarAnuncio($post);
-            if($updateAnuncio instanceof Exception) throw $updateAnuncio;
+            if(empty($post['idAnuncio'])) throw new Exception('Erro identificador do usuario não enviado');
+
+            $idAnuncio=$post['idAnuncio'];
+            unset($post['idAnuncio']);
+
+            $updateAnuncio = (new  AnuncioDAO)->editarAnuncio($post, $idAnuncio);
+            if(is_string($updateAnuncio) && !empty($updateAnuncio)) throw new Exception($updateAnuncio);
 
             return $updateAnuncio;
         }catch (Exception $e){
