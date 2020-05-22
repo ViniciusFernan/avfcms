@@ -65,17 +65,16 @@ class CadastroController extends MainController {
     /***********************************   AJAX   ********************************************/
     public function checarSeUsuariosJaExisteAjaxAction(){
         try{
-            $usuario = new ChecaCadastroUsuarioStrategy();
 
             if(!empty($this->parametrosPost['email'])) {
-                $selectResp = $usuario->checaCadastradoUsuario(['email' => $this->parametrosPost['email']] );
+                $selectResp = (new ChecaCadastroUsuarioStrategy())->checaCadastradoUsuario(['email' => $this->parametrosPost['email']] );
                 if(!empty($selectResp)){
                     echo json_encode( [ "status" => 'error', "msg" => "Este email já esta cadastrado!", 'tipo' => 'danger' ] );
                 }
             }
 
             if(!empty($this->parametrosPost['CPF']) && $selectResp==false) {
-                $selectResp = $usuario->checaCadastradoUsuario(['CPF' => $this->parametrosPost['CPF']] );
+                $selectResp = (new ChecaCadastroUsuarioStrategy())->checaCadastradoUsuario(['CPF' => $this->parametrosPost['CPF']] );
                 if(!empty($selectResp)){
                     echo json_encode( [ "status" => 'error', "msg" => "Este CPF já esta cadastrado!", 'tipo' => 'danger' ] );
                 }
