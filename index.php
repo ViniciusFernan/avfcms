@@ -14,11 +14,9 @@ if (!empty($App) && is_array($App)) {
     foreach ($App as $item) {
         if (empty(@$item['nameArquivo']) || empty(@$item['arquivo'])) echo "Erro inicial predominante";
 
-        if (file_exists($item['arquivo'])) {
-            require_once($item['arquivo']);
-        } else {
-            echo "O arquivo " . $item['nameArquivo'] . " não encontrado";
-        }
+        if (file_exists($item['arquivo'])) : require_once($item['arquivo']);
+        else : echo "O arquivo " . $item['nameArquivo'] . " não encontrado";
+        endif;
     }
 }
 
