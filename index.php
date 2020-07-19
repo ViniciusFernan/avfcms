@@ -1,14 +1,26 @@
 <?php
-
 /**
  * Primeiro arquivo a ser executado.
- *
- * @package Sistema de Lead
+ * @package Sistema [CMS BASE]
  * @author AVFWEB
  * @version 1.0
  */
-//Importa as configurações iniciais do sistema [bd|autoload|etc]
-require __DIR__.'/config/config.php';
-require __DIR__.'/core/autoload_avf.php';
+$App = [
+    ['nameArquivo' => 'config', 'arquivo' => __DIR__.'/config/config.php'],
+    ['nameArquivo' => 'autoload_avf', 'arquivo' => __DIR__.'/core/autoload_avf.php'],
+];
+
+if (!empty($App) && is_array($App)) {
+    foreach ($App as $item) {
+        if (empty(@$item['nameArquivo']) || empty(@$item['arquivo'])) echo "Erro inicial predominante";
+
+        if (file_exists($item['arquivo'])) {
+            require_once($item['arquivo']);
+        } else {
+            echo "O arquivo " . $item['nameArquivo'] . " não encontrado";
+        }
+    }
+}
+
 $ExecApp = new Application();
 $ExecApp->dispatch();
