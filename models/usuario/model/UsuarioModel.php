@@ -4,21 +4,16 @@
 * @author AVF-WEB
 * @version 1.0
 * */
-
 require_once ABSPATH . "/models/usuario/factory/UsuarioFactory.php";
 require_once ABSPATH . "/models/usuario/dao/UsuarioDAO.php";
 require_once ABSPATH . "/models/usuario/strategy/NovoUsuarioStrategy.php";
 require_once ABSPATH . "/models/usuario/strategy/RecuperarSenhaUsuarioStrategy.php";
-require_once ABSPATH . "/models/usuario/strategy/ListaUsuarioStrategy.php";
-require_once ABSPATH . "/models/usuario/strategy/EditarUsuarioStrategy.php";
-require_once ABSPATH . "/models/usuario/strategy/RetornaUsuarioPorIdStrategy.php";
-
 
 class UsuarioModel extends Conn {
     private $Conn;
     /**
-     * cadastro de novo usuario
-     */
+* cadastro de novo usuario
+*/
     public function novoUsuario($post) {
         try{
             if(!is_array($post) || empty($post)) throw new Exception('Preencha o formulário!');
@@ -29,6 +24,8 @@ class UsuarioModel extends Conn {
             if($insertResp instanceof Exception) throw  $insertResp;
 
             $insertResp = (new UsuarioDAO)->insertNewUser($post);
+            if(!empty($insertResp) && !is_int($insertResp))  throw new Exception($insertResp);
+
             $this->Conn->commit();
             return $insertResp;
         }catch (Exception $e){

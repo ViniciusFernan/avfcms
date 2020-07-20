@@ -4,15 +4,9 @@
 * @author AVF-WEB
 * @version 1.0
 * */
-
 require_once ABSPATH . "/models/anuncio/factory/AnuncioFactory.php";
 require_once ABSPATH . "/models/anuncio/dao/AnuncioDAO.php";
-require_once ABSPATH . "/models/anuncio/strategy/NovoAnuncioStrategy.php";
-require_once ABSPATH . "/models/anuncio/strategy/ListaAnuncioPorUsuarioStrategy.php";
 require_once ABSPATH . "/models/anuncio/strategy/ChecaCadastroAnuncioStrategy.php";
-require_once ABSPATH . "/models/anuncio/strategy/RetornaAnuncioPorIdStrategy.php";
-require_once ABSPATH . "/models/anuncio/strategy/EditarAnuncioStrategy.php";
-
 
 class AnuncioModel extends Conn {
     private $Conn;
