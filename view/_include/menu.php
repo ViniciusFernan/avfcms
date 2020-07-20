@@ -22,9 +22,9 @@
         </a>
     </li>
     <li class="nav-item">
-        <a href="<?=HOME_URI?>/anuncio">
+        <a href="<?=HOME_URI?>/exemple">
             <i class="far fa-newspaper"></i>
-            <p>Meus Anuncios</p>
+            <p>Meus Exemple</p>
             <span class="badge badge-count">novo</span>
         </a>
     </li>
