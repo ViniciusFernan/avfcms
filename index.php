@@ -6,7 +6,7 @@
  * @version 1.0
  */
 $App = [
-    ['nameArquivo' => 'config', 'arquivo' => __DIR__.'/config/config.php'],
+    ['nameArquivo' => 'config', 'arquivo' => __DIR__.'/core/config.php'],
     ['nameArquivo' => 'autoload_avf', 'arquivo' => __DIR__.'/core/autoload_avf.php'],
 ];
 
