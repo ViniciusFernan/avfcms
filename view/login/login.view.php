@@ -37,7 +37,7 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
             <p id="profile-name" class="profile-name-card"></p>
             <form class="form-signin" style="color: #757575;" action="<?= HOME_URI ?>/login" method="post">
                 <span id="reauth-email" class="reauth-email"></span>
-                <input type="email" class="form-control" placeholder="Email"  name="email" value="<?=$email?>" required autofocus>
+                <input type="email" id="inputEmail" class="form-control" placeholder="Email"  name="email" value="<?=$email?>" required autofocus>
                 <input type="password" id="inputPassword" class="form-control" placeholder="Senha"  name="senha" value="<?=$senha?>" required>
                 <div id="remember" class="checkbox">
                     <div class="d-flex justify-content-around">
