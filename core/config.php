@@ -9,8 +9,8 @@
 date_default_timezone_set('America/Sao_Paulo'); // Seta a timezone
 //https://www.php.net/manual/pt_BR/function.parse-ini-file.php
 $config=null;
-if (file_exists($_SERVER['DOCUMENT_ROOT'] . '/config/config.ini')) :
-    $config = parse_ini_file($_SERVER['DOCUMENT_ROOT'] . '/config/config.ini', true);
+if (file_exists($_SERVER['DOCUMENT_ROOT'] . '/config/config.avf')) :
+    $config = parse_ini_file($_SERVER['DOCUMENT_ROOT'] . '/config/config.avf', true);
 else :
     echo "O arquivo [config/config.ini] não encontrado";
 endif;
