@@ -21,7 +21,6 @@ body{background: none}
     min-height: 100vh;
 }
 .card-container.card {
-    max-width: 667px;
     padding: 10% 62px;
     position: absolute;
     right: 0;
@@ -154,4 +153,10 @@ body{background: none}
 .forgot-password:active,
 .forgot-password:focus{
     color: rgb(12, 97, 33);
+}
+
+@media screen and (max-width: 767px){
+    .card-container.card{
+        width: 100%;
+    }
 }
