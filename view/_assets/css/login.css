@@ -5,7 +5,7 @@ html {
     background: -webkit-linear-gradient(135deg, hsla(196.18, 77.39%, 54.9%, 1) 15%, hsla(196.18, 77.39%, 54.9%, 0) 80%),
     -webkit-linear-gradient(315deg, hsla(196.21, 100%, 35.84%, 1) 0%, hsla(196.21, 100%, 35.84%, 0) 70%);
 */
-    background: url("./backgound/puzzle.jpg");
+    background: url("./backgound/puzzle.jpg") fixed;
     height: auto;
     min-height: 100%;
     background-repeat: no-repeat;
@@ -13,10 +13,16 @@ html {
 body{background: none}
 
 
-
+.avf_app{
+    position: relative;
+}
 .card-container.card {
-    max-width: 400px;
+    max-width: 600px;
     padding: 40px 25px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
 }
 
 .btn {
