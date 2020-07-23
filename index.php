@@ -5,16 +5,24 @@
  * @author AVFWEB
  * @version 1.0
  */
-$App = [
+
+if (file_exists(__DIR__.'/config/config.avf')) :
+    define('App', parse_ini_file(__DIR__.'/config/config.avf', true));
+else :
+    echo "O arquivo [config/config.ini] não encontrado";
+endif;
+
+
+$core = [
     ['nameArquivo' => 'config', 'arquivo' => __DIR__.'/core/config.php'],
     ['nameArquivo' => 'autoload_avf', 'arquivo' => __DIR__.'/core/autoload_avf.php'],
 ];
 
-if (!empty($App) && is_array($App)) {
-    foreach ($App as $item) {
+if (!empty($core) && is_array($core)) {
+    foreach ($core as $item) {
         if (empty(@$item['nameArquivo']) || empty(@$item['arquivo'])) echo "Erro inicial predominante";
 
-        if (file_exists($item['arquivo'])) : require_once($item['arquivo']);
+        if (file_exists($item['arquivo'])) :require_once($item['arquivo']);
         else : echo "O arquivo " . $item['nameArquivo'] . " não encontrado";
         endif;
     }

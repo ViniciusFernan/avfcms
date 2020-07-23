@@ -9,16 +9,10 @@
 date_default_timezone_set('America/Sao_Paulo'); // Seta a timezone
 //https://www.php.net/manual/pt_BR/function.parse-ini-file.php
 $config=null;
-if (file_exists($_SERVER['DOCUMENT_ROOT'] . '/config/config.avf')) :
-    $config = parse_ini_file($_SERVER['DOCUMENT_ROOT'] . '/config/config.avf', true);
-else :
-    echo "O arquivo [config/config.ini] não encontrado";
-endif;
 
-var_dump($config); exit;
 
 /** URL da home */
-$url = ($_SERVER['SERVER_NAME'] == 'localhost' ? 'http://localhost:8082' : $config['Application']['app_url']);
+$url = ($_SERVER['SERVER_NAME'] == 'localhost' ? 'http://localhost:8082' : App['Application']['app_url']);
 
 define('HOME_URI', $url);
 /**PROJECT DIRETORIES */
@@ -43,7 +37,7 @@ define('UP_URI', HOME_URI . '/_uploads');
 define('HASH', '502ff82f7f1f8218dd41201fe4353687');
 
 /** Nome do site ou sistema aparecerá nos emails enviados */
-define('PROJECT_NAME', $config['Application']['project_name']);
+define('PROJECT_NAME', App['Application']['project_name']);
 
 
 /** DEFINE SE ADMIN DEVE SER CHAMADO */
@@ -51,23 +45,23 @@ define('LOGIN_MODULE', true);
 
 
 /**Configurações da conexão com o banco de dados*/
-define('HOSTNAME', $config['DataBase']['db_host']);
-define('DB_NAME', $config['DataBase']['db_name']);
-define('DB_USER', $config['DataBase']['db_user']);
-define('DB_PASSWORD',  $config['DataBase']['db_password']);
+define('HOSTNAME', App['DataBase']['db_host']);
+define('DB_NAME', App['DataBase']['db_name']);
+define('DB_USER', App['DataBase']['db_user']);
+define('DB_PASSWORD',  App['DataBase']['db_password']);
 define('DB_CHARSET', 'utf8');
-define('PORTA', $config['DataBase']['db_port']);
+define('PORTA', App['DataBase']['db_port']);
 
 
 /** CONFIGURAÇÕES DE ENVIO DE EMAIL **/
-define('MAIL_HOST', $config['EmailConfg']['mail_host']);
-define('MAIL_USER', $config['EmailConfg']['mail_user']);
-define('MAIL_PASS', $config['EmailConfg']['mail_pass']);
+define('MAIL_HOST', App['EmailConfg']['mail_host']);
+define('MAIL_USER', App['EmailConfg']['mail_user']);
+define('MAIL_PASS', App['EmailConfg']['mail_pass']);
 define('MAIL_SMTP_AUTH', true);
 define('MAIL_SMTP_SECURE', false);
-define('MAIL_PORT', $config['EmailConfg']['mail_port']);
-define('MAIL_FROM', $config['EmailConfg']['mail_send']);
-define('MAIL_FROM_NAME', $config['EmailConfg']['mail_send_name']);
+define('MAIL_PORT', App['EmailConfg']['mail_port']);
+define('MAIL_FROM', App['EmailConfg']['mail_send']);
+define('MAIL_FROM_NAME', App['EmailConfg']['mail_send_name']);
 define('MAIL_DEBUG', false); //Debug
 
 /**  Se você estiver desenvolvendo, o valor deve ser true */
