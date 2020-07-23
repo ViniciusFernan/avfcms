@@ -29,3 +29,11 @@
         padding: 0 10px;
     }
 </style>
+
+<?php
+$colorBusc = array('#2baaea', '#3FE69E', '#F98829', '#9264AA', '#db0a5b', '#27ae60', '#f2d710');
+$pos = array_rand($colorBusc);
+?>
+<meta name="theme-color" content="<?= $colorBusc[$pos]?>">
+<meta name="msapplication-navbutton-color" content="<?= $colorBusc[$pos]?>">
+<meta name="apple-mobile-web-app-status-bar-style" content="<?= $colorBusc[$pos]?>">
