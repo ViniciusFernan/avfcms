@@ -65,8 +65,8 @@ define('MAIL_FROM_NAME', App['EmailConfg']['mail_send_name']);
 define('MAIL_DEBUG', false); //Debug
 
 /**  Se você estiver desenvolvendo, o valor deve ser true */
-$debug = ($_SERVER['SERVER_NAME'] == 'localhost' ? true : false);
-define('DEBUG', true);
+$debug = ($_GET['avfTeste'] == '1' ? true : false);
+define('DEBUG', $debug);
 
 // Inicia a sessão se não estiver no diretorio de CRON
 session_start();
