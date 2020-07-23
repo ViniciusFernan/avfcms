@@ -159,5 +159,6 @@ body{background: none}
     .card-container.card{
         width: 100%;
         height: auto;
+        min-height: auto;
     }
 }
