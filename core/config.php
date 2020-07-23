@@ -15,6 +15,8 @@ else :
     echo "O arquivo [config/config.ini] não encontrado";
 endif;
 
+var_dump($config); exit;
+
 /** URL da home */
 $url = ($_SERVER['SERVER_NAME'] == 'localhost' ? 'http://localhost:8082' : $config['Application']['app_url']);
 
