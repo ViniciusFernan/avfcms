@@ -66,7 +66,7 @@ define('MAIL_DEBUG', false); //Debug
 
 /**  Se você estiver desenvolvendo, o valor deve ser true */
 $debug = ($_SERVER['SERVER_NAME'] == 'localhost' ? true : false);
-define('DEBUG', $debug);
+define('DEBUG', true);
 
 // Inicia a sessão se não estiver no diretorio de CRON
 session_start();
