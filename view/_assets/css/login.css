@@ -5,7 +5,7 @@ html {
     background: -webkit-linear-gradient(135deg, hsla(196.18, 77.39%, 54.9%, 1) 15%, hsla(196.18, 77.39%, 54.9%, 0) 80%),
     -webkit-linear-gradient(315deg, hsla(196.21, 100%, 35.84%, 1) 0%, hsla(196.21, 100%, 35.84%, 0) 70%);
 */
-    background: url("./backgound/puzzle.jpg") fixed;
+    background: url("../../../../../../../../backgound/puzzle.jpg") fixed;
     height: auto;
     min-height: 100%;
     background-repeat: no-repeat;
@@ -15,6 +15,8 @@ body{background: none}
 
 .avf_app{
     position: relative;
+    width: 100%;
+    min-height: 100vh;
 }
 .card-container.card {
     max-width: 600px;
@@ -22,7 +24,10 @@ body{background: none}
     position: absolute;
     left: 0;
     top: 0;
-    height: 100%;
+    min-height: 100vh;
+    display: block;
+    background-color: #f7f7f7;
+
 }
 
 .btn {
