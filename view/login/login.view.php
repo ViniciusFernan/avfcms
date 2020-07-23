@@ -24,6 +24,11 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
     <!-- Custom styling page -->
     <link href="<?= THEME_URI; ?>/_assets/css/login.css" rel="stylesheet">
 
+    <style>
+        <?php $bg = ['puzzle.jpg', 'teamwork.jpg', 'unit.jpg']?>
+        html{ background: url("<?= THEME_URI; ?>/_assets/images/bg/<?=rand($bg)?>"); }
+    </style>
+
 
 </head>
 <body>
