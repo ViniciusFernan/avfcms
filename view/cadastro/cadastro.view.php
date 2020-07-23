@@ -39,6 +39,7 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
         }
         .card-border-none{
             border: none;
+            margin-top: 20px;
         }
 
 
