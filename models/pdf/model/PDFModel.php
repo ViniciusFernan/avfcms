@@ -5,7 +5,7 @@
 * @version 1.0
 * */
 
-require_once ABSPATH . '/lib/dompdf/src/Dompdf.php';
+require_once ABSPATH . '/lib/DomPDF/src/Dompdf.php';
 class PDF {
 
     function __construct() {
