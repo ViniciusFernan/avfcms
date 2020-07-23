@@ -158,5 +158,6 @@ body{background: none}
 @media screen and (max-width: 767px){
     .card-container.card{
         width: 100%;
+        height: auto;
     }
 }
