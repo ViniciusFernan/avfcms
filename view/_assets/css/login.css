@@ -8,6 +8,7 @@ html {
     background-image: url("../images/bg/puzzle.jpg");
     background-attachment: fixed;
     background-repeat: no-repeat;
+    background-size:100%;
     height: auto;
     min-height: 100%;
 
