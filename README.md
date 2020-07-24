@@ -7,3 +7,6 @@ cms base
 - Renomeie o arquivo [config/config.avf.EXEMPLE] -> [config/config.avf]
 - Abra o novo arquivo [config.avf] e preencha as variaveis globais
 
+# DEMO
+------------
+[http://cms.avfweb.com.br/] 
