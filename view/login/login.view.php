@@ -26,7 +26,7 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
 
     <style>
         <?php $bg = ['puzzle.jpg', 'teamwork.jpg', 'unit.jpg']?>
-        html{ background: url("<?= THEME_URI; ?>/_assets/images/bg/<?=$bg[array_rand($bg)]?>"); }
+        html{ background-image: url("<?= THEME_URI; ?>/_assets/images/bg/<?=$bg[array_rand($bg)]?>"); }
     </style>
 
 
