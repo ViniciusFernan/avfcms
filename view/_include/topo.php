@@ -6,7 +6,7 @@
     <div class="logo-header">
         <a href="<?=HOME_URI?>/" class="logo">AVF - CMS</a>
         <button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse" data-target="collapse" aria-controls="sidebar" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
+            <i class="fas fa-bars"></i>
         </button>
         <button class="topbar-toggler more"><i class="la la-ellipsis-v"></i></button>
     </div>
