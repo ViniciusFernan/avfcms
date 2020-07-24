@@ -20,6 +20,7 @@
 
 <script src="<?=THEME_URI?>/_assets/js/app.js"></script>
 <script src="<?=THEME_URI?>/_assets/js/functions.js"></script>
+<script src="<?=THEME_URI?>/_assets/js/ready.js"></script>
 
 
 
