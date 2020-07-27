@@ -26,12 +26,9 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
 
 
     <style>
-
+        <?php $bg = ['puzzle.jpg', 'teamwork.jpg', 'unit.jpg']?>
         html{
-
-         <?php $bg = ['puzzle.jpg', 'teamwork.jpg', 'unit.jpg']?>
-         html{ background-image: url("<?= THEME_URI; ?>/_assets/images/bg/<?=$bg[array_rand($bg)]?>"); }
-
+            background-image: url("<?= THEME_URI; ?>/_assets/images/bg/<?=$bg[array_rand($bg)]?>");
             height: auto;
             min-height: 100%;
             background-repeat: no-repeat;
