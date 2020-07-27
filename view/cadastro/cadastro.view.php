@@ -33,6 +33,12 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
             min-height: 100%;
             background-repeat: no-repeat;
         }
+        .card.card-right{
+            position: absolute;
+            right: 0;
+            height: 100vh;
+            max-height: 100%;
+        }
 
         .card .card-header{
             background-color: #0D0A0A !important;
