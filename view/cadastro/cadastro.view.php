@@ -40,7 +40,7 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
             max-height: 100%;
             margin-bottom: 0;
             border: none;
-            min-height: min-height: 610px;
+            min-height: 610px;
         }
 
         .card .card-header{
