@@ -28,10 +28,9 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
     <style>
 
         html{
-            background: -webkit-linear-gradient(135deg, hsl(262, 52%, 47%) 15%, hsla(196.18, 77.39%, 54.9%, 0) 80%),
-                        -webkit-linear-gradient(315deg, hsl(262, 52%, 47%) 0%, hsla(196.21, 100%, 35.84%, 0) 70%);
-            background: linear-gradient(315deg, hsl(262, 46%, 75%) 15%, hsla(196.18, 77.39%, 54.9%, 0) 80%),
-                        linear-gradient(135deg, hsl(262, 52%, 47%) 0%, hsla(196.21, 100%, 35.84%, 0) 70%);
+
+         <?php $bg = ['puzzle.jpg', 'teamwork.jpg', 'unit.jpg']?>
+         html{ background-image: url("<?= THEME_URI; ?>/_assets/images/bg/<?=$bg[array_rand($bg)]?>"); }
 
             height: auto;
             min-height: 100%;
