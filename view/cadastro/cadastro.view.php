@@ -39,6 +39,9 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
             height: 100vh;
             max-height: 100%;
             margin-bottom: 0;
+        }
+
+        .card{
             border: none;
         }
 
