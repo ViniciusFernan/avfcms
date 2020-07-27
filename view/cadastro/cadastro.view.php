@@ -43,6 +43,8 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
 
         .card{
             border: none;
+            min-height: 100%;
+            margin-bottom: 0;
         }
 
         .card .card-header{
