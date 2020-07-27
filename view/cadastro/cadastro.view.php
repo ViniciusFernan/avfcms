@@ -51,6 +51,12 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
         }
 
 
+        .form-control:disabled, .form-control[readonly] {
+            background: #e8e8e8 !important;
+            border-color: #adadad !important;
+        }
+
+
     </style>
 
 </head>
