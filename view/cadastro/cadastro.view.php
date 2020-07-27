@@ -33,11 +33,14 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
             min-height: 100%;
             background-repeat: no-repeat;
         }
-        .card-border-none{
-            border: none;
-            margin-top: 15% !important;
+
+        .card .card-header{
+            background-color: #0D0A0A !important;
+            border-radius: 0;
+            padding: 25px 15px;
+            border-bottom: 1px solid #ebedf2 !important;
+            margin-bottom: 25px;
         }
-        .card .card-header{background-color: #0D0A0A !important; border-radius: 0 }
 
 
     </style>
