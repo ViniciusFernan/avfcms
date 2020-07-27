@@ -39,9 +39,9 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
         }
         .card-border-none{
             border: none;
-            margin-top: 42px !important;
+            margin-top: 62px !important;
         }
-        .card-header{background-color: #0D0A0A !important;}
+        .card .card-header{background-color: #0D0A0A !important; border-radius: 0 }
 
 
     </style>
