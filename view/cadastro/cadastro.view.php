@@ -52,8 +52,8 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
     <!-- Material form login -->
     <div class="card card-border-none">
 
-        <h5 class="card-header bg-roxo white-text text-center py-4">
-            <img src="<?=$logoSistema?>" style="width: 118px;">
+        <h5 class="card-header white-text text-center">
+            <img src="<?=$logoSistema?>" style="width: 45px;">
         </h5>
 
 
