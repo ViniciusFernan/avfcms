@@ -9,7 +9,7 @@
 if (file_exists(__DIR__.'/config/config.avf')) :
     define('App', parse_ini_file(__DIR__.'/config/config.avf', true));
 else :
-    echo "O arquivo [config/config.avf] não encontrado";
+    header('Location: ./install/index.php');
 endif;
 
 
