@@ -20,10 +20,10 @@ class UsuarioModel extends Conn {
             $this->Conn = parent::getConn();
             $this->Conn->beginTransaction();
 
-            $insertResp = (new NovoUsuarioStrategy)->novoUsuario($post);
-            if($insertResp instanceof Exception) throw  $insertResp;
+            $post = (new NovoUsuarioStrategy)->novoUsuario(array_filter($post));
+            if($post instanceof Exception) throw  $post;
 
-            $insertResp = (new UsuarioDAO)->insertNewUser($post);
+            $insertResp = (new UsuarioDAO($this->Conn))->insertNewUser($post);
             if(!empty($insertResp) && !is_int($insertResp))  throw new Exception($insertResp);
 
             $this->Conn->commit();

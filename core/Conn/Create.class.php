@@ -29,7 +29,6 @@ class Create extends Conn
             }else{
                 $this->DestructConn=1;
             }
-
         } catch (Exception $e) {
             return $e;
         }
