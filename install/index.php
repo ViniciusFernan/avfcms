@@ -1,7 +1,15 @@
 <?php
+$configCms = null;
+if (!empty($_POST) && isset ($_POST)) {
+    if(empty($_POST['db_host'])) echo'Necessário informar a url do banco de dados <br/>';
+    if(empty($_POST['db_name'])) echo 'Necessário informar o nome do banco de dados <br/>';
+    if(empty($_POST['db_user'])) echo 'Necessário informar o usuario do banco de dados <br/>';
+    if(empty($_POST['db_password'])) echo 'Necessário informar a senha do banco de dados <br/>';
+    if(empty($_POST['nome_projeto'])) echo 'Necessário informar o nome do projeto <br/>';
+    if(empty($_POST['url_projeto'])) echo 'Necessário informar a  url do projeto <br/>';
+    if(empty($_POST['user_email'])) echo 'Necessário informar o email de acesso ao CMS <br/>';
+    if(empty($_POST['password'])) echo 'Necessário informar a senha de acesso ao CMS <br/>';
 
-$configCms=null;
-if(!empty($_POST)){
     $configCms = [
         'db_host' => $_POST['db_host'],
         'db_name' => $_POST['db_name'],
@@ -13,9 +21,37 @@ if(!empty($_POST)){
         'user_email' => $_POST['user_email'],
         'password' => $_POST['password']
     ];
+
+    $configAVF = fopen($_SERVER['DOCUMENT_ROOT'].'/config/config.avf','w');
+    if ($configAVF == false) die('Não foi possível criar o arquivo.');
+
+$conteudo = "[DataBase]
+db_host     = {$configCms['db_host']}
+db_name     = {$configCms['db_name']}
+db_user     = {$configCms['db_user']}
+db_password = {$configCms['db_password']}
+db_port = {$configCms['db_port']}
+
+[Application]
+project_name = {$configCms['nome_projeto']} 
+app_url   = {$configCms['url_projeto']}
+
+[EmailConfg]
+mail_host = smtp.gmail.com
+mail_user = avf.sistema@gmail.com
+mail_pass = ajsmema
+mail_port = 587
+mail_send = smtp.gmail.com
+mail_send_name = SISTEMA";
+
+    fwrite($configAVF, $conteudo);
+    fclose($configAVF);
+
+    header('Location: ./');
 }
 
 ?>
+
 <html >
 <head>
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
@@ -29,7 +65,7 @@ if(!empty($_POST)){
         <div class="jumbotron">
             <h2 class="title">Instalando AVFCMS - <a href="avfweb.com.br">[http://avfweb.com.br]</a> </h2>
         </div>
-        <form id="loginform" class="form-horizontal" role="form" action="">
+        <form class="form-horizontal" role="form" method="post" action="#">
             <div class="mainbox col-md-6 col-sm-8">
             <div class="panel panel-success" >
                 <div class="panel-heading"><div class="panel-title">Configurar Banco de Dados</div></div>
@@ -63,7 +99,7 @@ if(!empty($_POST)){
                         <span class="input-group-addon">
                             <i class="fa fa-unlock" aria-hidden="true"></i>
                         </span>
-                        <input type="text" class="form-control" name="db_password" placeholder="Senha do banco">
+                        <input type="password" class="form-control" name="db_password" placeholder="Senha do banco">
                     </div>
 
                     <label>Porta de conexão ao banco de dados</label>
@@ -119,7 +155,7 @@ if(!empty($_POST)){
         <div class="container-fluid p-3 p-md-5">
             <div style="margin:10px 0 20px" class="col-sm-12 ">
                 <div class="pull-right controls">
-                    <a id="btn-login" href="#" class="btn btn-success">Salvar  </a>
+                    <button class="btn btn-success">Salvar</button>
                 </div>
             </div>
         </div>
