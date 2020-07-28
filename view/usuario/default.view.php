@@ -78,8 +78,12 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
                                             </span>
                                             </td>
                                             <td>
-                                                <a href="<?=HOME_URI?>/usuario/viewUsuarioEdit/<?=$usuario->idUsuario?>" class="btn btn-primary btn-sm">EDITAR</a>
-                                                <a href="<?=HOME_URI?>/usuario/inativarUsuario/<?=$usuario->idUsuario?>"  class="btn btn-danger btn-sm">INATIVAR</a>
+                                                <?php if($_SESSION['usuario']->idUsuario=='1'): ?>
+                                                    <a href="<?=HOME_URI?>/usuario/viewUsuarioEdit/<?=$usuario->idUsuario?>" class="btn btn-primary btn-sm">EDITAR</a>
+                                                    <a href="<?=HOME_URI?>/usuario/inativarUsuario/<?=$usuario->idUsuario?>"  class="btn btn-danger btn-sm">INATIVAR</a>
+                                                <?php elseif($usuario->idPerfil!='1' && $usuario->idUsuario==$_SESSION['usuario']->idUsuario): ?>
+                                                    <a href="<?=HOME_URI?>/usuario/viewUsuarioEdit/<?=$usuario->idUsuario?>" class="btn btn-primary btn-sm">EDITAR</a>
+                                                <?php endif; ?>
                                             </td>
                                         </tr>
                                     <?php endforeach;?>
