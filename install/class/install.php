@@ -1,0 +1,43 @@
+<?php
+include_once ($_SERVER['DOCUMENT_ROOT'].'/install/class/install.php');
+include_once ($_SERVER['DOCUMENT_ROOT'].'/core/config.php');
+
+function autoload($class){  require_once $_SERVER['DOCUMENT_ROOT']. "/install/class/".$class.".php"; }
+spl_autoload_register("autoload");
+
+$configCms = null;
+if (!empty($_POST) && isset ($_POST)) {
+    if(empty($_POST['db_host'])) echo'Necessário informar a url do banco de dados <br/>';
+    if(empty($_POST['db_name'])) echo 'Necessário informar o nome do banco de dados <br/>';
+    if(empty($_POST['db_user'])) echo 'Necessário informar o usuario do banco de dados <br/>';
+    if(empty($_POST['db_password'])) echo 'Necessário informar a senha do banco de dados <br/>';
+    if(empty($_POST['nome_projeto'])) echo 'Necessário informar o nome do projeto <br/>';
+    if(empty($_POST['url_projeto'])) echo 'Necessário informar a  url do projeto <br/>';
+    if(empty($_POST['user_email'])) echo 'Necessário informar o email de acesso ao CMS <br/>';
+    if(empty($_POST['password'])) echo 'Necessário informar a senha de acesso ao CMS <br/>';
+
+    $configCms = [
+        'db_host' => $_POST['db_host'],
+        'db_name' => $_POST['db_name'],
+        'db_user' => $_POST['db_user'],
+        'db_password' => $_POST['db_password'],
+        'db_port' => $_POST['db_port'],
+        'nome_projeto' => $_POST['nome_projeto'],
+        'url_projeto' => $_POST['url_projeto'],
+        'user_email' => $_POST['user_email'],
+        'password' => $_POST['password']
+    ];
+}
+
+$configClass = new configClass();
+
+$configClass->hash = HASH;
+$return = $configClass->createConfigAvf();
+if($return instanceof Exception) echo 'deu merda aqui';
+
+$return = $configClass->createTables();
+if($return instanceof Exception) echo 'deu merda aqui tambem';
+
+true;
+
+

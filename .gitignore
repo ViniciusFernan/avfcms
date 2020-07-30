@@ -1,3 +1,6 @@
 .idea/*
-config/config.php
+config/configured.avf
+config/config.avf
+config/config.avf.EXEMPLE
 _uploads/*
+baseSQL.sql
