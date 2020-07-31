@@ -30,8 +30,8 @@ define('UP_ABSPATH', ABSPATH . '/_uploads');
 /** Caminho para a pasta de uploads */
 define('UP_URI', HOME_URI . '/_uploads');
 
-/** Criptografia da senha */
-define('HASH', '502ff82f7f1f8218dd41201fe4353687');
+/** Criptografia da senha [502ff82f7f1f8218dd41201fe4353687] */
+define('HASH', App['Application']['app_hash']);
 
 /** Nome do site ou sistema aparecerá nos emails enviados */
 define('PROJECT_NAME', App['Application']['project_name']);

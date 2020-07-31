@@ -1,7 +1,9 @@
 <?php
+if (file_exists(__DIR__ . '/config/config.avf')) :
+    header('Location: '.$_SERVER['SERVER_NAME']);
+endif;
 
 ?>
-
 <html >
 <head>
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
@@ -15,7 +17,7 @@
         <div class="jumbotron">
             <h2 class="title">Instalando AVFCMS - <a href="avfweb.com.br">[http://avfweb.com.br]</a> </h2>
         </div>
-        <form class="form-horizontal" role="form" method="post" action="./install/class/install.php">
+        <form class="form-horizontal" role="form" method="post" action="/install/class/install.php">
             <div class="mainbox col-md-6 col-sm-8">
             <div class="panel panel-success" >
                 <div class="panel-heading"><div class="panel-title">Configurar Banco de Dados</div></div>

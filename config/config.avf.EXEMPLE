@@ -8,6 +8,7 @@ db_port = 3306
 [Application]
 project_name = AVF_CMS
 app_url   = http://avfweb.com.br
+app_hash = 502ff82f7f1f8218dd41201fe4353687
 
 [EmailConfg]
 mail_host = smtp.gmail.com

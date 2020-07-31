@@ -4,3 +4,4 @@ config/config.avf
 config/config.avf.EXEMPLE
 _uploads/*
 baseSQL.sql
+excludePath/*

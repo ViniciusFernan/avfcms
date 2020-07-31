@@ -1,7 +1,4 @@
 <?php
-include_once ($_SERVER['DOCUMENT_ROOT'].'/install/class/install.php');
-include_once ($_SERVER['DOCUMENT_ROOT'].'/core/config.php');
-
 function autoload($class){  require_once $_SERVER['DOCUMENT_ROOT']. "/install/class/".$class.".php"; }
 spl_autoload_register("autoload");
 
@@ -30,14 +27,18 @@ if (!empty($_POST) && isset ($_POST)) {
 }
 
 $configClass = new configClass();
+$return = $configClass->createConfigAvf($configCms);
+if($return instanceof Exception) echo 'deu ruim aqui';
 
-$configClass->hash = HASH;
-$return = $configClass->createConfigAvf();
-if($return instanceof Exception) echo 'deu merda aqui';
+$return = $configClass->createTables($configCms);
+if($return instanceof Exception) echo 'deu ruim aqui tambem';
 
-$return = $configClass->createTables();
-if($return instanceof Exception) echo 'deu merda aqui tambem';
+echo 'Instalação concluida';
+?>
+<script>
+window.location.replace("<?="http://" . $_SERVER['SERVER_NAME']; ?>");
+</script>
 
-true;
+
 
 

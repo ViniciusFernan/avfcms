@@ -3,31 +3,33 @@
 
 class configClass
 {
-    public $hash = "";
+    private $hash = "502ff82f7f1f8218dd41201fe4353687";
 
     public function createConfigAvf($configCms) {
         try {
+            $this->deleteConfigFile();
             $configAVF = fopen($_SERVER['DOCUMENT_ROOT'] . '/config/config.avf', 'w');
             if ($configAVF == false) throw new Exception('Não foi possível criar o arquivo.');
 
-            $conteudo = "[DataBase] \n ";
-            $conteudo .= "db_host           = {$configCms['db_host']} \n ";
-            $conteudo .= "db_name           = {$configCms['db_name']} \n ";
-            $conteudo .= "db_user           = {$configCms['db_user']} \n ";
-            $conteudo .= "db_password       = {$configCms['db_password']} \n ";
-            $conteudo .= "db_port           = {$configCms['db_port']} \n\n\n\n";
+            $conteudo = "[DataBase] \n";
+            $conteudo .= "  db_host           = {$configCms['db_host']} \n";
+            $conteudo .= "  db_name           = {$configCms['db_name']} \n";
+            $conteudo .= "  db_user           = {$configCms['db_user']} \n";
+            $conteudo .= "  db_password       = {$configCms['db_password']} \n";
+            $conteudo .= "  db_port           = {$configCms['db_port']} \n\n\n\n";
 
             $conteudo .= "[Application] \n";
-            $conteudo .= "project_name      = {$configCms['nome_projeto']} \n";
-            $conteudo .= "app_url           = {$configCms['url_projeto']} \n\n\n\n";
+            $conteudo .= "  project_name      = {$configCms['nome_projeto']} \n";
+            $conteudo .= "  app_url           = {$configCms['url_projeto']} \n";
+            $conteudo .= "  app_hash           = {$this->hash} \n\n\n\n";
 
             $conteudo .= "[EmailConfg] \n";
-            $conteudo .= "mail_host         = smtp.gmail.com \n";
-            $conteudo .= "mail_user         = avf.sistema@gmail.com \n";
-            $conteudo .= "mail_pass         = ajsmema \n";
-            $conteudo .= "mail_port         = 587 \n";
-            $conteudo .= "mail_send         = smtp.gmail.com \n";
-            $conteudo .= "mail_send_name    = SISTEMA \n ";
+            $conteudo .= "  mail_host         = smtp.gmail.com \n";
+            $conteudo .= "  mail_user         = avf.sistema@gmail.com \n";
+            $conteudo .= "  mail_pass         = ajsmema \n";
+            $conteudo .= "  mail_port         = 587 \n";
+            $conteudo .= "  mail_send         = smtp.gmail.com \n";
+            $conteudo .= "  mail_send_name    = SISTEMA \n";
 
             fwrite($configAVF, $conteudo);
             fclose($configAVF);
@@ -40,10 +42,11 @@ class configClass
 
     private function conn($configCms) {
         try {
-            $conn = new PDO("mysql:host={$configCms['db_host']};dbname={$configCms['db_name']}", $configCms['db_user'], $configCms['db_password']);
+            $conn = new PDO("mysql:host={$configCms['db_host']}:{$configCms['db_port']};dbname={$configCms['db_name']}", $configCms['db_user'], $configCms['db_password']);
             $conn->exec("SET CHARACTER SET utf8");
             return $conn;
         } catch (Exception $e) {
+            $this->deleteConfigFile();
             return $e;
         }
     }
@@ -51,10 +54,13 @@ class configClass
     public function createTables($configCms){
         try {
             $conn = $this->conn($configCms);
-             if(!$conn instanceof PDO) throw new Exception("PDO ERROR.");
+            if($conn instanceof Exception) throw $conn;
+            if(!$conn instanceof PDO) throw new Exception("PDO ERROR INIT.");
+            $conn->beginTransaction();
 
             // sql to create table
-            $createPefil = "CREATE TABLE perfil (
+            $createPefil = "DROP TABLE IF EXISTS usuario, perfil;
+                            CREATE TABLE perfil (
                                 idPerfil INT(11) NOT NULL AUTO_INCREMENT,
                                 nomePerfil VARCHAR(50) NOT NULL COLLATE 'latin1_swedish_ci',
                                 tipoPerfil INT(1) NOT NULL DEFAULT '2' COMMENT '[0->admin | 1-anunciante | 2-> usuario]',
@@ -67,15 +73,26 @@ class configClass
                             AUTO_INCREMENT=10;";
 
             $conn->exec($createPefil);
+            if($conn->errorInfo()[0] !== '00000'){
+                throw new Exception('erro create');
+            }
 
             $insertPerfil = "INSERT INTO perfil (idPerfil, nomePerfil, tipoPerfil, status) VALUES ('1', 'ADMINISTRADOR', '0', '1');";
             $conn->exec($insertPerfil);
+            if($conn->errorInfo()[0] !== '00000'){
+                throw new Exception('erro insert');
+            }
 
-            $insertPerfil = "INSERT INTO perfil (idPerfil, nomePerfil, tipoPerfil, status) VALUES ('1', 'USUARIO', '2', '1');";
-            $conn->exec($insertPerfil);
+            $insertPerfil2 = "INSERT INTO perfil (idPerfil, nomePerfil, tipoPerfil, status) VALUES ('6', 'USUARIO', '2', '1');";
+            $conn->exec($insertPerfil2);
+            if($conn->errorInfo()[0] !== '00000'){
+                throw new Exception('erro insert');
+            }
 
 
-            $createUser = "CREATE TABLE usuario (
+
+            $createUser = " DROP TABLE IF EXISTS usuario;
+                            CREATE TABLE usuario (
                             idUsuario INT(11) NOT NULL AUTO_INCREMENT,
                             idPerfil INT(11) NOT NULL,
                             nome VARCHAR(100) NOT NULL COLLATE 'utf8_general_ci',
@@ -104,7 +121,10 @@ class configClass
                         ROW_FORMAT=COMPACT
                         AUTO_INCREMENT=6;";
 
-            $conn->exec($createPefil);
+            $conn->exec($createUser);
+            if($conn->errorInfo()[0] !== '00000'){
+                throw new Exception('erro insert');
+            }
 
             $userAdmin = $configCms['user_email'];
             $data = date('Y-m-d H:m:s');
@@ -114,10 +134,23 @@ class configClass
                                     (idPerfil, nome, sobreNome, email, telefone, CPF, senha, dataNascimento, sexo, dataCadastro) 
                              VALUES ('1', 'AVFADM', 'ADM_SINGLE', '{$userAdmin}', '(11) 1 1111-1111', '886.509.820-18', '{$senha}', '1988-04-05 00:00:00', '1', '{$data}');";
             $conn->exec($insertUser);
+            if($conn->errorInfo()[0] !== '00000'){
+                throw new Exception('erro insert');
+            }
 
+
+            $conn->commit();
             return true;
         } catch (Exception $e) {
+            $this->deleteConfigFile();
+            $conn->rollBack();
             return $e;
+        }
+    }
+
+    private function deleteConfigFile(){
+        if (file_exists($_SERVER['DOCUMENT_ROOT']."/config/config.avf")) {
+            unlink($_SERVER['DOCUMENT_ROOT']."/config/config.avf");
         }
     }
 
