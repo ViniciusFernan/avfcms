@@ -21,7 +21,7 @@ endif;
             <h2 class="title">Instalando AVFCMS - <a href="avfweb.com.br">[http://avfweb.com.br]</a> </h2>
         </div>
         <form class="form-horizontal" role="form" method="post" action="/install/class/install.php">
-            <div class="mainbox col-md-6 col-sm-8">
+            <div class="mainbox col-md-6 col-sm-12">
             <div class="panel panel-success" >
                 <div class="panel-heading"><div class="panel-title">Configurar Banco de Dados</div></div>
                 <div style="padding-top:30px" class="panel-body" >
@@ -67,7 +67,7 @@ endif;
                 </div>
             </div>
         </div>
-            <div class="mainbox col-md-6 col-sm-8">
+            <div class="mainbox col-md-6 col-sm-12">
             <div class="panel panel-info" >
                 <div class="panel-heading"><div class="panel-title">Configurar CMS</div></div>
                 <div style="padding-top:30px" class="panel-body" >
