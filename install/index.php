@@ -6,6 +6,9 @@ endif;
 ?>
 <html >
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 minimal-ui" />
+    <meta name=”mobile-web-app-capable” content=”yes”>
+
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
