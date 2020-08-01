@@ -1,6 +1,6 @@
 <?php
-if (file_exists(__DIR__ . '/config/config.avf')) :
-    header('Location: '.$_SERVER['SERVER_NAME']);
+if (file_exists($_SERVER['DOCUMENT_ROOT'] . '/config/config.avf')) :
+    header('Location: '.$_SERVER['SERVER_NAME'].'/login');
 endif;
 
 ?>
