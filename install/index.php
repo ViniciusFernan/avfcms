@@ -24,7 +24,7 @@ endif;
 <body>
     <div class="container">
         <div class="jumbotron">
-            <h2 class="title">Instalando AVFCMS - <a href="avfweb.com.br">[http://avfweb.com.br]</a> </h2>
+            <h3 class="title">Instalando AVFCMS - <a href="avfweb.com.br">[http://avfweb.com.br]</a> </h3>
         </div>
         <form class="form-horizontal row" role="form" method="post" action="/install/class/install.php">
             <div class="mainbox col-md-6 col-sm-12">
