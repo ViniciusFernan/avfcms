@@ -63,14 +63,13 @@ class UsuarioDAO extends UsuarioFactory{
             if(!is_array($post) || empty($post))
                 throw new Exception('Error grave nesse trem');
 
-            $userCreate = (new Create('usuario', $this->Conn))->Create($post);
+            $userCreate = (new Create($this->tabela, $this->Conn))->Create($post);
             if($userCreate instanceof Exception) throw  $userCreate;
 
             return $userCreate;
         }catch(Exeption $e){
             return $e;
         }
-
     }
 
     public function editarUsuario($Data, $idUsuario){
@@ -80,13 +79,12 @@ class UsuarioDAO extends UsuarioFactory{
             unset($Data['idUsuario']);
 
             $where[] = ['type' => 'and', 'field' => 'idUsuario', 'value' => $idUsuario, 'comparation' => '='];
-            $updateUsuario = (new Update('usuario', $this->Conn))->Update( $Data,  $where);
+            $updateUsuario = (new Update($this->tabela, $this->Conn))->Update( $Data,  $where);
             if($updateUsuario instanceof Exception) throw $updateUsuario;
             return true;
         }catch (Exception $e){
             return $e;
         }
-
     }
 
     public function checarEmailJaEstaCadastrado($post){
@@ -106,7 +104,6 @@ class UsuarioDAO extends UsuarioFactory{
         }catch(Exeption $e){
             return $e;
         }
-
     }
 
     public function checarCPFJaEstaCadastrado($post){
@@ -148,31 +145,30 @@ class UsuarioDAO extends UsuarioFactory{
         }catch(Exeption $e){
             return $e;
         }
-
     }
 
     public function buscarUsuarioPorEmail($email) {
         try{
 
             $colunas = [
-                'usuario.idUsuario',
-                'usuario.nome',
-                'usuario.sobreNome',
-                'usuario.email',
-                'usuario.idPerfil',
-                'usuario.superAdmin',
-                'usuario.status',
-                'usuario.imgPerfil',
-                'perfil.idPerfil',
-                'perfil.nomePerfil'
+                "{$this->alias}.idUsuario",
+                "{$this->alias}.nome",
+                "{$this->alias}.sobreNome",
+                "{$this->alias}.email",
+                "{$this->alias}.telefone",
+                "{$this->alias}.superAdmin",
+                "{$this->alias}.status",
+                "{$this->alias}.imgPerfil",
+                "perfil.idPerfil",
+                "perfil.nomePerfil"
             ];
 
-            $joins[] = 'INNER JOIN perfil ON usuario.idPerfil = perfil.idPerfil';
+            $joins[] = "INNER JOIN perfil ON {$this->alias}.idPerfil = perfil.idPerfil";
 
-            $where[] = ['type' => 'and', 'alias' => 'usuario', 'field' => 'status', 'value' => '1', 'comparation' => '=' ];
-            $where[] = ['type' => 'and', 'alias' => 'usuario', 'field' => 'email', 'value' => $email, 'comparation' => '=' ];
+            $where[] = ['type' => 'and', 'alias' => $this->alias, 'field' => 'status', 'value' => '1', 'comparation' => '=' ];
+            $where[] = ['type' => 'and', 'alias' => $this->alias, 'field' => 'email', 'value' => $email, 'comparation' => '=' ];
 
-            $dadosUsuario = (new Select($this->tabela))->Select($colunas, $where, $joins);
+            $dadosUsuario = (new Select($this->tabela.' '.$this->alias))->Select($colunas, $where, $joins);
             if($dadosUsuario instanceof Exception) throw $dadosUsuario;
 
             if(empty($dadosUsuario)) throw new Exception('Não achou nada nesse trem!');
@@ -186,25 +182,23 @@ class UsuarioDAO extends UsuarioFactory{
     public function getListaDeUsuarios() {
         try{
             $colunas = [
-                'usuario.idUsuario',
-                'usuario.nome',
-                'usuario.sobreNome',
-                'usuario.email',
-                'usuario.telefone',
-                'usuario.idPerfil',
-                'usuario.superAdmin',
-                'usuario.status',
-                'usuario.imgPerfil',
-                'perfil.idPerfil',
-                'perfil.nomePerfil'
-
+                "{$this->alias}.idUsuario",
+                "{$this->alias}.nome",
+                "{$this->alias}.sobreNome",
+                "{$this->alias}.email",
+                "{$this->alias}.telefone",
+                "{$this->alias}.superAdmin",
+                "{$this->alias}.status",
+                "{$this->alias}.imgPerfil",
+                "perfil.idPerfil",
+                "perfil.nomePerfil"
             ];
 
-            $joins[] = 'INNER JOIN perfil ON usuario.idPerfil = perfil.idPerfil';
+            $joins[] = "INNER JOIN perfil ON {$this->alias}.idPerfil = perfil.idPerfil";
 
-            $where[] = ['type' => 'and', 'alias' => 'usuario', 'field' => 'idUsuario', 'value' => '1', 'comparation' => '>=' ];
+            $where[] = ['type' => 'and', 'alias' => $this->alias, 'field' => 'idUsuario', 'value' => '1', 'comparation' => '>=' ];
 
-            $listaUsuario = (new Select($this->tabela))->Select($colunas, $where, $joins);
+            $listaUsuario = (new Select($this->tabela." ".$this->alias))->Select($colunas, $where, $joins);
             if($listaUsuario instanceof Exception) throw $listaUsuario;
 
             if(empty($listaUsuario)) throw new Exception('Não achou nada nesse trem!');
@@ -219,18 +213,15 @@ class UsuarioDAO extends UsuarioFactory{
         try{
             if(empty($id)) throw new Exception('Erro identificador do usuario não enviado');
 
-            $where[] = ['type' => 'and', 'alias' => 'usuario', 'field' => 'idUsuario', 'value' => $id, 'comparation' => '=' ];
+            $where[] = ['type' => 'and', 'alias' => $this->alias, 'field' => 'idUsuario', 'value' => $id, 'comparation' => '=' ];
 
-            $dadosUsuario = (new Select($this->tabela))->Select(null, $where);
+            $dadosUsuario = (new Select($this->tabela." ".$this->alias))->Select(null, $where);
             if($dadosUsuario instanceof Exception) throw $dadosUsuario;
-            if(empty($dadosUsuario)) throw new Exception('Não achou nada nesse trem!');
+            if(empty($dadosUsuario)) throw new Exception('Usuario não encontrado!');
 
             return $dadosUsuario;
         }catch(Exeption $e){
             return $e;
         }
     }
-
-
-
 }
