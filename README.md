@@ -8,8 +8,8 @@ cms base
 - preencha as informações necessárias
 
 ##Configurar Banco de Dados
- -> Url do banco [192.168.1.1]
- -> Nome do banco [DB_SITE]
+ -> Url do banco [192.168.1.1] \n
+ -> Nome do banco [DB_SITE]<br/>
  -> Usuario do banco [user_db_site]
  -> Senha do banco [senhaD!f!c!l@##]
  -> Porta de conexão ao banco de dados [padrão: 3306]
