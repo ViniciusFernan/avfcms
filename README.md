@@ -7,18 +7,18 @@ cms base
 - Acesse o painel ele o redirecionará para o painel de instalação EX:[http(s)://meusite.com.br/install]
 - preencha as informações necessárias
 
-##Configurar Banco de Dados
- -> Url do banco [192.168.1.1] \n
+##Configurar Banco de Dados<br/>
+ -> Url do banco [192.168.1.1] <br/>
  -> Nome do banco [DB_SITE]<br/>
- -> Usuario do banco [user_db_site]
- -> Senha do banco [senhaD!f!c!l@##]
- -> Porta de conexão ao banco de dados [padrão: 3306]
+ -> Usuario do banco [user_db_site]<br/>
+ -> Senha do banco [senhaD!f!c!l@##]<br/>
+ -> Porta de conexão ao banco de dados [padrão: 3306]<br/><br/>
  
-##Configurar CMS
- -> Nome do projeto [Meu site]
- -> Url do projeto [meusite.com.br]
- -> Email de acesso como administrador [meuemail@admin.com.br]
- -> Senha de acesso como administrador [senhaD!f!c!l@##]
+##Configurar CMS<br/>
+ -> Nome do projeto [Meu site]<br/>
+ -> Url do projeto [meusite.com.br]<br/>
+ -> Email de acesso como administrador [meuemail@admin.com.br]<br/>
+ -> Senha de acesso como administrador [senhaD!f!c!l@##]<br/>
  
 # DEMO
 ------------
