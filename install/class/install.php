@@ -12,6 +12,14 @@ if (!empty($_POST) && isset ($_POST)) {
     if(empty($_POST['url_projeto'])) echo 'Necessário informar a  url do projeto <br/>';
     if(empty($_POST['user_email'])) echo 'Necessário informar o email de acesso ao CMS <br/>';
     if(empty($_POST['password'])) echo 'Necessário informar a senha de acesso ao CMS <br/>';
+    
+    $arrayUrl = explode('://', $_POST['url_projeto']);
+    foreach ($arrayUrl as $key => $url){
+        if(in_array($url, ['http', 'https', '/', '//', '?', ]) ){
+            unserialize($arrayUrl[$key]);
+        }
+    }
+    $_POST['url_projeto'] = '//'.implode('/', $arrayUrl);
 
     $configCms = [
         'db_host' => $_POST['db_host'],

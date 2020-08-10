@@ -12,7 +12,6 @@ else :
     header('Location: ./install');
 endif;
 
-
 $core = [
     ['nameArquivo' => 'config', 'arquivo' => __DIR__.'/core/config.php'],
     ['nameArquivo' => 'autoload_avf', 'arquivo' => __DIR__.'/core/autoload_avf.php'],
