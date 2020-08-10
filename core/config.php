@@ -9,7 +9,7 @@
 date_default_timezone_set('America/Sao_Paulo'); // Seta a timezone
 
 /** URL da home */
-$url = ($_SERVER['SERVER_NAME'] == 'localhost' ? 'http://localhost:8081' : App['Application']['app_url']);
+$url = App['Application']['app_url'];
 
 define('HOME_URI', $url);
 /**PROJECT DIRETORIES */
