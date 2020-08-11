@@ -15,7 +15,7 @@ if (!empty($_POST) && isset ($_POST)) {
     
     $arrayUrl = explode('://', $_POST['url_projeto']);
     foreach ($arrayUrl as $key => $url){
-        if(in_array($url, ['http', 'https', '/', '//', '?', ]) ){
+        if(in_array(strtolower($url), ['http', 'https', '/', '//', '?', ]) ){
             unserialize($arrayUrl[$key]);
         }
     }
