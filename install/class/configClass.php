@@ -77,19 +77,13 @@ class configClass
                 throw new Exception('erro create');
             }
 
-            $insertPerfil = "INSERT INTO perfil (idPerfil, nomePerfil, tipoPerfil, status) VALUES ('1', 'ADMINISTRADOR', '0', '1');";
+            $insertPerfil = "INSERT INTO perfil (idPerfil, nomePerfil, tipoPerfil, status) 
+                             VALUES ('1', 'ADMINISTRADOR', '0', '1'),
+                                    ('6', 'USUARIO', '2', '1');";
             $conn->exec($insertPerfil);
             if($conn->errorInfo()[0] !== '00000'){
                 throw new Exception('erro insert');
             }
-
-            $insertPerfil2 = "INSERT INTO perfil (idPerfil, nomePerfil, tipoPerfil, status) VALUES ('6', 'USUARIO', '2', '1');";
-            $conn->exec($insertPerfil2);
-            if($conn->errorInfo()[0] !== '00000'){
-                throw new Exception('erro insert');
-            }
-
-
 
             $createUser = " DROP TABLE IF EXISTS usuario;
                             CREATE TABLE usuario (
@@ -138,6 +132,31 @@ class configClass
                 throw new Exception('erro insert');
             }
 
+            $createMenu = " DROP TABLE IF EXISTS menu_backend;
+                            CREATE TABLE menu_backend (
+                                idMenu INT(11) NOT NULL AUTO_INCREMENT,
+                                icon VARCHAR(250) NULL DEFAULT NULL COLLATE 'utf8_general_ci',
+                                nome VARCHAR(250) NOT NULL COLLATE 'utf8_general_ci',
+                                controller VARCHAR(250) NOT NULL COLLATE 'utf8_general_ci',
+                                ordem INT(11) NULL DEFAULT NULL,
+                                status INT(11) NOT NULL DEFAULT '1',
+                                PRIMARY KEY (idMenu) USING BTREE
+                            )
+                            COLLATE='utf8_general_ci'
+                            ENGINE=InnoDB
+                            ;";
+            $conn->exec($createMenu);
+            if($conn->errorInfo()[0] !== '00000'){
+                throw new Exception('erro create');
+            }
+
+            $insertMenus = "INSERT INTO menu_backend (idMenu, icon, nome, controller, ordem) 
+                            VALUES ('1', 'la la-dashboard', 'Dashboard', 'dashboard', '1'),
+                                   ('2', 'fas fa-user-friends', 'Usuario', 'usuario', '2');";
+            $conn->exec($insertMenus);
+            if($conn->errorInfo()[0] !== '00000'){
+                throw new Exception('erro insert');
+            }
 
             $conn->commit();
             return true;

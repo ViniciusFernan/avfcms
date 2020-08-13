@@ -10,12 +10,24 @@
 
 require_once ABSPATH . "/models/mailer/model/MailerModel.php";
 require_once ABSPATH . "/lib/UploadVerot/class.upload.php";
+require_once ABSPATH . "/models/util/model/UtilModel.php";
 
 class Util{
 
     private static $Data;
     private static $Format;
     private static $Var;
+
+    public static function loadMenu(){
+        try{
+            $dataSetMenu = (new UtilModel())->getUtilMenu();
+            if($dataSetMenu instanceof Exception) throw $dataSetMenu;
+            if(!empty($dataSetMenu) && is_string($dataSetMenu)) throw new Exception('Erro ao buscar menu');
+            return $dataSetMenu;
+        }catch (Exception $e){
+            return $e;
+        }
+    }
 
     /**
      * Valida DDD

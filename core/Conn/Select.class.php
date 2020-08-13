@@ -88,8 +88,8 @@ class Select extends Conn
                     {$this->Columns} 
                     FROM {$this->Table}  
                     {$this->Join}
-                    WHERE {$this->Where} 
-                    LIMIT {$limit}";
+                    WHERE {$this->Where}".
+                ((!empty($limit))? " LIMIT ".$limit : '');
 
             $select = $this->Execute();
             if ($select instanceof Exception) throw $select;
