@@ -71,7 +71,7 @@ class Select extends Conn
      * @version 1.0
      * @author  Vinicius Fernandes (AVFWEB.COM.BR)
      */
-    public function Select($colunas = null, $where = null, $join = null, $limit = '0,50', $having = null)
+    public function Select($colunas = null, $where = null, $join = null, $limit = '0,50', $having = null, $ordem = null)
     {
         try {
 
@@ -84,11 +84,17 @@ class Select extends Conn
             $respWhere = $this->buildWhere($where);
             if ($respWhere instanceof Exception) throw $respWhere;
 
+            $respOrdem = $this->buldOrder($ordem);
+            if ($respOrdem instanceof Exception) throw $respOrdem;
+
+
+
             $this->Select = "SELECT SQL_CALC_FOUND_ROWS 
                     {$this->Columns} 
                     FROM {$this->Table}  
                     {$this->Join}
-                    WHERE {$this->Where}".
+                    WHERE {$this->Where} {$respOrdem}".
+
                 ((!empty($limit))? " LIMIT ".$limit : '');
 
             $select = $this->Execute();
@@ -211,6 +217,34 @@ class Select extends Conn
             $this->Where = implode(' ', $this->Where);
 
             return true;
+        } catch (Exception $exception) {
+            return $exception;
+        }
+    }
+
+    private function buldOrder($order) {
+        try{
+            $query = '';
+            if (!empty($order)){
+                $query = ' ORDER BY ';
+                foreach ($order as $key => $value) {
+                    $query .= ($key >= 1 ? ', ' : ' ') . $key . ' ' . $value;
+                }
+            }
+            return $query;
+        } catch (Exception $exception) {
+            return $exception;
+        }
+    }
+
+    public function limit($limite)
+    {
+        try {
+            $query = '';
+            if (!empty($limite)) {
+                $query .= ' LIMIT ' . $limite;
+            }
+            return $query;
         } catch (Exception $exception) {
             return $exception;
         }

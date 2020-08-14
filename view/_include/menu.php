@@ -12,8 +12,8 @@ if(!empty($dsMmenu) && is_string($dsMmenu)) echo $dsMmenu;
 ?>
 <ul class="nav">
     <?php if(is_array($dsMmenu)): ?>
-        <?php foreach ($dsMmenu as $menu): ?>
-            <li class="nav-item active">
+        <?php foreach ($dsMmenu as $key => $menu): ?>
+            <li class="nav-item <?=($key==0 ? 'active': '')?>">
                 <a href="<?=HOME_URI?>/<?=$menu->controller?>">
                     <?php if(!empty($menu->icon)):?>
                         <i class="<?=$menu->icon?>"></i>

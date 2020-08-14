@@ -139,6 +139,7 @@ class configClass
                                 nome VARCHAR(250) NOT NULL COLLATE 'utf8_general_ci',
                                 controller VARCHAR(250) NOT NULL COLLATE 'utf8_general_ci',
                                 ordem INT(11) NULL DEFAULT NULL,
+                                dataCadastro DATETIME NULL DEFAULT current_timestamp(),
                                 status INT(11) NOT NULL DEFAULT '1',
                                 PRIMARY KEY (idMenu) USING BTREE
                             )
@@ -151,8 +152,9 @@ class configClass
             }
 
             $insertMenus = "INSERT INTO menu_backend (idMenu, icon, nome, controller, ordem) 
-                            VALUES ('1', 'la la-dashboard', 'Dashboard', 'dashboard', '1'),
-                                   ('2', 'fas fa-user-friends', 'Usuario', 'usuario', '2');";
+                            VALUES ('1', 'fas fa-folder-open', 'Menu', 'menu', '1'),
+                                   ('2', 'la la-dashboard', 'Dashboard', 'dashboard', '1'),
+                                   ('3', 'fas fa-user-friends', 'Usuario', 'usuario', '2');";
             $conn->exec($insertMenus);
             if($conn->errorInfo()[0] !== '00000'){
                 throw new Exception('erro insert');
