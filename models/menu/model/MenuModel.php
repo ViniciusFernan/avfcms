@@ -52,4 +52,19 @@ class MenuModel
         }
     }
 
+    public function criarMenu($post){
+        try{
+
+            $post = (new NovoMenuStrategy())->novoMenu(array_filter($post));
+            if($post instanceof Exception) throw $post;
+
+            $novoMenu = (new MenuDAO)->criarMenu($post);
+            if($novoMenu instanceof Exception) throw $novoMenu;
+
+            return $novoMenu;
+        }catch (Exception $e){
+            return $e;
+        }
+    }
+
 }

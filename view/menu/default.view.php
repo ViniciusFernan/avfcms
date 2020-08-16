@@ -41,7 +41,10 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
         <div class="content">
             <div class="container-fluid">
                 <div class="msg-box"><?php if(!empty($boxMsg)): echo Util::getAlert($boxMsg['msg'], $boxMsg['tipo']); endif; ?></div>
-                <h4 class="page-title">Menu</h4>
+                <h4 class="page-title">
+                    Menu
+                    <a class="btn btn-primary btn-xs pull-right" href="<?=HOME_URI?>/menu/criarMenu/">Criar Menu</a>
+                </h4>
 
                 <div class="card">
                     <div class="card-body">
@@ -52,6 +55,7 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
                                     <th>#</th>
                                     <th>NOME</th>
                                     <th>CONTROLLER</th>
+                                    <th>ORDEM</th>
                                     <th>STATUS</th>
                                     <th>AÇÕES</th>
                                 </tr>
@@ -64,8 +68,9 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
                                             <td><?=$menu->idMenu?></td>
                                             <td><?=$menu->nome?></td>
                                             <td><?=$menu->controller?></td>
-                                            <td class="align-center">
-                                                <span class="p-1 <?=(( $menu->status=='0' ) ? "btn-danger" : (($menu->status=='1') ? "btn-success" : "btn-primary" ) )?> ">
+                                            <td><?=$menu->ordem?></td>
+                                            <td >
+                                                <span class="p-1 small <?=(( $menu->status=='0' ) ? "btn-danger" : (($menu->status=='1') ? "btn-success" : "btn-primary" ) )?> ">
                                                     <?=(( $menu->status=='0' ) ? "DELETADO" : (($menu->status=='1') ? "ATIVO" : "INATIVO" ) )?>
                                                 </span>
                                             </td>

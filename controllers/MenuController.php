@@ -108,6 +108,31 @@ class MenuController extends MainController
         $View->showContents();
     }
 
+    public function criarMenuAction()
+    {
+        try {
+            if (!empty($this->parametrosPost)){
+                $idMenu = (new MenuModel())->criarMenu($this->parametrosPost);
+                if ($idMenu instanceof Exception) throw $idMenu;
+                $this->retorno['boxMsg'] = ['msg' => 'Menu criado com sucesso', 'tipo' => 'success'];
+
+                //listar usuario
+                $dadosMenu = (new MenuModel())->getMenuPorId($idMenu);
+                if ($dadosMenu instanceof Exception) throw $dadosMenu;
+                if (empty($dadosMenu)) throw new Exception('Nenhum Usuário Listado');
+                $this->retorno['menu'] = $dadosMenu[0];
+
+            }
+        } catch (Exception $e) {
+            $this->retorno['boxMsg'] = ['msg' => $e->getMessage(), 'tipo' => 'danger'];
+            $this->retorno['menu'] = (object)$this->parametrosPost;
+        }
+
+        $View = new View('menu/edit.menu.view.php');
+        $View->setParams($this->retorno);
+        $View->showContents();
+    }
+
     public function deletarMenuAction()
     {
         try {

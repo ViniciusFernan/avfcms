@@ -9,7 +9,7 @@
 if (file_exists(__DIR__ . '/config/config.avf')) :
     define('App', parse_ini_file(__DIR__ . '/config/config.avf', true));
 else :
-    header('Location: ./install');
+    header('Location: //'.$_SERVER['HTTP_HOST'].'/install');
 endif;
 
 $core = [

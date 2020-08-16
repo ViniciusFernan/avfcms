@@ -68,12 +68,12 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
                                             <td><?=$usuario->email ?></td>
                                             <td><?=$usuario->telefone ?></td>
                                             <td>
-                                                 <span class="p-1 <?=(( $usuario->idPerfil=='1' ) ? "btn-success" : ""  )?> ">
+                                                 <span class="p-1 small <?=(( $usuario->idPerfil=='1' ) ? "btn-success" : ""  )?> ">
                                                  <?=$usuario->nomePerfil ?>
                                                 </span>
                                             </td>
-                                            <td class="align-center">
-                                            <span class="p-1 <?=(( $usuario->status=='0' ) ? "btn-danger" : (($usuario->status=='1') ? "btn-success" : "btn-primary" ) )?> ">
+                                            <td>
+                                            <span class="p-1 small <?=(( $usuario->status=='0' ) ? "btn-danger" : (($usuario->status=='1') ? "btn-success" : "btn-primary" ) )?> ">
                                                 <?=(( $usuario->status=='0' ) ? "DELETADO" : (($usuario->status=='1') ? "ATIVO" : "INATIVO" ) )?>
                                             </span>
                                             </td>

@@ -15,10 +15,10 @@ if (!empty($_POST) && isset ($_POST)) {
     
     $arrayUrl = explode('://', $_POST['url_projeto']);
     foreach ($arrayUrl as $key => $url){
-        if(in_array(strtolower($url), ['http', 'https', '/', '//', '?', ]) ){
-            unserialize($arrayUrl[$key]);
-        }
+        $url = str_replace(['http', 'https', '/', '//', '?'], '', strtolower($url));
+        $arrayUrl[$key] = $url;
     }
+    $arrayUrl = array_filter($arrayUrl);
     $_POST['url_projeto'] = '//'.implode('/', $arrayUrl);
 
     $configCms = [
@@ -38,13 +38,13 @@ $configClass = new configClass();
 $return = $configClass->createConfigAvf($configCms);
 if($return instanceof Exception) echo 'deu ruim aqui';
 
-$return = $configClass->createTables($configCms);
+$return = $configClass->DbInit($configCms);
 if($return instanceof Exception) echo 'deu ruim aqui tambem';
 
 echo 'Instalação concluida';
 ?>
 <script>
-window.location.replace("<?="http://" . $_SERVER['SERVER_NAME']; ?>");
+window.location.replace("<?="//" . $_POST['url_projeto']; ?>");
 </script>
 
 

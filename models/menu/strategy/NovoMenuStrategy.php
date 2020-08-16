@@ -20,10 +20,11 @@ class NovoMenuStrategy
             if( empty($post['nome']) ) throw new Exception('Dado obrigatório não informado [Nome]');
             if( empty($post['controller']) ) throw new Exception('Dado obrigatório não informado [controller]');
 
-            $checkEmail = (new ChecaMenuCadastradoStrategy)->checaMenuCadastrado('nome', $post['nome'], $post['idMenu']);
+            $idMenu = (!empty($post['idMenu'])? $post['idMenu']: null);
+            $checkEmail = (new ChecaMenuCadastradoStrategy)->checaMenuCadastrado('nome', $post['nome'], $idMenu);
             if(!empty($checkEmail)) throw new Exception('Já existe um menu cadastrado com esse nome');
 
-            $checkEmail = (new ChecaMenuCadastradoStrategy)->checaMenuCadastrado('controller', $post['controller'], $post['idMenu']);
+            $checkEmail = (new ChecaMenuCadastradoStrategy)->checaMenuCadastrado('controller', $post['controller'], $idMenu);
             if(!empty($checkEmail)) throw new Exception('Já existe um menu cadastrado com esse controller');
 
             $post["dataCadastro"] = date('Y-m-d H:i:s');

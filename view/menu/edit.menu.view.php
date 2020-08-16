@@ -3,7 +3,7 @@ if (!defined('ABSPATH'))
     exit;
 $Param = $this->getParams();
 $boxMsg = (!empty($Param['boxMsg']) ? $Param['boxMsg'] : NULL);
-$menu = (!empty($Param['menu']) ? $Param['menu'] : NULL);
+$menuEdit = (!empty($Param['menu']) ? $Param['menu'] : NULL);
 $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
 
 ?>
@@ -43,50 +43,68 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
         <div class="content">
             <div class="container-fluid">
                 <div class="msg-box"><?php if(!empty($boxMsg)): echo Util::getAlert($boxMsg['msg'], $boxMsg['tipo']); endif; ?></div>
-                <form action="<?=HOME_URI?>/menu/<?=(!empty($menu->idMenu) ? 'editarMenu/'.$menu->idMenu  : 'criarMenu')?>" method="post"  enctype="multipart/form-data" >
+
+                <?php if(empty($menuEdit->idMenu)):?>
+                    <div class="msg-instrucion">
+                        <div class="alert alert-primary alert-dismissible fade show" role="alert">
+                            <h4 class="alert-heading">Atenção!</h4>
+                            <p>Após a criação de um menu é necessario criar seus [Controlles, Models, Daos e Etcs...] </p>
+
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    </div>
+                <?php endif;?>
+
+                <form action="<?=HOME_URI?>/menu/<?=(!empty($menuEdit->idMenu) ? 'editarMenu/'.$menuEdit->idMenu  : 'criarMenu')?>" method="post"  enctype="multipart/form-data" >
                 <div class="card">
                     <div class="card-header">
-                        <div class="card-title">Editar Menu</div>
+                        <div class="card-title">
+                            <?=(!empty($menuEdit->idMenu) ? ' Editar Menu' : 'Novo Menu')?>
+                        </div>
                     </div>
                     <div class="card-body">
-                        <input type="hidden" name="idMenu" value="<?=(!empty($menu->idMenu ) ? $menu->idMenu  : '')?>">
+                        <?php if(!empty($menuEdit->idMenu)):?>
+                            <input type="hidden" name="idMenu" value="<?=$menuEdit->idMenu?>">
+                        <?php endif;?>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group mb-1">
                                     <label for="nome">Nome:</label>
-                                    <input type="text" name="nome" class="form-control" placeholder="Nome" tabindex="0" value="<?=(!empty($menu->nome ) ? $menu->nome  : '')?>" >
+                                    <input type="text" name="nome" class="form-control" placeholder="Nome" tabindex="0" value="<?=(!empty($menuEdit->nome ) ? $menuEdit->nome  : '')?>" >
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group mb-1">
                                     <label for="sobreNome">Controller:</label>
-                                    <input type="text" name="controller" class="form-control" placeholder="Controller" tabindex="1" value="<?=(!empty($menu->controller ) ? $menu->controller : '')?>" >
+                                    <input type="text" name="controller" class="form-control" placeholder="Controller" tabindex="1" value="<?=(!empty($menuEdit->controller ) ? $menuEdit->controller : '')?>" >
                                 </div>
                             </div>
                         </div>
 
                         <div class="row">
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <div class="form-group mb-1">
                                     <label for="cpf">Icon:</label>
-                                    <input type="text" name="icon" class="form-control" placeholder="ICON" tabindex="2"  value="<?=(!empty($menu->icon ) ? $menu->icon  : '')?>">
+                                    <input type="text" name="icon" class="form-control" placeholder="ICON" tabindex="2"  value="<?=(!empty($menuEdit->icon ) ? $menuEdit->icon  : '')?>">
                                 </div>
                             </div>
 
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="ordem">Ordem:</label>
-                                    <input type="text" name="ordem" class="form-control" placeholder="ORDEM" tabindex="7"  value="<?=(!empty($menu->ordem ) ? $menu->ordem  : '')?>">
+                                    <input type="text" name="ordem" class="form-control" placeholder="ORDEM" tabindex="7"  value="<?=(!empty($menuEdit->ordem ) ? $menuEdit->ordem  : '')?>">
                                 </div>
                             </div>
 
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="status">Status:</label>
                                     <select class="form-control" name="status">
-                                        <option value="1" <?=((!empty($menu->status) && $menu->status =='1')  ? 'selected' : '')?>>ATIVO</option>
-                                        <option value="2" <?=((!empty($menu->status) && $menu->status =='2') ? 'selected' : '')?>>INATIVO</option>
-                                        <option value="0" <?=((!empty($menu->status) && $menu->status =='0') ? 'selected' : '')?>>DELETADO</option>
+                                        <option value="1" <?=((!empty($menuEdit->status) && $menuEdit->status =='1')  ? 'selected' : '')?>>ATIVO</option>
+                                        <option value="2" <?=((!empty($menuEdit->status) && $menuEdit->status =='2') ? 'selected' : '')?>>INATIVO</option>
+                                        <option value="0" <?=((!empty($menuEdit->status) && $menuEdit->status =='0') ? 'selected' : '')?>>DELETADO</option>
                                     </select>
                                 </div>
                             </div>
@@ -112,68 +130,7 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
 <?php include THEME_DIR . "/_include/after-footer.php"; ?>
 
 <script>
-    $(function () {
-
-        $('.foto-perfil').on('click', function(){
-            $('[name="imgPerfil"]').trigger('click');
-        });
-
-        $('input[name="imgPerfil"]').on("change", function(){
-            $('input[name="imgPerfil"]').each(function(index){
-                if ($('input[name="imgPerfil"]').eq(index).val() != ""){
-
-                    $('html, body').animate({scrollTop: $('.timelineProfilePic').offset().top-80 }, 'slow');
-
-                    $('.timelineProfilePic').find('.upload').fadeIn();
-                }
-            });
-        });
-
-
-        $('.foto-perfil-up').on('click', function(){
-            var input = $(this).attr('data-up');
-            var file_data = $('[name="'+input+'"]').prop('files')[0];
-            var form_data = new FormData();
-            form_data.append('file', file_data);
-
-            $.ajax({
-                url: '<?=HOME_URI?>/usuario/UploadImagemPerfil',
-                dataType: 'text',
-                method: 'POST',
-
-                cache: false,
-                contentType: false,
-                processData: false,
-                data: form_data,
-                beforeSend: function (xhr) {
-                    loading();
-                },
-                success: function (x) {
-                    var resp = JSON.parse(x);
-                    $('.upload').fadeOut();
-                    $(".loading").remove();  //location.reload(true);
-                    $('.imgPerfil').attr({ 'src': resp.url+'?v-'+Math.floor((Math.random() * 1000) + 1) });
-                }
-            });
-        });
-
-
-        $('#showPassword').on('click', function(){
-            var passwordField = $('.password');
-            var passwordFieldType = passwordField.attr('type');
-            if(passwordFieldType == 'password') {
-                passwordField.attr('type', 'text');
-                $(this).removeClass('fa-eye').addClass('fa-eye-slash');
-            }else{
-                passwordField.attr('type', 'password');
-                $(this).removeClass('fa-eye-slash').addClass('fa-eye');
-            }
-        });
-
-
-    });
-
-
+    $(function () {});
 
 </script>
 

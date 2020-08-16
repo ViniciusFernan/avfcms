@@ -15,6 +15,21 @@ class MenuDAO
     {
     }
 
+    public function criarMenu($post)
+    {
+        try {
+            if (!is_array($post) || empty($post))
+                throw new Exception('Error grave nesse trem');
+
+            $menuCreate = (new Create($this->tabela, $this->Conn))->Create($post);
+            if ($menuCreate instanceof Exception) throw  $menuCreate;
+
+            return $menuCreate;
+        } catch (Exeption $e) {
+            return $e;
+        }
+    }
+
     public function getListaMenu()
     {
         try {

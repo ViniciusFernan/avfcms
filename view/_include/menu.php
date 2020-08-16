@@ -12,13 +12,13 @@ if(!empty($dsMmenu) && is_string($dsMmenu)) echo $dsMmenu;
 ?>
 <ul class="nav">
     <?php if(is_array($dsMmenu)): ?>
-        <?php foreach ($dsMmenu as $key => $menu): ?>
+        <?php foreach ($dsMmenu as $key => $menuView): ?>
             <li class="nav-item <?=($key==0 ? 'active': '')?>">
-                <a href="<?=HOME_URI?>/<?=$menu->controller?>">
-                    <?php if(!empty($menu->icon)):?>
-                        <i class="<?=$menu->icon?>"></i>
+                <a href="<?=HOME_URI?>/<?=$menuView->controller?>">
+                    <?php if(!empty($menuView->icon)):?>
+                        <i class="<?=$menuView->icon?>"></i>
                     <?php endif; ?>
-                    <p><?=$menu->nome?></p>
+                    <p><?=$menuView->nome?></p>
                 </a>
             </li>
         <?php endforeach; ?>
