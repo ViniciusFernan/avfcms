@@ -34,18 +34,20 @@ if (!empty($_POST) && isset ($_POST)) {
     ];
 }
 
+$installStatus = true;
 $configClass = new configClass();
 $return = $configClass->createConfigAvf($configCms);
-if($return instanceof Exception) echo 'deu ruim aqui';
+if($return instanceof Exception) $installStatus = $return->getMessage();
 
 $return = $configClass->DbInit($configCms);
-if($return instanceof Exception) echo 'deu ruim aqui tambem';
+if($return instanceof Exception) $installStatus = $return->getMessage();
 
-echo 'Instalação concluida';
+if($installStatus == true){
+    echo 'Instalação concluida';
+    echo "<script> window.location.replace('//{$_POST['url_projeto']}');</script>";
+  } else { echo $installStatus; }
 ?>
-<script>
-window.location.replace("<?="//" . $_POST['url_projeto']; ?>");
-</script>
+
 
 
 
