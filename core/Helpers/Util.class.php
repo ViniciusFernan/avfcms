@@ -99,32 +99,32 @@ class Util{
     }
     
     /**
-     * Valida CPF
-     * @param STRING $cpf
-     * @return boolean - True para CPF Válido
-     */
-      public static function CPF($cpf){
-            $cpf = str_replace(['.','-'], '', $cpf);
-            $cpf = str_pad(preg_replace('/[^0-9]/', '', $cpf), 11, '0', STR_PAD_LEFT);
-            $cpfInvalidos = [
-                00000000000, 11111111111, 22222222222, 33333333333, 44444444444,
-                55555555555, 66666666666, 77777777777, 88888888888, 99999999999
-            ];
+    * Valida CPF
+    * @param STRING $cpf
+    * @return boolean - True para CPF Válido
+    */
+    public static function CPF($cpf){
+        $cpf = str_replace(['.', '-'], '', $cpf);
+        $cpf = str_pad(preg_replace('/[^0-9]/', '', $cpf), 11, '0', STR_PAD_LEFT);
+        $cpfInvalidos = [
+          00000000000, 11111111111, 22222222222, 33333333333, 44444444444,
+          55555555555, 66666666666, 77777777777, 88888888888, 99999999999
+        ];
 
-            if ( strlen($cpf) != 11 || in_array((int)$cpf, $cpfInvalidos)) {
-                return FALSE;
-            } else { // Calcula os números para verificar se o CPF é verdadeiro
-                for ($t = 9; $t < 11; $t++) {
-                    for ($d = 0, $c = 0; $c < $t; $c++) {
-                        $d += $cpf[$c] * (($t + 1) - $c);
-                    }
-                    $d = ((10 * $d) % 11) % 10;
-                    if ($cpf[$c] != $d) {
-                        return FALSE;
-                    }
+        if (strlen($cpf) != 11 || in_array((int)$cpf, $cpfInvalidos)) {
+          return FALSE;
+        } else { // Calcula os números para verificar se o CPF é verdadeiro
+            for ($t = 9; $t < 11; $t++) {
+                for ($d = 0, $c = 0; $c < $t; $c++) {
+                  $d += $cpf[$c] * (($t + 1) - $c);
                 }
-                return TRUE;
+                $d = ((10 * $d) % 11) % 10;
+                if ($cpf[$c] != $d) {
+                  return FALSE;
+                }
             }
+          return TRUE;
+        }
     }
 
     /**

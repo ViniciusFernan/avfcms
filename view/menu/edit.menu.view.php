@@ -84,21 +84,31 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
                         </div>
 
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group mb-1">
                                     <label for="cpf">Icon:</label>
                                     <input type="text" name="icon" class="form-control" placeholder="ICON" tabindex="2"  value="<?=(!empty($menuEdit->icon ) ? $menuEdit->icon  : '')?>">
                                 </div>
                             </div>
 
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="ordem">Ordem:</label>
                                     <input type="text" name="ordem" class="form-control" placeholder="ORDEM" tabindex="7"  value="<?=(!empty($menuEdit->ordem ) ? $menuEdit->ordem  : '')?>">
                                 </div>
                             </div>
 
-                            <div class="col-md-4">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="status">Visão Menu:</label>
+                                    <select class="form-control" name="private">
+                                        <option value="1" <?=((!empty($menuEdit->private) && $menuEdit->private =='1')  ? 'selected' : '')?>>PRIVADO</option>
+                                        <option value="0" <?=((!empty($menuEdit->private) && $menuEdit->private =='0') ? 'selected' : '')?>>PUBLICO</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="status">Status:</label>
                                     <select class="form-control" name="status">

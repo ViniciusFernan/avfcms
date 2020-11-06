@@ -13,6 +13,7 @@ if(!empty($dsMmenu) && is_string($dsMmenu)) echo $dsMmenu;
 <ul class="nav">
     <?php if(is_array($dsMmenu)): ?>
         <?php foreach ($dsMmenu as $key => $menuView): ?>
+            <?php if($menuView->private == 1 && ($_SESSION['usuario']->idPerfil !='1' && $_SESSION['usuario']->superAdmin != '1')) continue; ?>
             <li class="nav-item <?=($key==0 ? 'active': '')?>">
                 <a href="<?=HOME_URI?>/<?=$menuView->controller?>">
                     <?php if(!empty($menuView->icon)):?>
