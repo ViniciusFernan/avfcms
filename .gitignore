@@ -1,7 +1,5 @@
 .idea/*
-config/configured.avf
-config/config.avf
-config/config.avf.EXEMPLE
+!config/config.avf
 _uploads/*
 baseSQL.sql
 excludePath/*
