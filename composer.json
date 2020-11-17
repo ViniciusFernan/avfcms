@@ -18,7 +18,7 @@
     },
     "license": "MIT",
     "autoload": {
-        "psr-4": {
+        "psr-0": {
             "": [
                 "config/",
                 "core/",
