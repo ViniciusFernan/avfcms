@@ -3,7 +3,7 @@
     "name": "avfweb/avfcms",
     "description": "AVFWEB Framework",
     "type": "project",
-    "homepage": "https://avfweb.com.br",
+    "https://avfweb.com.br": "https://avfweb.com.br",
     "minimum-stability": "stable",
     "authors": [
         {
