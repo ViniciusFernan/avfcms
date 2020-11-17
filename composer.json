@@ -4,7 +4,6 @@
     "description": "Framwork Base",
     "type": "project",
     "homepage": "http://avfweb.com.br/",
-    "license": "MIT",
     "authors": [
         {
             "name": "Vinícius Fernandes",
@@ -12,6 +11,18 @@
         }
     ],
     "require": {
-        "php": ">=5.4.0"
+        "php" : "^7.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "": [
+                "core/",
+                "controller/",
+                "model/",
+                "view/",
+                "install/",
+                "lib/"
+                ]
+        }
     }
  }
