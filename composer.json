@@ -11,7 +11,8 @@
         }
     ],
     "require": {
-        "php" : "^7.3"
+        "php" : "^7.3",
+        "avfweb/avfcms":"dev-master@dev"
     },
     "license": "MIT",
     "autoload": {
@@ -25,11 +26,5 @@
                 "lib/"
                 ]
         }
-    },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/ViniciusFernan/avfcms"
-        }
-    ]
+    }
  }
