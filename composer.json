@@ -13,6 +13,7 @@
     "require": {
         "php" : "^7.3"
     },
+    "license": "MIT",
     "autoload": {
         "psr-4": {
             "": [
