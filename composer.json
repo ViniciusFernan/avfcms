@@ -1,1 +1,17 @@
 
+{
+    "name": "avfweb/avfcms",
+    "description": "Framwork Base",
+    "type": "project",
+    "homepage": "http://avfweb.com.br/",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Vinícius Fernandes",
+            "email": "viniciusblink@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0"
+    }
+ }
