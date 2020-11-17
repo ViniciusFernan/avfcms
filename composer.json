@@ -13,8 +13,7 @@
         }
     ],
     "require": {
-        "php" : "^7.3",
-        "avfweb/avfcms":"dev-master@dev"
+        "php" : "^7.3"
     },
     "license": "MIT",
     "autoload": {
