@@ -1,13 +1,15 @@
 
 {
     "name": "avfweb/avfcms",
-    "description": "Framwork Base",
+    "description": "AVFWEB Framework",
     "type": "project",
-    "homepage": "http://avfweb.com.br/",
+    "homepage": "https://avfweb.com.br",
+    "minimum-stability": "stable",
     "authors": [
         {
             "name": "Vinícius Fernandes",
-            "email": "viniciusblink@gmail.com"
+            "email": "viniciusblink@gmail.com",
+            "homepage": "https://avfweb.com.br"
         }
     ],
     "require": {
@@ -18,6 +20,7 @@
     "autoload": {
         "psr-4": {
             "": [
+                "config/",
                 "core/",
                 "controller/",
                 "model/",
