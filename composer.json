@@ -4,7 +4,7 @@
     "description": "AVFWEB Framework",
     "type": "project",
     "homepage": "https://avfweb.com.br",
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "authors": [
         {
             "name": "Vinícius Fernandes",
