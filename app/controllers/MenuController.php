@@ -62,7 +62,8 @@ class MenuController extends MainController
         $View->showContents();
     }
 
-    public function visualizarMenuAction(){
+    public function visualizarMenuAction()
+    {
         try {
             if (!empty($this->parametrosPost) && !empty($_SESSION['usuario'])) $this->editarMenuAction();
             if (empty($this->parametros[0])) throw new Exception('Necessário enviar o id do menu');
@@ -111,7 +112,7 @@ class MenuController extends MainController
     public function criarMenuAction()
     {
         try {
-            if (!empty($this->parametrosPost)){
+            if (!empty($this->parametrosPost)) {
                 $idMenu = (new MenuModel())->criarMenu($this->parametrosPost);
                 if ($idMenu instanceof Exception) throw $idMenu;
                 $this->retorno['boxMsg'] = ['msg' => 'Menu criado com sucesso', 'tipo' => 'success'];
@@ -122,6 +123,8 @@ class MenuController extends MainController
                 if (empty($dadosMenu)) throw new Exception('Nenhum Usuário Listado');
                 $this->retorno['menu'] = $dadosMenu[0];
 
+            } else {
+                throw new Exception('Nenhum dado enviado!');
             }
         } catch (Exception $e) {
             $this->retorno['boxMsg'] = ['msg' => $e->getMessage(), 'tipo' => 'danger'];

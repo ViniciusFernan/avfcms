@@ -35,7 +35,7 @@ class MenuDAO
         try {
             $where[] = ['type' => 'and', 'field' => 'status', 'value' => '1', 'comparation' => '='];
 
-            $ordem = ['ordem'=>'ASC'];
+            $ordem = ['ordem' => 'ASC'];
 
             $dataSetMenu = (new Select($this->tabela))->Select(['*'], $where, '', '', '', $ordem);
             if ($dataSetMenu instanceof Exception) throw $dataSetMenu;
@@ -47,7 +47,8 @@ class MenuDAO
         }
     }
 
-    public function getMenuPorId($id){
+    public function getMenuPorId($id)
+    {
         try {
             if (empty($id)) throw new Exception('Erro identificador do menu não enviado');
 
@@ -72,7 +73,7 @@ class MenuDAO
             $where[] = ['type' => 'and', 'field' => 'status', 'value' => '1', 'comparation' => '='];
             $where[] = ['type' => 'and', 'field' => $key, 'value' => $valor, 'comparation' => '='];
 
-            if(!empty($idExclude))
+            if (!empty($idExclude))
                 $where[] = ['type' => 'and', 'field' => 'idMenu', 'value' => $idExclude, 'comparation' => '!='];
 
             $dadosUsuario = (new Select($this->tabela))->Select(null, $where);

@@ -9,60 +9,64 @@ require_once APP . "/models/menu/strategy/NovoMenuStrategy.php";
 
 class MenuModel
 {
-    public function getListaMenu(){
-        try{
+    public function getListaMenu()
+    {
+        try {
 
             $dataSetMenu = (new MenuDAO)->getListaMenu();
-            if($dataSetMenu instanceof Exception) throw $dataSetMenu;
-            if(!empty($dataSetMenu) && is_string($dataSetMenu)) throw new Exception($dataSetMenu);
+            if ($dataSetMenu instanceof Exception) throw $dataSetMenu;
+            if (!empty($dataSetMenu) && is_string($dataSetMenu)) throw new Exception($dataSetMenu);
             return $dataSetMenu;
 
-        }catch (Exception $e){
+        } catch (Exception $e) {
             return $e;
         }
     }
 
-    public function getMenuPorId($id){
-        try{
-            if(empty($id)) throw new Exception('Erro, identificador do menu não enviado');
+    public function getMenuPorId($id)
+    {
+        try {
+            if (empty($id)) throw new Exception('Erro, identificador do menu não enviado');
 
             $dadosMenu = (new MenuDAO)->getMenuPorId($id);
-            if(!empty($dadosMenu) && is_string($dadosMenu)) throw new Exception($dadosMenu);
+            if (!empty($dadosMenu) && is_string($dadosMenu)) throw new Exception($dadosMenu);
             return $dadosMenu;
 
-        }catch (Exception $e){
+        } catch (Exception $e) {
             return $e;
         }
     }
 
-    public function editarMenu($post){
-        try{
-            if(empty($post['idMenu'])) throw new Exception('Erro identificador do menu não enviado');
+    public function editarMenu($post)
+    {
+        try {
+            if (empty($post['idMenu'])) throw new Exception('Erro identificador do menu não enviado');
 
-            $idMenu=$post['idMenu'];
+            $idMenu = $post['idMenu'];
             $post = (new NovoMenuStrategy())->novoMenu(array_filter($post));
-            if($post instanceof Exception) throw $post;
+            if ($post instanceof Exception) throw $post;
 
             $updateMenu = (new  MenuDAO)->editarMenu($post, $idMenu);
-            if($updateMenu instanceof Exception) throw $updateMenu;
+            if ($updateMenu instanceof Exception) throw $updateMenu;
 
             return $updateMenu;
-        }catch (Exception $e){
+        } catch (Exception $e) {
             return $e;
         }
     }
 
-    public function criarMenu($post){
-        try{
+    public function criarMenu($post)
+    {
+        try {
 
             $post = (new NovoMenuStrategy())->novoMenu(array_filter($post));
-            if($post instanceof Exception) throw $post;
+            if ($post instanceof Exception) throw $post;
 
             $novoMenu = (new MenuDAO)->criarMenu($post);
-            if($novoMenu instanceof Exception) throw $novoMenu;
+            if ($novoMenu instanceof Exception) throw $novoMenu;
 
             return $novoMenu;
-        }catch (Exception $e){
+        } catch (Exception $e) {
             return $e;
         }
     }
