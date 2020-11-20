@@ -13,7 +13,7 @@ function autoload_avf($Class){
     $mDir = ['core', 'core/Helpers', 'core/Conn'];
     $inc = null;
     foreach ($mDir as $cDir) {
-        $arquivo = ABSPATH . "/{$cDir}/{$Class}.class.php";
+        $arquivo = BASEPATH . "/{$cDir}/{$Class}.class.php";
         if (file_exists($arquivo) && !is_dir($arquivo)){
             require_once $arquivo;
             $inc=true;

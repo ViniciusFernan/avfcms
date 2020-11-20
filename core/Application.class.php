@@ -91,7 +91,7 @@ class Application{
             $path = array();
             unset($path);
 
-            if (!file_exists(ABSPATH . "/controllers/{$this->controller}Controller.php") && !file_exists(ABSPATH . "/modules/".strtolower($this->module)."/controllers/{$this->controller}Controller.php")) {
+            if (!file_exists(APP . "/controllers/{$this->controller}Controller.php") && !file_exists(APP . "/modules/".strtolower($this->module)."/controllers/{$this->controller}Controller.php")) {
                 $this->module = 'page404';
                 $this->controller = 'Page404';
                 $this->action = 'index';
@@ -113,8 +113,8 @@ class Application{
     public function dispatch() {
         $this->loadRoute();
 
-        if(file_exists(ABSPATH.'/controllers/'.$this->controller.'Controller.php')):
-            require_once ABSPATH.'/controllers/'.$this->controller.'Controller.php';  //verificando se o arquivo de controle existe
+        if(file_exists(APP.'/controllers/'.$this->controller.'Controller.php')):
+            require_once APP.'/controllers/'.$this->controller.'Controller.php';  //verificando se o arquivo de controle existe
        else:
             trigger_error('Arquivo ' . $this->controller.'Controller.php  nao encontrado', E_USER_ERROR);
         endif;
