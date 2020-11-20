@@ -10,7 +10,7 @@
  * @author AVF-WEB
  * @version 1.0
  * */
-require_once ABSPATH . "/models/auth/model/LoginModel.php";
+require_once APP . "/models/auth/model/LoginModel.php";
 abstract class MainController {
 
     /**

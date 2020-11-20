@@ -24,7 +24,7 @@
                 "core/",
                 "controller/",
                 "model/",
-                "view/",
+                "app/view/",
                 "install/",
                 "lib/"
                 ]

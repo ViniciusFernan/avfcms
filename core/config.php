@@ -1,8 +1,7 @@
 <?php
 /**
  * Arquivo de Configuração do Sistema.
- *
- * @package Sistema de Lead
+ * @package Sistema Base
  * @author AVFWEB
  * @version 1.0
  */
@@ -16,16 +15,20 @@ define('HOME_URI', $url);
 define('PROJECT',  $_SERVER['SERVER_NAME'] );
 
 /** Caminho para a raiz */
-define('ABSPATH', $_SERVER['DOCUMENT_ROOT']);
+define('BASEPATH', $_SERVER['DOCUMENT_ROOT']);
+
+/** APP_DIR */
+define('APP', BASEPATH.'/app');
+
 
 /** Caminho para a pasta do tema */
-define('THEME_DIR', ABSPATH . '/view');
+define('THEME_DIR', APP . '/view');
 
 /** URL do tema */
-define('THEME_URI', HOME_URI . '/view');
+define('THEME_URI', HOME_URI . '/app/view');
 
 /** Caminho para a pasta de uploads */
-define('UP_ABSPATH', ABSPATH . '/_uploads');
+define('UPLOAD', BASEPATH . '/_uploads');
 
 /** Caminho para a pasta de uploads */
 define('UP_URI', HOME_URI . '/_uploads');
