@@ -18,16 +18,8 @@
     },
     "license": "MIT",
     "autoload": {
-        "psr-0": {
-            "classmap": [
-                "config/",
-                "core/",
-                "controller/",
-                "model/",
-                "app/view/",
-                "install/",
-                "lib/"
-                ]
+        "psr-4": {
+            "avfweb\\": "avfweb"
         }
     }
  }
