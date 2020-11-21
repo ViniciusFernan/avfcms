@@ -11,14 +11,14 @@
  * @version 1.0
  * */
 
-require_once APP . "/models/auth/model/LoginModel.php";
-class LoginController extends MainController {
+require_once APP . "/models/auth/model/AuthModel.php";
+class AuthController extends MainController {
     public $retorno =[];
 
     public function __construct() {
         $this->isLogin= false;
         //Classe de manipulação do auth
-        $this->Login = new LoginModel;
+        $this->Login = new AuthModel;
     }
 
     /**
@@ -34,7 +34,7 @@ class LoginController extends MainController {
                 exit;
             endif;
 
-            $logar = new LoginModel();
+            $logar = new AuthModel();
             if (!empty($this->parametrosPost['email']) && !empty($this->parametrosPost['senha']) ) {
                 $logado = $logar->logar($this->parametrosPost['email'], $this->parametrosPost['senha']);
                 if($logado instanceof Exception) throw $logado;

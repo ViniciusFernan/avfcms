@@ -20,7 +20,6 @@ define('BASEPATH', $_SERVER['DOCUMENT_ROOT']);
 /** APP_DIR */
 define('APP', BASEPATH.'/app');
 
-
 /** Caminho para a pasta do tema */
 define('THEME_DIR', APP . '/view');
 
@@ -39,10 +38,8 @@ define('HASH', App['Application']['app_hash']);
 /** Nome do site ou sistema aparecerá nos emails enviados */
 define('PROJECT_NAME', App['Application']['project_name']);
 
-
-/** DEFINE SE ADMIN DEVE SER CHAMADO */
-define('LOGIN_MODULE', true);
-
+/** Deve ser true quando sistema necessita de login */
+define('AUTH', true);
 
 /**Configurações da conexão com o banco de dados*/
 define('HOSTNAME', App['DataBase']['db_host']);
@@ -51,7 +48,6 @@ define('DB_USER', App['DataBase']['db_user']);
 define('DB_PASSWORD',  App['DataBase']['db_password']);
 define('DB_CHARSET', 'utf8');
 define('PORTA', App['DataBase']['db_port']);
-
 
 /** CONFIGURAÇÕES DE ENVIO DE EMAIL **/
 define('MAIL_HOST', App['EmailConfg']['mail_host']);
