@@ -17,6 +17,7 @@
     "autoload": {
         "psr-0": {
             "classmap": [
+                "_uploads/",
                 "app/",
                 "config/",
                 "core/",

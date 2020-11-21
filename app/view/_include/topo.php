@@ -108,7 +108,7 @@
                         </li>
                         <div class="dropdown-divider"></div>
                         <!-- EXEMPLE <a class="dropdown-item" href="#"></i> My Balance</a>-->
-                        <a class="dropdown-item" href="<?=HOME_URI?>/login/logout"><i class="fa fa-power-off"></i> SAIR</a>
+                        <a class="dropdown-item" href="<?=HOME_URI?>/auth/logout"><i class="fa fa-power-off"></i> SAIR</a>
                     </ul>
                     <!-- /.dropdown-user -->
                 </li>

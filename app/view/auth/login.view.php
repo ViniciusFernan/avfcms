@@ -40,7 +40,7 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
 
             <div class="msg-box"><?php if(!empty($boxMsg)): echo Util::getAlert($boxMsg['msg'], $boxMsg['tipo']); endif; ?></div>
             <p id="profile-name" class="profile-name-card"></p>
-            <form class="form-signin" style="color: #757575;" action="<?= HOME_URI ?>/login" method="post">
+            <form class="form-signin" style="color: #757575;" action="<?= HOME_URI ?>/auth" method="post">
                 <span id="reauth-email" class="reauth-email"></span>
                 <input type="email" id="inputEmail" class="form-control" placeholder="Email"  name="email" value="<?=(!empty($email) ? $email : 'teste@teste.com')?>" required autofocus>
                 <input type="password" id="inputPassword" class="form-control" placeholder="Senha"  name="senha" value="<?=(!empty($senha) ? $senha : '123456')?>" required>

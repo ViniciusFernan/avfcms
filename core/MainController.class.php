@@ -10,19 +10,19 @@
  * @author AVF-WEB
  * @version 1.0
  * */
-require_once APP . "/models/auth/model/LoginModel.php";
+require_once APP . "/models/auth/model/AuthModel.php";
 abstract class MainController {
 
     /**
      * Atribudo define se acesso a area deve ter um auth ativo
      * segue como pagina privada por default
      */
-    protected $isLogin = true;
+    protected $isLogin = AUTH;
 
 
     /**
      * Classe de Manipulação do auth
-     * @var LoginModel
+     * @var AuthModel
      * */
     protected $Login;
 
@@ -74,8 +74,7 @@ abstract class MainController {
 
     public function checkLogado(){
         if(empty($_SESSION['usuario']) || !isset($_SESSION['usuario'])){
-
-            $this->Login = new LoginModel;
+            $this->Login = new AuthModel;
             $this->Login->deslogar();
         }
     }

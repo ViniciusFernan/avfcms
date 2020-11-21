@@ -6,10 +6,10 @@
  * @version 1.0
  * */
 
-require_once APP . "/models/auth/dao/LoginDAO.php";
+require_once APP . "/models/auth/dao/AuthDAO.php";
 require_once APP . "/models/usuario/dao/UsuarioDAO.php";
 
-class LoginModel
+class AuthModel
 {
 
     public function logar($email, $senha)
@@ -55,7 +55,7 @@ class LoginModel
         //apaga a sessao de usuario
         $_SESSION['usuario'] = [];
         unset($_SESSION['usuario']);
-        Util::redirect(HOME_URI . "/auth");
+        Util::redirect(HOME_URI."/auth");
     }
 
 }
