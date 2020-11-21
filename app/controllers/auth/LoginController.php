@@ -17,7 +17,7 @@ class LoginController extends MainController {
 
     public function __construct() {
         $this->isLogin= false;
-        //Classe de manipulação do login
+        //Classe de manipulação do auth
         $this->Login = new LoginModel;
     }
 
@@ -51,14 +51,14 @@ class LoginController extends MainController {
         }
 
         //acesso a view;
-        $View = new View('login/login.view.php');
+        $View = new View('auth/login.view.php');
         $View->setParams($this->retorno);
         $View->showContents();
     }
 
     /**
      * Deslogar usuário.
-     * Enviar para url /login/logout
+     * Enviar para url /auth/logout
      */
     public function logoutAction() {
         $Login = $this->Login;

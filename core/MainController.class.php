@@ -14,14 +14,14 @@ require_once APP . "/models/auth/model/LoginModel.php";
 abstract class MainController {
 
     /**
-     * Atribudo define se acesso a area deve ter um login ativo
+     * Atribudo define se acesso a area deve ter um auth ativo
      * segue como pagina privada por default
      */
     protected $isLogin = true;
 
 
     /**
-     * Classe de Manipulação do login
+     * Classe de Manipulação do auth
      * @var LoginModel
      * */
     protected $Login;

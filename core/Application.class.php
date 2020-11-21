@@ -113,9 +113,9 @@ class Application{
     public function dispatch() {
         $this->loadRoute();
 
-        $login = ['login', 'Login', 'auth', 'Auth'];
+        $login = ['auth', 'Login', 'auth', 'Auth'];
         if (in_array($this->controller, $login)) {
-            if(file_exists(APP.'/controllers/auth/' .$this->controller.'Controller.php')) {
+            if(file_exists(APP.'/controllers/auth/'.$this->controller.'Controller.php')) {
                 require_once APP.'/controllers/auth/'.$this->controller.'Controller.php';
             } else {
                 trigger_error('O arquivo '.$this->controller.'Controller.php  nao encontrado', E_USER_ERROR);
@@ -127,7 +127,7 @@ class Application{
         }
 
         //verificando se a classe existe, se existir, estancia a classe
-        $controller = $this->controller . 'Controller';
+        $controller = $this->controller.'Controller';
         if (class_exists($controller)):
             $class = new $controller();
             $class->setParametros($this->parametros);

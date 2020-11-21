@@ -84,7 +84,7 @@ class Google extends AbstractProvider
                 'hd'          => $this->hostedDomain,
                 'access_type' => $this->accessType,
 		'scope'       => $this->scope,
-                // if the user is logged in with more than one account ask which one to use for the login!
+                // if the user is logged in with more than one account ask which one to use for the auth!
                 'authuser'    => '-1'
             ])
         );
