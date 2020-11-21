@@ -47,15 +47,15 @@ class LoginModel
     }
 
     /**
-     * Mata a sessão de Usuário e Redireciona para a página de login
-     * @param Boolean $redirectLogin - true para redirecionar para login
+     * Mata a sessão de Usuário e Redireciona para a página de auth
+     * @param Boolean $redirectLogin - true para redirecionar para auth
      */
     public function deslogar()
     {
         //apaga a sessao de usuario
         $_SESSION['usuario'] = [];
         unset($_SESSION['usuario']);
-        Util::redirect(HOME_URI . "/login");
+        Util::redirect(HOME_URI . "/auth");
     }
 
 }
