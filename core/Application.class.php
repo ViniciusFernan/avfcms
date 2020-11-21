@@ -66,16 +66,13 @@ class Application{
             if (!empty($path[0]))
                 $this->module = ucfirst(strtolower(str_replace(['-', '_'], '', $path[0])));
 
-
             //Seta o Controller
             if (!empty($path[0]))
                 $this->controller = ucfirst(strtolower(str_replace(['-', '_'], '', $path[0])));
 
-
             //Seta a Action
             if (!empty($path[1]))
                 $this->action = ucfirst(strtolower(str_replace(['-', '_'], '', $path[1])));
-
 
             //Seta os Parametros
             if (!empty($path[2])) {
@@ -91,7 +88,10 @@ class Application{
             $path = array();
             unset($path);
 
-            if (!file_exists(APP . "/controllers/{$this->controller}Controller.php") && !file_exists(APP . "/modules/".strtolower($this->module)."/controllers/{$this->controller}Controller.php")) {
+            if (
+                !file_exists(APP."/controllers/{$this->controller}Controller.php") &&
+                !file_exists(APP."/controllers/auth/{$this->controller}Controller.php")
+            ) {
                 $this->module = 'page404';
                 $this->controller = 'Page404';
                 $this->action = 'index';
@@ -113,11 +113,18 @@ class Application{
     public function dispatch() {
         $this->loadRoute();
 
-        if(file_exists(APP.'/controllers/'.$this->controller.'Controller.php')):
-            require_once APP.'/controllers/'.$this->controller.'Controller.php';  //verificando se o arquivo de controle existe
-       else:
-            trigger_error('Arquivo ' . $this->controller.'Controller.php  nao encontrado', E_USER_ERROR);
-        endif;
+        $login = ['login', 'Login', 'auth', 'Auth'];
+        if (in_array($this->controller, $login)) {
+            if(file_exists(APP.'/controllers/auth/' .$this->controller.'Controller.php')) {
+                require_once APP.'/controllers/auth/'.$this->controller.'Controller.php';
+            } else {
+                trigger_error('O arquivo '.$this->controller.'Controller.php  nao encontrado', E_USER_ERROR);
+            }
+        } elseif (file_exists(APP.'/controllers/'.$this->controller.'Controller.php')) {
+            require_once APP.'/controllers/'.$this->controller.'Controller.php';
+        } else {
+            trigger_error('Arquivo '.$this->controller.'Controller.php  nao encontrado', E_USER_ERROR);
+        }
 
         //verificando se a classe existe, se existir, estancia a classe
         $controller = $this->controller . 'Controller';

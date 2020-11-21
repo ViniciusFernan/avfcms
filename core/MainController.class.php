@@ -87,8 +87,6 @@ abstract class MainController {
     public function setParametrosPost($parametrosPost) {
         $this->parametrosPost = $parametrosPost;
     }
-
-
 }
 
 // class MainController
