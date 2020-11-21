@@ -4,17 +4,14 @@
     "description": "AVFWEB Framework",
     "type": "project",
     "homepage": "https://avfweb.com.br",
-    "minimum-stability": "stable",
     "authors": [
         {
             "name": "Vinícius Fernandes",
-            "email": "viniciusblink@gmail.com",
-            "homepage": "https://avfweb.com.br"
+            "email": "viniciusblink@gmail.com"
         }
     ],
     "require": {
-        "php" : "^7.3",
-        "avfweb/avfcms":"dev-master"
+        "php" : "^7.3"
     },
     "license": "MIT",
     "autoload": {
