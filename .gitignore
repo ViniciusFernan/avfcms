@@ -3,3 +3,4 @@
 _uploads/*
 baseSQL.sql
 excludePath/*
+vendor/*

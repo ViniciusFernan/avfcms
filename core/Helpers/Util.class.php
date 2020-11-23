@@ -9,8 +9,9 @@
  */
 
 require_once APP . "/models/mailer/model/MailerModel.php";
-require_once BASEPATH . "/lib/UploadVerot/class.upload.php";
 require_once APP . "/models/menu/model/MenuModel.php";
+use \Verot\Upload\Upload;
+
 
 class Util{
 
@@ -867,7 +868,7 @@ class Util{
         try{
             if(!is_array($optionsImagem)) throw new exception("Necessário enviar paramêtro");
 
-            $handle = new upload($file);
+            $handle = new Upload($file);
 
             $handle->file_new_name_body  = $optionsImagem['newName'];
             $handle->image_convert       = $optionsImagem['tipoImage'];
