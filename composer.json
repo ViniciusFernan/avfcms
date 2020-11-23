@@ -15,8 +15,6 @@
     },
     "license": "MIT",
     "autoload": {
-        "psr-4": {
-            "": ["_uploads/", "app/", "config/", "core/", "install/", "lib/"]
-        }
+        "classmap": ["_uploads/", "app/", "config/", "core/", "install/", "lib/"]
     }
  }
