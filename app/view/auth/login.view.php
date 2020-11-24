@@ -38,7 +38,9 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
                 <img class="logo" src="<?=$logoSistema?>" />
             </div>
 
-            <div class="msg-box"><?php if(!empty($boxMsg)): echo Util::getAlert($boxMsg['msg'], $boxMsg['tipo']); endif; ?></div>
+<!--            <div class="msg-box">-->
+<!--                --><?php ////if(!empty($boxMsg)): echo Util::getAlert($boxMsg['msg'], $boxMsg['tipo']); endif; ?>
+<!--            </div>-->
             <p id="profile-name" class="profile-name-card"></p>
             <form class="form-signin" style="color: #757575;" action="<?= HOME_URI ?>/auth" method="post">
                 <span id="reauth-email" class="reauth-email"></span>
@@ -60,5 +62,13 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
 
 
 <?php include THEME_DIR . "/_include/after-footer.php";?>
+
+<script>
+    $(function () {
+        <?php if(!empty($boxMsg)): ?>
+                showAlert('Error!', '<?=$boxMsg['msg']?>', '<?=$boxMsg['tipo']?>');
+        <?php endif; ?>
+    });
+</script>
 
 </html>

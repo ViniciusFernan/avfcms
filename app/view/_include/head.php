@@ -18,10 +18,14 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pickadate@3.6.4/lib/themes/default.date.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pickadate@3.6.4/lib/themes/default.time.css">
 
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.0.9/css/fileinput.min.css" media="all" rel="stylesheet" type="text/css" />
 
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
 <link rel="stylesheet" href="<?=THEME_URI?>/_assets/css/ready.css">
 <!--<link rel="stylesheet" href="--><?//=THEME_URI?><!--/_assets/css/demo.css">-->
+
+
+<link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
 
 <style>
     .picker__select--year{
