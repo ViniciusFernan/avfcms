@@ -5,6 +5,8 @@
  * @version 1.0
  * */
 
+require_once APP . "/models/menu/factory/MenuFactory.php";
+
 class MenuDAO
 {
 
@@ -41,7 +43,17 @@ class MenuDAO
             if ($dataSetMenu instanceof Exception) throw $dataSetMenu;
             if (empty($dataSetMenu)) throw new Exception('Usuario não encontrado!');
 
-            return $dataSetMenu;
+            $listaMenuRetorno = [];
+            foreach ($dataSetMenu as $menuDb) {
+                $menu = (new MenuFactory);
+                foreach ($menuDb as $atribute => $valor) {
+                    $atributeSet = 'set'.ucfirst($atribute);
+                    if((!method_exists($menu,$atributeSet))) continue;
+                    $menu->$atributeSet($valor);
+                }
+                $listaMenuRetorno[] = $menu;
+            }
+            return $listaMenuRetorno;
         } catch (Exeption $e) {
             return $e;
         }
@@ -58,7 +70,16 @@ class MenuDAO
             if ($dadosMenu instanceof Exception) throw $dadosMenu;
             if (empty($dadosMenu)) throw new Exception('Usuario não encontrado!');
 
-            return $dadosMenu;
+            $menu = (new MenuFactory);
+            foreach ($dadosMenu as $menuDb) {
+                foreach ($menuDb as $atribute => $valor) {
+                    $atributeSet = 'set'.ucfirst($atribute);
+                    if((!method_exists($menu,$atributeSet))) continue;
+                    $menu->$atributeSet($valor);
+                }
+            }
+
+            return $menu;
         } catch (Exeption $e) {
             return $e;
         }

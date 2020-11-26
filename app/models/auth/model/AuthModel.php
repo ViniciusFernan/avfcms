@@ -7,6 +7,7 @@
  * */
 
 require_once APP . "/models/auth/dao/AuthDAO.php";
+require_once APP . "/models/usuario/factory/UsuarioFactory.php";
 require_once APP . "/models/usuario/dao/UsuarioDAO.php";
 
 class AuthModel
@@ -16,12 +17,10 @@ class AuthModel
     {
         try {
             //Valida se o email foi preenchido e se é um email valido
-            if (empty($email) || !Util::Email($email))
-                throw new Exception("Email Inválido");
+            if (empty($email) || !Util::Email($email)) throw new Exception("Email Inválido");
 
             //Valida se a senha foi preenchida e se tem pelomenos 5 caracteres
-            if (empty($senha) || strlen($senha) < 5)
-                throw new Exception("Preencha a senha corretamente");
+            if (empty($senha) || strlen($senha) < 5) throw new Exception("Preencha a senha corretamente");
 
             //Seta os falores dos atributos
             $this->email = strtolower($email);
@@ -31,7 +30,11 @@ class AuthModel
             $_SESSION['usuario'] = [];
             unset($_SESSION['usuario']);
 
-            $loginResult = (new UsuarioDAO())->getUsuarioFromEmailSenha(strtolower($email), Util::encriptaSenha($senha));
+            $usuario = (new UsuarioFactory);
+            $usuario->setEmail(strtolower($email));
+            $usuario->setSenha(Util::encriptaSenha($senha));
+
+            $loginResult = (new UsuarioDAO())->getUsuarioFromEmailSenha($usuario);
             if ($loginResult instanceof Exception) throw $loginResult;
 
             if (!empty($loginResult) && is_string($loginResult))
@@ -39,7 +42,7 @@ class AuthModel
             if (empty($loginResult))
                 throw new Exception("Usuario não encontrado");
 
-            $_SESSION['usuario'] = $loginResult[0];
+            $_SESSION['usuario'] = serialize($loginResult);
             return true;
         } catch (Exception $e) {
             return $e;

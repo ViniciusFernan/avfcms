@@ -67,13 +67,13 @@ class MenuController extends MainController
         try {
             if (!empty($this->parametrosPost) && !empty($_SESSION['usuario'])) $this->editarMenuAction();
             if (empty($this->parametros[0])) throw new Exception('Necessário enviar o id do menu');
-            if ($_SESSION['usuario']->idPerfil != 1) throw new Exception('Somente administrador pode alterar menu');
+            if (unserialize($_SESSION['usuario'])->getIdPerfil() != 1) throw new Exception('Somente administrador pode alterar menu');
 
             $dadosMenu = (new menuModel())->getMenuPorId($this->parametros[0]);
             if ($dadosMenu instanceof Exception) throw $dadosMenu;
             if (empty($dadosMenu)) throw new Exception('Nenhum menu Encontrado');
 
-            $this->retorno['menu'] = $dadosMenu[0];
+            $this->retorno['menu'] = $dadosMenu;
         } catch (Exception $e) {
             $this->retorno['boxMsg'] = ['msg' => $e->getMessage(), 'tipo' => 'danger'];
         }
@@ -97,7 +97,7 @@ class MenuController extends MainController
             $dadosMenu = (new MenuModel())->getMenuPorId($this->parametrosPost['idMenu']);
             if ($dadosMenu instanceof Exception) throw $dadosMenu;
             if (empty($dadosMenu)) throw new Exception('Nenhum Usuário Listado');
-            $this->retorno['menu'] = $dadosMenu[0];
+            $this->retorno['menu'] = $dadosMenu;
 
         } catch (Exception $e) {
             $this->retorno['boxMsg'] = ['msg' => $e->getMessage(), 'tipo' => 'danger'];

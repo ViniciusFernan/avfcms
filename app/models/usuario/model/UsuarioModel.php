@@ -49,15 +49,15 @@ class UsuarioModel extends Conn {
             if(is_string($user) && !empty($user)) throw new Exception($user);
 
             $hash['chaveDeRecuperacao'] = Util::encriptaSenha(rand(1, 1000));
-            $user->chaveDeRecuperacao = Util::encriptaData($email . "__" . $hash['chaveDeRecuperacao']);
+            $user->setChaveDeRecuperacao(Util::encriptaData($email . "__" . $hash['chaveDeRecuperacao']));
 
             $returnUsuario = (new RecuperarSenhaUsuarioStrategy)->recuperarSenhaDoUsuario($user);
             if($returnUsuario instanceof Exception)  throw $returnUsuario;
             if(empty($returnUsuario)) throw new Exception('Erro grave nesse trem!');
 
-            $userUpdate['chaveDeRecuperacao'] = $user->chaveDeRecuperacao;
+            $userUpdate['chaveDeRecuperacao'] = $user->getChaveDeRecuperacao();
 
-            $updateusuario = $usuarioDAO->editarUsuario($userUpdate, $user->idUsuario);
+            $updateusuario = $usuarioDAO->editarUsuario($userUpdate, $user->getIdUsuario());
             if(is_string($updateusuario) && !empty($updateusuario)) throw new Exception($updateusuario);
 
             return 1;

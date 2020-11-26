@@ -62,24 +62,24 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
 
                                 <?php if(!empty($usuarios)): ?>
                                     <?php foreach($usuarios as $key => $usuario): ?>
-                                        <tr data-id="<?=$usuario->idUsuario ?>" >
-                                            <td><?=$usuario->idUsuario ?></td>
-                                            <td><?=$usuario->nome?>  <?=$usuario->sobreNome?></td>
-                                            <td><?=$usuario->email ?></td>
-                                            <td><?=$usuario->telefone ?></td>
+                                        <tr data-id="<?=$usuario->getIdUsuario() ?>" >
+                                            <td><?=$usuario->getIdUsuario() ?></td>
+                                            <td><?=$usuario->getNome()?>  <?=$usuario->getSobreNome()?></td>
+                                            <td><?=$usuario->getEmail() ?></td>
+                                            <td><?=$usuario->getTelefone() ?></td>
                                             <td>
-                                                 <span class="p-1 small <?=(( $usuario->idPerfil=='1' ) ? "btn-success" : ""  )?> ">
-                                                 <?=$usuario->nomePerfil ?>
+                                                 <span class="p-1 small <?=(( $usuario->getIdPerfil()=='1' ) ? "btn-success" : ""  )?> ">
+                                                 <?=$usuario->getNomePerfil() ?>
                                                 </span>
                                             </td>
                                             <td>
-                                            <span class="p-1 small <?=(( $usuario->status=='0' ) ? "btn-danger" : (($usuario->status=='1') ? "btn-success" : "btn-primary" ) )?> ">
-                                                <?=(( $usuario->status=='0' ) ? "DELETADO" : (($usuario->status=='1') ? "ATIVO" : "INATIVO" ) )?>
+                                            <span class="p-1 small <?=(( $usuario->getStatus()=='0' ) ? "btn-danger" : (($usuario->getStatus()=='1') ? "btn-success" : "btn-primary" ) )?> ">
+                                                <?=(( $usuario->getStatus()=='0' ) ? "DELETADO" : (($usuario->getStatus()=='1') ? "ATIVO" : "INATIVO" ) )?>
                                             </span>
                                             </td>
                                             <td>
-                                                <?php if($_SESSION['usuario']->idPerfil=='1' || ($usuario->idUsuario==$_SESSION['usuario']->idUsuario) ): ?>
-                                                    <a href="<?=HOME_URI?>/usuario/viewUsuarioEdit/<?=$usuario->idUsuario?>" class="btn btn-primary btn-sm">EDITAR</a>
+                                                <?php if(unserialize($_SESSION['usuario'])->getIdPerfil()=='1' || ($usuario->getIdUsuario()==unserialize($_SESSION['usuario'])->getIdUsuario()) ): ?>
+                                                    <a href="<?=HOME_URI?>/usuario/viewUsuarioEdit/<?=$usuario->getIdUsuario()?>" class="btn btn-primary btn-sm">EDITAR</a>
                                                 <?php endif; ?>
                                             </td>
                                         </tr>

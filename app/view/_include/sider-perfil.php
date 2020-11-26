@@ -8,13 +8,13 @@
 ?>
 <div class="user">
     <div class="photo">
-        <img class="imgPerfil" src="<?=(!empty($_SESSION['usuario']->imgPerfil ) ?  UP_URI."/usuario/{$_SESSION['usuario']->idUsuario}/perfil/{$_SESSION['usuario']->imgPerfil}"  :  THEME_URI.'/_assets/images/profile.jpg').'?v-'. rand(0, 1000)  ?>">
+        <img class="imgPerfil" src="<?=(!empty(unserialize($_SESSION['usuario'])->getImgPerfil()) ?  UP_URI."/usuario/".unserialize($_SESSION['usuario'])->getIdUsuario()."/perfil/".unserialize($_SESSION['usuario'])->getImgPerfil()  :  THEME_URI.'/_assets/images/profile.jpg').'?v-'. rand(0, 1000)  ?>">
     </div>
     <div class="info">
         <a class="" data-toggle="collapse" href="#collapseExample" aria-expanded="true">
                         <span>
-                            <?=$_SESSION['usuario']->nome?>
-                            <span class="user-level"><?=$_SESSION['usuario']->nomePerfil?></span>
+                            <?=unserialize($_SESSION['usuario'])->getNome?>
+                            <span class="user-level"><?=unserialize($_SESSION['usuario'])->getNomePerfil?></span>
                             <span class="caret"></span>
                         </span>
         </a>
@@ -23,7 +23,7 @@
         <div class="collapse in" id="collapseExample" aria-expanded="true" style="">
             <ul class="nav">
                 <li>
-                    <a href="<?=HOME_URI?>/usuario/viewUsuarioEdit/<?=$_SESSION['usuario']->idUsuario?>">
+                    <a href="<?=HOME_URI?>/usuario/viewUsuarioEdit/<?=unserialize($_SESSION['usuario'])->getIdUsuario()?>">
                         <span class="link-collapse">Meu Perfil</span>
                     </a>
                 </li>

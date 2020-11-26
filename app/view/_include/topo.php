@@ -1,5 +1,5 @@
 <?php
-
+$usuarioLogado = unserialize($_SESSION['usuario']);
 ?>
 
 <div class="main-header">
@@ -66,7 +66,7 @@
                                 </a>
                                 <a href="#">
                                     <div class="notif-img">
-                                        <img src="<?=(!empty($_SESSION['usuario']->imgPerfil ) ?  UP_URI."/usuario/{$_SESSION['usuario']->idUsuario}/perfil/{$_SESSION['usuario']->imgPerfil}"  :  THEME_URI.'/_assets/images/profile.jpg').'?v-'. rand(0, 1000)  ?>" alt="Img Profile">
+                                        <img src="<?=(!empty($usuarioLogado->getImgPerfil()) ?  UP_URI."/usuario/{$usuarioLogado->getIdUsuario()}/perfil/{$usuarioLogado->getImgPerfil}"  :  THEME_URI.'/_assets/images/profile.jpg').'?v-'. rand(0, 1000)  ?>" alt="Img Profile">
                                     </div>
                                     <div class="notif-content">
 												<span class="block">
@@ -93,16 +93,16 @@
                 </li>
                 <li class="nav-item dropdown">
                     <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#" aria-expanded="false">
-                        <img src="<?=(!empty($_SESSION['usuario']->imgPerfil ) ?  UP_URI."/usuario/{$_SESSION['usuario']->idUsuario}/perfil/{$_SESSION['usuario']->imgPerfil}"  :  THEME_URI.'/_assets/images/profile.jpg').'?v-'. rand(0, 1000)  ?>" alt="user-img" width="36" class="img-circle imgPerfil"><span >Vinicius</span></span>
+                        <img src="<?=(!empty($usuarioLogado->getImgPerfil()) ?  UP_URI."/usuario/{$usuarioLogado->getIdUsuario()}/perfil/{$usuarioLogado->getImgPerfil()}"  :  THEME_URI.'/_assets/images/profile.jpg').'?v-'. rand(0, 1000)  ?>" alt="user-img" width="36" class="img-circle imgPerfil"><span >Vinicius</span></span>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
                         <li>
                             <div class="user-box">
-                                <div class="u-img"><img class="imgPerfil" src="<?=(!empty($_SESSION['usuario']->imgPerfil ) ?  UP_URI."/usuario/{$_SESSION['usuario']->idUsuario}/perfil/{$_SESSION['usuario']->imgPerfil}"  :  THEME_URI.'/_assets/images/profile.jpg').'?v-'. rand(0, 1000)  ?>" alt="user"></div>
+                                <div class="u-img"><img class="imgPerfil" src="<?=(!empty($usuarioLogado->getImgPerfil()) ?  UP_URI."/usuario/{$usuarioLogado->getIdUsuario()}/perfil/{$usuarioLogado->getImgPerfil()}"  :  THEME_URI.'/_assets/images/profile.jpg').'?v-'. rand(0, 1000)  ?>" alt="user"></div>
                                 <div class="u-text">
-                                    <h4><?=$_SESSION['usuario']->nome?></h4>
-                                    <p class="text-muted"><?=$_SESSION['usuario']->email?></p>
-                                    <a href="<?=HOME_URI?>/usuario/viewUsuarioEdit/<?=$_SESSION['usuario']->idUsuario?>" class="btn btn-rounded btn-danger btn-sm">Ver Perfil</a>
+                                    <h4><?=$usuarioLogado->getNome()?></h4>
+                                    <p class="text-muted"><?=$usuarioLogado->getEmail()?></p>
+                                    <a href="<?=HOME_URI?>/usuario/viewUsuarioEdit/<?=$usuarioLogado->getIdUsuario()?>" class="btn btn-rounded btn-danger btn-sm">Ver Perfil</a>
                                 </div>
                             </div>
                         </li>
@@ -116,3 +116,4 @@
         </div>
     </nav>
 </div>
+<?php unset($usuarioLogado);?>

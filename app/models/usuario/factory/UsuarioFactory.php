@@ -5,15 +5,16 @@
  * @version 1.0
  * */
 
-Abstract class UsuarioFactory
+class UsuarioFactory
 {
-
     private $idUsuario;
     private $nome;
     private $sobreNome;
     private $email;
+    private $senha;
     private $telefone;
     private $CPF;
+    private $idPerfil;
     private $dataNascimento;
     private $sexo;
     private $status;
@@ -89,6 +90,22 @@ Abstract class UsuarioFactory
     /**
      * @return mixed
      */
+    public function getSenha()
+    {
+        return $this->senha;
+    }
+
+    /**
+     * @param mixed $senha
+     */
+    public function setSenha($senha)
+    {
+        $this->senha = $senha;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getTelefone()
     {
         return $this->telefone;
@@ -116,6 +133,25 @@ Abstract class UsuarioFactory
     public function setCPF($CPF)
     {
         $this->CPF = $CPF;
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getIdPerfil()
+    {
+        return $this->idPerfil;
+    }
+
+    /**
+     * @param mixed $idPerfil
+     * @return UsuarioFactory
+     */
+    public function setIdPerfil($idPerfil)
+    {
+        $this->idPerfil = $idPerfil;
+        return $this;
     }
 
     /**
@@ -185,6 +221,22 @@ Abstract class UsuarioFactory
     /**
      * @return mixed
      */
+    public function getSuperAdmin()
+    {
+        return $this->superAdmin;
+    }
+
+    /**
+     * @param mixed $superAdmin
+     */
+    public function setSuperAdmin($superAdmin)
+    {
+        $this->superAdmin = $superAdmin;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getImgPerfil()
     {
         return $this->imgPerfil;
@@ -213,6 +265,9 @@ Abstract class UsuarioFactory
     {
         $this->chaveDeRecuperacao = $chaveDeRecuperacao;
     }
+
+
+
 
 
 }

@@ -5,6 +5,7 @@ $Param = $this->getParams();
 $boxMsg = (!empty($Param['boxMsg']) ? $Param['boxMsg'] : NULL);
 $listaMenu = (!empty($Param['listaMenu']) ? $Param['listaMenu'] : NULL);
 $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
+
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -64,19 +65,19 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
 
                                 <?php if(!empty($listaMenu)): ?>
                                     <?php foreach($listaMenu as $key => $menu): ?>
-                                        <tr data-id="<?=$menu->idMenu ?>" >
-                                            <td><?=$menu->idMenu?></td>
-                                            <td><?=$menu->nome?></td>
-                                            <td><?=$menu->controller?></td>
-                                            <td><?=$menu->ordem?></td>
+                                        <tr data-id="<?=$menu->getIdMenu() ?>" >
+                                            <td><?=$menu->getIdMenu()?></td>
+                                            <td><?=$menu->getNome()?></td>
+                                            <td><?=$menu->getController()?></td>
+                                            <td><?=$menu->getOrdem()?></td>
                                             <td >
-                                                <span class="p-1 small <?=(( $menu->status=='0' ) ? "btn-danger" : (($menu->status=='1') ? "btn-success" : "btn-primary" ) )?> ">
-                                                    <?=(( $menu->status=='0' ) ? "DELETADO" : (($menu->status=='1') ? "ATIVO" : "INATIVO" ) )?>
+                                                <span class="p-1 small <?=(( $menu->getStatus()=='0' ) ? "btn-danger" : (($menu->getStatus()=='1') ? "btn-success" : "btn-primary" ) )?> ">
+                                                    <?=(( $menu->getStatus()=='0' ) ? "DELETADO" : (($menu->getStatus()=='1') ? "ATIVO" : "INATIVO" ) )?>
                                                 </span>
                                             </td>
                                             <td>
-                                                <?php if($_SESSION['usuario']->idPerfil=='1'): ?>
-                                                    <a href="<?=HOME_URI?>/menu/visualizarMenu/<?=$menu->idMenu?>" class="btn btn-primary btn-sm">EDITAR</a>
+                                                <?php if(unserialize($_SESSION['usuario'])->getIdPerfil()=='1'): ?>
+                                                    <a href="<?=HOME_URI?>/menu/visualizarMenu/<?=$menu->getIdMenu()?>" class="btn btn-primary btn-sm">EDITAR</a>
                                                 <?php endif; ?>
                                             </td>
                                         </tr>

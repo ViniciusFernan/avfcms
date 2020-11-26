@@ -5,6 +5,7 @@
  * Date: 07/03/2019
  * Time: 11:51
  */
+$usuarioLogado = unserialize($_SESSION['usuario']);
 
 $dsMmenu = Util::loadMenu();
 if($dsMmenu instanceof Exception) echo $dsMmenu->getMessage();
@@ -13,17 +14,19 @@ if(!empty($dsMmenu) && is_string($dsMmenu)) echo $dsMmenu;
 <ul class="nav">
     <?php if(is_array($dsMmenu)): ?>
         <?php foreach ($dsMmenu as $key => $menuView): ?>
-            <?php if($menuView->private == 1 && ($_SESSION['usuario']->idPerfil !='1' && $_SESSION['usuario']->superAdmin != '1')) continue; ?>
+            <?php if($menuView->getPrivate() == 1 && ($usuarioLogado->getIdPerfil() !='1' && $usuarioLogado->getSuperAdmin() != '1')) continue; ?>
             <li class="nav-item <?=($key==0 ? 'active': '')?>">
-                <a href="<?=HOME_URI?>/<?=$menuView->controller?>">
-                    <?php if(!empty($menuView->icon)):?>
-                        <i class="<?=$menuView->icon?>"></i>
+                <a href="<?=HOME_URI?>/<?=$menuView->getController()?>">
+                    <?php if(!empty($menuView->getIcon())):?>
+                        <i class="<?=$menuView->getIcon()?>"></i>
                     <?php endif; ?>
-                    <p><?=$menuView->nome?></p>
+                    <p><?=$menuView->getNome()?></p>
                 </a>
             </li>
         <?php endforeach; ?>
     <?php endif; ?>
+
+    <?php unset($usuarioLogado); ?>
 
 
 <!--    <li class="nav-item">-->

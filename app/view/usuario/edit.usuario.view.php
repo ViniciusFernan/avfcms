@@ -5,6 +5,7 @@ $Param = $this->getParams();
 $boxMsg = (!empty($Param['boxMsg']) ? $Param['boxMsg'] : NULL);
 $usuario = (!empty($Param['usuario']) ? $Param['usuario'] : NULL);
 $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
+
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -42,7 +43,7 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
         <div class="content">
             <div class="container-fluid">
                 <div class="msg-box"><?php if(!empty($boxMsg)): echo Util::getAlert($boxMsg['msg'], $boxMsg['tipo']); endif; ?></div>
-                <form action="<?=HOME_URI?>/usuario/viewUsuarioEdit/<?=(!empty($usuario->idUsuario ) ? $usuario->idUsuario  : '')?>" method="post"  enctype="multipart/form-data" >
+                <form action="<?=HOME_URI?>/usuario/viewUsuarioEdit/<?=(!empty($usuario->getIdUsuario()) ? $usuario->getIdUsuario()  : '')?>" method="post"  enctype="multipart/form-data" >
                 <div class="card">
                     <div class="card-header">
                         <div class="card-title">Editar Usuário
@@ -50,14 +51,14 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
                         </div>
                     </div>
                     <div class="card-body">
-                        <input type="hidden" name="idUsuario" value="<?=(!empty($usuario->idUsuario ) ? $usuario->idUsuario  : '')?>">
+                        <input type="hidden" name="idUsuario" value="<?=(!empty($usuario->getIdUsuario() ) ? $usuario->getIdUsuario()  : '')?>">
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="imgPerfil">Imagem de perfil:</label>
 
                                     <div class="timelineProfilePic my-bg">
-                                        <img src="<?=(!empty($_SESSION['usuario']->imgPerfil ) ?  UP_URI."/usuario/{$_SESSION['usuario']->idUsuario}/perfil/{$_SESSION['usuario']->imgPerfil}"  :  THEME_URI.'/_assets/images/profile.jpg').'?v-'. rand(0, 1000)  ?> " class="bgImage imgPerfil">
+                                        <img src="<?=(!empty($usuario->getImgPerfil()) ?  UP_URI."/usuario/".$usuario->getIdUsuario()."/perfil/".$usuario->getImgPerfil() :  THEME_URI.'/_assets/images/profile.jpg').'?v-'. rand(0, 1000)  ?> " class="bgImage imgPerfil">
                                         <i class="fas fa-camera absolute foto-perfil"></i>
                                         <i class="fas fa-cloud-upload-alt upload foto-perfil-up" data-up="imgPerfil"></i>
                                         <form method="post" enctype="multipart/form-data" class="uploadFile timelineUploadBG">
@@ -70,19 +71,19 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
                             <div class="col-md-8">
                                 <div class="form-group mb-1">
                                     <label for="nome">Nome:</label>
-                                    <input type="text" name="nome" class="form-control" placeholder="Nome" tabindex="0" value="<?=(!empty($usuario->nome ) ? $usuario->nome  : '')?>" >
+                                    <input type="text" name="nome" class="form-control" placeholder="Nome" tabindex="0" value="<?=(!empty($usuario->getNome()) ? $usuario->getNome()  : '')?>" >
                                 </div>
 
 
                                 <div class="form-group mb-1">
                                     <label for="sobreNome">Sobre Nome:</label>
-                                    <input type="text" name="sobreNome" class="form-control" placeholder="Sobre Nome" tabindex="1" value="<?=(!empty($usuario->sobreNome ) ? $usuario->sobreNome  : '')?>" >
+                                    <input type="text" name="sobreNome" class="form-control" placeholder="Sobre Nome" tabindex="1" value="<?=(!empty($usuario->getSobreNome() ) ? $usuario->getSobreNome()  : '')?>" >
                                 </div>
 
 
                                 <div class="form-group mb-1">
                                     <label for="cpf">CPF:</label>
-                                    <input type="text" name="cpf" class="form-control" placeholder="CPF" tabindex="2"  value="<?=(!empty($usuario->CPF ) ? $usuario->CPF  : '')?>">
+                                    <input type="text" name="cpf" class="form-control" placeholder="CPF" tabindex="2"  value="<?=(!empty($usuario->getCPF() ) ? $usuario->getCPF()  : '')?>">
                                 </div>
                                 
                             </div>
@@ -94,14 +95,14 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="email">Email:</label>
-                                    <input type="email" name="email" class="form-control" placeholder="Email" tabindex="3"  value="<?=(!empty($usuario->email ) ? $usuario->email  : '')?>">
+                                    <input type="email" name="email" class="form-control" placeholder="Email" tabindex="3"  value="<?=(!empty($usuario->getEmail() ) ? $usuario->getEmail()  : '')?>">
                                 </div>
                             </div>
 
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="telefone">Telefone:</label>
-                                    <input type="text" name="telefone" class="form-control" placeholder="Telefone" tabindex="4"  value="<?=(!empty($usuario->telefone ) ? $usuario->telefone  : '')?>">
+                                    <input type="text" name="telefone" class="form-control" placeholder="Telefone" tabindex="4"  value="<?=(!empty($usuario->getTelefone() ) ? $usuario->getTelefone()  : '')?>">
                                 </div>
                             </div>
 
@@ -119,7 +120,7 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="dataNascimento">Data de nascimento:</label>
-                                    <input type="text" name="dataNascimento" class="form-control" placeholder="Data de nascimento" tabindex="6"  value="<?=(!empty($usuario->dataNascimento ) ? $usuario->dataNascimento  :'')?>" >
+                                    <input type="text" name="dataNascimento" class="form-control" placeholder="Data de nascimento" tabindex="6"  value="<?=(!empty($usuario->getDataNascimento()) ? $usuario->getDataNascimento()  :'')?>" >
                                 </div>
                             </div>
 
@@ -128,14 +129,13 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
                                     <label for="sexo">Sexo:</label><br />
 
                                     <label class="form-radio-label">
-                                        <input class="form-radio-input" type="radio" name="sexo" value="M" <?=((!empty($usuario->sexo) && $usuario->sexo =='M') ? 'checked="true"' : '')?> >
+                                        <input class="form-radio-input" type="radio" name="sexo" value="M" <?=((!empty($usuario->getSexo()) && $usuario->getSexo() =='M') ? 'checked="true"' : '')?> >
                                         <span class="form-radio-sign">M</span>
                                     </label>
                                     <label class="form-radio-label ml-3">
-                                        <input class="form-radio-input" type="radio" name="sexo" value="F" <?=((!empty($usuario->sexo) && $usuario->sexo =='F') ? 'checked="true"' : '')?>>
+                                        <input class="form-radio-input" type="radio" name="sexo" value="F" <?=((!empty($usuario->getSexo()) && $usuario->getSexo() =='F') ? 'checked="true"' : '')?>>
                                         <span class="form-radio-sign">F</span>
                                     </label>
-
                                 </div>
                             </div>
 
@@ -143,9 +143,9 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
                                 <div class="form-group">
                                     <label for="status">Status:</label>
                                     <select class="form-control" name="status">
-                                        <option value="1" <?=((!empty($usuario->status) && $usuario->status =='1')  ? 'selected' : '')?>>ATIVO</option>
-                                        <option value="2" <?=((!empty($usuario->status) && $usuario->status =='2') ? 'selected' : '')?>>INATIVO</option>
-                                        <option value="0" <?=((!empty($usuario->status) && $usuario->status =='0') ? 'selected' : '')?>>DELETADO</option>
+                                        <option value="1" <?=((!empty($usuario->getStatus()) && $usuario->getStatus() =='1')  ? 'selected' : '')?>>ATIVO</option>
+                                        <option value="2" <?=((!empty($usuario->getStatus()) && $usuario->getStatus() =='2') ? 'selected' : '')?>>INATIVO</option>
+                                        <option value="0" <?=((!empty($usuario->getStatus()) && $usuario->getStatus() =='0') ? 'selected' : '')?>>DELETADO</option>
                                     </select>
                                 </div>
                             </div>
@@ -155,7 +155,7 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="detalhes">Detalhes:</label>
-                                    <textarea name="detalhes" class="form-control" placeholder="Detalhes"><?=(!empty($usuario->detalhes ) ? $usuario->detalhes  : '')?></textarea>
+                                    <textarea name="detalhes" class="form-control" placeholder="Detalhes"><?=(!empty($usuario->getDetalhes() ) ? $usuario->getDetalhes()  : '')?></textarea>
                                 </div>
                             </div>
                         </div>
@@ -235,10 +235,7 @@ $logoSistema = THEME_URI . "/_assets/images/LOGO_DEFAULT.png";
                 $(this).removeClass('fa-eye-slash').addClass('fa-eye');
             }
         });
-
-
     });
-
 
 
 </script>

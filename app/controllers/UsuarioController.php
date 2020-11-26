@@ -54,12 +54,12 @@ class UsuarioController extends MainController
         try {
             if (!empty($this->parametrosPost) && !empty($_SESSION['usuario'])) $this->editarUsuarioAction();
 
-            $id = ($_SESSION['usuario']->idPerfil == 1) ? $this->parametros[0] : $_SESSION['usuario']->idUsuario;
+            $id = (unserialize($_SESSION['usuario'])->getIdPerfil() == 1) ? $this->parametros[0] : unserialize($_SESSION['usuario'])->getIdUsuario();
             $dadosUsuario = (new UsuarioModel())->getUsuarioPorId($id);
             if ($dadosUsuario instanceof Exception) throw $dadosUsuario;
             if (empty($dadosUsuario)) throw new Exception('Nenhum Usuário Encontrado');
 
-            $this->retorno['usuario'] = $dadosUsuario[0];
+            $this->retorno['usuario'] = $dadosUsuario;
         } catch (Exception $e) {
             $this->retorno['boxMsg'] = ['msg' => $e->getMessage(), 'tipo' => 'danger'];
         }
@@ -83,7 +83,7 @@ class UsuarioController extends MainController
             $dadosUsuario = (new UsuarioModel())->getUsuarioPorId($this->parametrosPost['idUsuario']);
             if ($dadosUsuario instanceof Exception) throw $dadosUsuario;
             if (empty($dadosUsuario)) throw new Exception('Nenhum Usuário Listado');
-            $this->retorno['usuario'] = $dadosUsuario[0];
+            $this->retorno['usuario'] = $dadosUsuario;
 
         } catch (Exception $e) {
             $this->retorno['boxMsg'] = ['msg' => $e->getMessage(), 'tipo' => 'danger'];
@@ -122,7 +122,7 @@ class UsuarioController extends MainController
             $this->checkLogado();
             if (empty($_FILES)) throw new Exception('Arquivo Defeituoso!');
 
-            $optionsImagens['dir'] = UPLOAD . "/usuario/{$_SESSION['usuario']->idUsuario}/perfil/";
+            $optionsImagens['dir'] = UPLOAD . "/usuario/".unserialize($_SESSION['usuario'])->getIdUsuario()."/perfil/";
             $optionsImagens['newName'] = 'img_prefil';
             $optionsImagens['tipoImage'] = 'jpg';
 
@@ -133,7 +133,7 @@ class UsuarioController extends MainController
 
             if ($uploadprocessed['success'] == true) {
 
-                $data['idUsuario'] = $_SESSION['usuario']->idUsuario;
+                $data['idUsuario'] = unserialize($_SESSION['usuario'])->getIdUsuario();
                 $data['imgPerfil'] = $uploadprocessed['imgName'];
 
                 $userEdit = (new UsuarioModel)->editarUsuario($data);
@@ -141,7 +141,7 @@ class UsuarioController extends MainController
 
                 echo json_encode([
                     "status" => 'success',
-                    "url" => UP_URI . "/usuario/{$_SESSION['usuario']->idUsuario}/perfil/" . $uploadprocessed['imgName']
+                    "url" => UP_URI . "/usuario/".unserialize($_SESSION['usuario'])->getIdUsuario()."/perfil/" . $uploadprocessed['imgName']
                 ]);
 
             } else {
