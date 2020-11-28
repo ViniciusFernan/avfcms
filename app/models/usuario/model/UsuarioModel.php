@@ -23,7 +23,9 @@ class UsuarioModel extends Conn {
             $post = (new NovoUsuarioStrategy)->novoUsuario(array_filter($post));
             if($post instanceof Exception) throw  $post;
 
-            $insertResp = (new UsuarioDAO($this->Conn))->insertNewUser($post);
+            $usuarioInsert = (new UsuarioFactory())->objectInteractionDB($post);
+
+            $insertResp = (new UsuarioDAO($this->Conn))->insertNewUser($usuarioInsert);
             if(!empty($insertResp) && !is_int($insertResp))  throw new Exception($insertResp);
 
             $this->Conn->commit();
@@ -34,11 +36,6 @@ class UsuarioModel extends Conn {
         }
     }
 
-
-    /**
-     *Recuperar senha
-     * criar senha criptografada e envia link por email
-     */
     public function recuperarSenhaDoUsuario($email){
         try{
             if(!Util::Email($email) || empty($email)) throw new Exception('Error em processar dados');
@@ -55,9 +52,12 @@ class UsuarioModel extends Conn {
             if($returnUsuario instanceof Exception)  throw $returnUsuario;
             if(empty($returnUsuario)) throw new Exception('Erro grave nesse trem!');
 
-            $userUpdate['chaveDeRecuperacao'] = $user->getChaveDeRecuperacao();
+            $post['idUsuario'] = $user->getIdUsuario();
+            $post['chaveDeRecuperacao'] = $user->getChaveDeRecuperacao();
 
-            $updateusuario = $usuarioDAO->editarUsuario($userUpdate, $user->getIdUsuario());
+            $usuarioUpdate = (new UsuarioFactory())->objectInteractionDB($post);
+
+            $updateusuario = $usuarioDAO->editarUsuario($usuarioUpdate);
             if(is_string($updateusuario) && !empty($updateusuario)) throw new Exception($updateusuario);
 
             return 1;
@@ -66,10 +66,6 @@ class UsuarioModel extends Conn {
         }
     }
 
-
-    /**
-     * Retorna lista de usuarios
-     */
     public function getListaDeUsuarios() {
         try{
             $listaUsuarios = (new UsuarioDAO)->getListaDeUsuarios();
@@ -80,9 +76,6 @@ class UsuarioModel extends Conn {
         }
     }
 
-    /**
-     * Retorna lista de usuarios
-     */
     public function getUsuarioPorId($id){
         try{
             if(empty($id)) throw new Exception('Erro identificador do usuario não enviado');
@@ -100,13 +93,13 @@ class UsuarioModel extends Conn {
         try{
             if(empty($post['idUsuario'])) throw new Exception('Erro identificador do usuario não enviado');
 
-            $idUsuario=$post['idUsuario'];
-            unset($post['idUsuario']);
-
             if(!empty($post['senha'])) $post['senha'] = Util::encriptaSenha($post['senha']);
             else unset($post['senha']);
 
-            $updateUsuario = (new  UsuarioDAO)->editarUsuario($post, $idUsuario);
+            $usuarioUpdate = (new UsuarioFactory())->objectInteractionDB($post);
+            unset($post['idUsuario']);
+
+            $updateUsuario = (new  UsuarioDAO)->editarUsuario($usuarioUpdate);
             if($updateUsuario instanceof Exception) throw $updateUsuario;
 
             return $updateUsuario;

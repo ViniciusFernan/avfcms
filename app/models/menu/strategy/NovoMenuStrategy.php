@@ -31,8 +31,6 @@ class NovoMenuStrategy
             $post["dataCadastro"] = date('Y-m-d H:i:s');
             $post["status"] = 1;
 
-            unset($post['idMenu']);
-
             if (!empty($insertResp) && !is_int($insertResp)) throw new Exception($insertResp);
 
             return $post;

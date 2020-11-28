@@ -17,13 +17,13 @@ class MenuDAO
     {
     }
 
-    public function criarMenu($post)
+    public function criarMenu($menu)
     {
         try {
-            if (!is_array($post) || empty($post))
+            if (!is_array($menu) || empty($menu))
                 throw new Exception('Error grave nesse trem');
 
-            $menuCreate = (new Create($this->tabela, $this->Conn))->Create($post);
+            $menuCreate = (new Create($this->tabela, $this->Conn))->Create($menu);
             if ($menuCreate instanceof Exception) throw  $menuCreate;
 
             return $menuCreate;
@@ -109,15 +109,13 @@ class MenuDAO
         }
     }
 
-    public function editarMenu($Data, $idMenu)
+    public function editarMenu($object)
     {
         try {
-            if (!is_array($Data) || empty($Data)) throw new Exception('Tem um trem errado aqui!');
+            if (!is_object($object) || empty($object)) throw new Exception('Tem um trem errado aqui!');
 
-            unset($Data['idMenu']);
-
-            $where[] = ['type' => 'and', 'field' => 'idMenu', 'value' => $idMenu, 'comparation' => '='];
-            $updateUsuario = (new Update($this->tabela, $this->Conn))->Update($Data, $where);
+            $where[] = ['type' => 'and', 'field' => 'idMenu', 'value' => $object->getIdMenu(), 'comparation' => '='];
+            $updateUsuario = (new Update($this->tabela, $this->Conn))->Update($object, $where);
             if ($updateUsuario instanceof Exception) throw $updateUsuario;
             return true;
         } catch (Exception $e) {

@@ -12,6 +12,7 @@
  */
 
 require_once APP . "/models/menu/model/MenuModel.php";
+require_once APP . "/models/menu/factory/MenuFactory.php";
 
 class MenuController extends MainController
 {
@@ -120,15 +121,15 @@ class MenuController extends MainController
                 //listar usuario
                 $dadosMenu = (new MenuModel())->getMenuPorId($idMenu);
                 if ($dadosMenu instanceof Exception) throw $dadosMenu;
-                if (empty($dadosMenu)) throw new Exception('Nenhum Usuário Listado');
+                if (empty($dadosMenu)) throw new Exception('Nenhum menu Listado');
                 $this->retorno['menu'] = $dadosMenu[0];
-
-            } else {
-                throw new Exception('Nenhum dado enviado!');
             }
         } catch (Exception $e) {
             $this->retorno['boxMsg'] = ['msg' => $e->getMessage(), 'tipo' => 'danger'];
-            $this->retorno['menu'] = (object)$this->parametrosPost;
+            $this->retorno['menu'] = null;
+            if (!empty($this->parametrosPost)) {
+                $this->retorno['menu'] = (new MenuFactory())->objectInteractionDB($this->parametrosPost);
+            }
         }
 
         $View = new View('menu/edit.menu.view.php');
@@ -156,6 +157,5 @@ class MenuController extends MainController
         $View->setParams($this->retorno);
         $View->showContents();
     }
-
 
 }

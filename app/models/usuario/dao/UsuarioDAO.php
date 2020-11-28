@@ -24,7 +24,7 @@ class UsuarioDAO extends UsuarioFactory
      * @throws string
      * @author vinicius fernandes
      */
-    public function getUsuarioFromEmailSenha(object $usuario)
+    public function getUsuarioFromEmailSenha($usuario)
     {
         try {
             if(!is_object($usuario)) throw new Exception('usuario não enviado');
@@ -73,13 +73,12 @@ class UsuarioDAO extends UsuarioFactory
      * @return bool|INT
      * @throws Exception
      */
-    public function insertNewUser($post)
+    public function insertNewUser($usuario)
     {
         try {
-            if (!is_array($post) || empty($post))
-                throw new Exception('Error grave nesse trem');
+            if (!is_object($usuario) || empty($usuario)) throw new Exception('Error grave nesse trem');
 
-            $userCreate = (new Create($this->tabela, $this->Conn))->Create($post);
+            $userCreate = (new Create($this->tabela, $this->Conn))->Create($usuario);
             if ($userCreate instanceof Exception) throw  $userCreate;
 
             return $userCreate;
@@ -88,15 +87,15 @@ class UsuarioDAO extends UsuarioFactory
         }
     }
 
-    public function editarUsuario($Data, $idUsuario)
+    public function editarUsuario($usuario)
     {
         try {
-            if (!is_array($Data) || empty($Data)) throw new Exception('Tem um trem errado aqui!');
+            if (!is_object($usuario) || empty($usuario)) throw new Exception('Tem um trem errado aqui!');
 
-            unset($Data['idUsuario']);
+            $where[] = ['type' => 'and', 'field' => 'idUsuario', 'value' => $usuario->getIdUsuario(), 'comparation' => '='];
 
-            $where[] = ['type' => 'and', 'field' => 'idUsuario', 'value' => $idUsuario, 'comparation' => '='];
-            $updateUsuario = (new Update($this->tabela, $this->Conn))->Update($Data, $where);
+            $usuario->setIdUsuario(null);
+            $updateUsuario = (new Update($this->tabela, $this->Conn))->Update($usuario, $where);
             if ($updateUsuario instanceof Exception) throw $updateUsuario;
             return true;
         } catch (Exception $e) {

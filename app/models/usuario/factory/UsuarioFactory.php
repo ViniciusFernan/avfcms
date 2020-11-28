@@ -266,6 +266,18 @@ class UsuarioFactory
         $this->chaveDeRecuperacao = $chaveDeRecuperacao;
     }
 
+    public function objectInteractionDB($post)
+    {
+        if(empty($post)) throw new Exception('Não há dados para criar objeto de iteração com banco de dados');
+
+        foreach ($post as $key => $valor) {
+            $atributeSet = 'set'.ucfirst($key);
+            if((!method_exists($this,$atributeSet))) continue;
+            $this->$atributeSet($valor);
+        }
+        return $this;
+    }
+
 
 
 

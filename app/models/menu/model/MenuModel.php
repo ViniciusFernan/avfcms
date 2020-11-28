@@ -42,11 +42,11 @@ class MenuModel
         try {
             if (empty($post['idMenu'])) throw new Exception('Erro identificador do menu não enviado');
 
-            $idMenu = $post['idMenu'];
             $post = (new NovoMenuStrategy())->novoMenu(array_filter($post));
             if ($post instanceof Exception) throw $post;
 
-            $updateMenu = (new  MenuDAO)->editarMenu($post, $idMenu);
+            $objetoMenu = (new MenuFactory())->objectInteractionDB($post);
+            $updateMenu = (new  MenuDAO)->editarMenu($objetoMenu);
             if ($updateMenu instanceof Exception) throw $updateMenu;
 
             return $updateMenu;
@@ -62,7 +62,9 @@ class MenuModel
             $post = (new NovoMenuStrategy())->novoMenu(array_filter($post));
             if ($post instanceof Exception) throw $post;
 
-            $novoMenu = (new MenuDAO)->criarMenu($post);
+            $menuCreate = (new MenuFactory())->objectInteractionDB($post);
+
+            $novoMenu = (new MenuDAO)->criarMenu($menuCreate);
             if ($novoMenu instanceof Exception) throw $novoMenu;
 
             return $novoMenu;

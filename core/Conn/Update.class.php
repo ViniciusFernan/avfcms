@@ -37,14 +37,15 @@ class Update extends Conn
         }
     }
 
-    public function Update($dados = null, $where = null)
+    public function Update($object = null, $where = null)
     {
         try {
 
             $respWhere = $this->buildWhere(array_filter($where));
             if ($respWhere instanceof Exception) throw $respWhere;
 
-            $respSet = $this->buildSet(array_filter($dados));
+            //remove todos os atributos vazios
+            $respSet = $this->buildSet((object) array_filter((array) $object));
             if ($respSet instanceof Exception) throw $respSet;
 
             $this->Update = "UPDATE {$this->Table} SET {$this->Set} WHERE {$this->Where}";
@@ -127,13 +128,13 @@ class Update extends Conn
         }
     }
 
-    private function buildSet($dados)
+    private function buildSet($object)
     {
         try {
-            if (empty($dados)) throw new Exception('Termo de pesquisa inesistente SET error ');
-            if (!is_array($dados)) throw new Exception('Tipo de dado inconsistente.');
+            if (empty($object)) throw new Exception('Termo de pesquisa inesistente SET error ');
+            if (!is_object($object)) throw new Exception('Tipo de dado inconsistente.');
 
-            foreach ($dados as $key => $value):
+            foreach ($object as $key => $value):
                 $this->Set[] = $key . " =:" . $key;
                 $this->DataSet[$key] = $value;
             endforeach;

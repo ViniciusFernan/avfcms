@@ -35,11 +35,11 @@ class Create extends Conn
     }
 
 
-    public function Create(array $Dados)
+    public function Create(array $object)
     {
         try {
-            $this->Dados = $Dados;
-            $buildData = $this->buildFileds();
+            if(!is_object($object) || empty($object)) throw new Exception('Objeto não encontrado!');
+            $buildData = $this->buildFileds($object);
             if ($buildData instanceof Exception) throw $buildData;
 
             $this->Create = "INSERT INTO {$this->Table} ({$this->Fields}) VALUES ({$this->FieldParamns})";
@@ -70,15 +70,16 @@ class Create extends Conn
     }
 
 
-    private function buildFileds()
+    private function buildFileds($object)
     {
         try {
-            if (!empty($this->Dados) && !is_array($this->Dados)) throw new Exception('Erro em processar dados ');
-            if (empty($this->Dados)) throw new Exception('Termo de inserção inesistente ');
+            if (!empty($object) && !is_object($object)) throw new Exception('Erro em processar dados ');
+            if (empty($object)) throw new Exception('Termo de inserção inesistente ');
 
-            foreach ($this->Dados as $key => $item):
+            foreach ($object as $key => $item):
                 $this->Fields[] = $key;
                 $this->FieldParamns[] = ":" . $key;
+                $this->Dados[$key] = $item;
             endforeach;
 
             $this->Fields = implode(', ', $this->Fields);
