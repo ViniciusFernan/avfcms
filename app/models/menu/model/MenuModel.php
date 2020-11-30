@@ -46,6 +46,8 @@ class MenuModel
             if ($post instanceof Exception) throw $post;
 
             $objetoMenu = (new MenuFactory())->objectInteractionDB($post);
+            if ($objetoMenu instanceof Exception) throw $objetoMenu;
+
             $updateMenu = (new  MenuDAO)->editarMenu($objetoMenu);
             if ($updateMenu instanceof Exception) throw $updateMenu;
 
@@ -63,6 +65,7 @@ class MenuModel
             if ($post instanceof Exception) throw $post;
 
             $menuCreate = (new MenuFactory())->objectInteractionDB($post);
+            if ($menuCreate instanceof Exception) throw $menuCreate;
 
             $novoMenu = (new MenuDAO)->criarMenu($menuCreate);
             if ($novoMenu instanceof Exception) throw $novoMenu;

@@ -24,6 +24,7 @@ class UsuarioModel extends Conn {
             if($post instanceof Exception) throw  $post;
 
             $usuarioInsert = (new UsuarioFactory())->objectInteractionDB($post);
+            if($usuarioInsert instanceof Exception) throw  $usuarioInsert;
 
             $insertResp = (new UsuarioDAO($this->Conn))->insertNewUser($usuarioInsert);
             if(!empty($insertResp) && !is_int($insertResp))  throw new Exception($insertResp);
@@ -56,6 +57,7 @@ class UsuarioModel extends Conn {
             $post['chaveDeRecuperacao'] = $user->getChaveDeRecuperacao();
 
             $usuarioUpdate = (new UsuarioFactory())->objectInteractionDB($post);
+            if($usuarioUpdate instanceof Exception)  throw $usuarioUpdate;
 
             $updateusuario = $usuarioDAO->editarUsuario($usuarioUpdate);
             if(is_string($updateusuario) && !empty($updateusuario)) throw new Exception($updateusuario);
@@ -96,7 +98,7 @@ class UsuarioModel extends Conn {
             if(!empty($post['senha'])) $post['senha'] = Util::encriptaSenha($post['senha']);
             else unset($post['senha']);
 
-            $usuarioUpdate = (new UsuarioFactory())->objectInteractionDB($post);
+            $usuarioUpdate = (new UsuarioFactory())->objectInteractionDB(array_filter($post));
             unset($post['idUsuario']);
 
             $updateUsuario = (new  UsuarioDAO)->editarUsuario($usuarioUpdate);
