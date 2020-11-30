@@ -3,4 +3,3 @@ config/config.avf
 _uploads/*
 baseSQL.sql
 excludePath/*
-vendor/*
