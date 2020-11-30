@@ -38,50 +38,23 @@ $usuarioLogado = unserialize($_SESSION['usuario']);
                 <li class="nav-item dropdown hidden-caret">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="la la-bell"></i>
-                        <span class="notification">3</span>
+                        <span class="notification">1</span>
                     </a>
                     <ul class="dropdown-menu notif-box" aria-labelledby="navbarDropdown">
                         <li>
-                            <div class="dropdown-title">You have 4 new notification</div>
+                            <div class="dropdown-title">Você tem 1 notificação</div>
                         </li>
                         <li>
                             <div class="notif-center">
                                 <a href="#">
-                                    <div class="notif-icon notif-primary"> <i class="la la-user-plus"></i> </div>
-                                    <div class="notif-content">
-												<span class="block">
-													New user registered
-												</span>
-                                        <span class="time">5 minutes ago</span>
-                                    </div>
-                                </a>
-                                <a href="#">
-                                    <div class="notif-icon notif-success"> <i class="la la-comment"></i> </div>
-                                    <div class="notif-content">
-												<span class="block">
-													Rahmad commented on Admin
-												</span>
-                                        <span class="time">12 minutes ago</span>
-                                    </div>
-                                </a>
-                                <a href="#">
                                     <div class="notif-img">
-                                        <img src="<?=(!empty($usuarioLogado->getImgPerfil()) ?  UP_URI."/usuario/{$usuarioLogado->getIdUsuario()}/perfil/{$usuarioLogado->getImgPerfil}"  :  THEME_URI.'/_assets/images/profile.jpg').'?v-'. rand(0, 1000)  ?>" alt="Img Profile">
+                                        <img src="<?=(!empty($usuarioLogado->getImgPerfil()) ?  UP_URI."/usuario/{$usuarioLogado->getIdUsuario()}/perfil/{$usuarioLogado->getImgPerfil()}"  :  THEME_URI.'/_assets/images/profile.jpg').'?v-'. rand(0, 1000)  ?>" alt="Img Profile">
                                     </div>
                                     <div class="notif-content">
 												<span class="block">
-													Reza send messages to you
+													Bem Vindo - <?=$usuarioLogado->getNome(); ?>
 												</span>
-                                        <span class="time">12 minutes ago</span>
-                                    </div>
-                                </a>
-                                <a href="#">
-                                    <div class="notif-icon notif-danger"> <i class="la la-heart"></i> </div>
-                                    <div class="notif-content">
-												<span class="block">
-													Farrah liked Admin
-												</span>
-                                        <span class="time">17 minutes ago</span>
+                                        <span class="time">1 minute ago</span>
                                     </div>
                                 </a>
                             </div>
