@@ -6,5 +6,5 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'classmap' => array($baseDir . '/_uploads', $baseDir . '/app', $baseDir . '/config', $baseDir . '/core', $baseDir . '/install', $baseDir . '/lib'),
+    'Sabberworm\\CSS' => array($vendorDir . '/sabberworm/php-css-parser/lib'),
 );

@@ -4,8 +4,9 @@
 * @author AVF-WEB
 * @version 1.0
 * */
-require_once BASEPATH . '/lib/PHPMailer/class.phpmailer.php';
-require_once BASEPATH . '/lib/PHPMailer/class.smtp.php';
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
 class Mailer {
     /* Configuracao de Conexão */
